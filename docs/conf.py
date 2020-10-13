@@ -62,7 +62,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = u"fourinsight-api"
+project = u"fourinsight-campaigns"
 copyright = u"{}, 4Subsea".format(date.today().year)
 author = u"4Subsea"
 
@@ -133,7 +133,7 @@ html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
 # documentation.
 html_theme_options = {
     # Navigation bar title. (Default: ``project`` value)
-    "navbar_title": "4insight.io - Python API",
+    "navbar_title": "4insight.io - campaigns",
     # Tab name for entire site. (Default: "Site")
     "navbar_site_name": "Content",
     # A list of tuples containing pages or urls to link to.

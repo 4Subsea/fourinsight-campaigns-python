@@ -1,4 +1,4 @@
-fourinsight-api
+fourinsight-campaigns
 ###############
 
-The Python API for '4insight.io'.
+4insight campaigns.
