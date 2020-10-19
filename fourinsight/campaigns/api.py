@@ -1,5 +1,3 @@
-import pandas as pd
-
 from fourinsight.api.globalsettings import environment
 
 
