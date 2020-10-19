@@ -22,7 +22,7 @@ class CampaignsAPI:
 
     def __init__(self, auth_session):
         self._auth_session = auth_session
-        
+
     def _get_base_url(self):
         return environment.api_base_url
 
@@ -49,7 +49,9 @@ class CampaignsAPI:
             return self._get(self._get_base_url() + "/v1.0/Campaigns").json()
         else:
             campaign_type = self._verify_type(campaign_type)
-            return self._get(self._get_base_url() + f"/v1.0/Campaigns/Type/{campaign_type}").json()
+            return self._get(
+                self._get_base_url() + f"/v1.0/Campaigns/Type/{campaign_type}"
+            ).json()
 
     def get_campaign(self, campaign_id):
         """Campaign dict"""
@@ -57,19 +59,27 @@ class CampaignsAPI:
 
     def get_events(self, campaign_id):
         """Events dict"""
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Events").json()
+        return self._get(
+            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Events"
+        ).json()
 
     def get_sensors(self, campaign_id):
         """Sensors dict"""
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Sensors").json()
+        return self._get(
+            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Sensors"
+        ).json()
 
     def get_lowerstack(self, campaign_id):
         """Lower Stack dict"""
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack").json()
+        return self._get(
+            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack"
+        ).json()
 
     def get_swimops_campaign(self, campaign_id):
         """SWIM operations for campaign."""
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops").json()
+        return self._get(
+            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops"
+        ).json()
 
     def get_swimops(self):
         """SWIM operations list"""

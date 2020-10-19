@@ -1,5 +1,6 @@
 from .campaign import GenericCampaign, SwimCampaign
 
+
 class Client:
     """
     Client interface for the 4insight.io campaigns database.
@@ -34,7 +35,6 @@ class Client:
         """
         CampaignType = self._get_campaign_type(campaign_type)
         return CampaignType(self._auth_session, campaign_id)
-
 
     def _get_campaign_type(self, campaign_type):
         campaign_type_map = {"generic": GenericCampaign, "swim": SwimCampaign}

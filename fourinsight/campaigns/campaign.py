@@ -2,6 +2,7 @@ import pandas as pd
 
 from .api import CampaignsAPI
 
+
 class BaseCampaign:
     """Base class with common methods in all campaigns."""
 
@@ -48,8 +49,9 @@ class BaseCampaign:
         events = sorted(
             events,
             key=lambda x: x["Start"]
-            if x["Start"] else pd.to_datetime("1970-01-01T00:00:00+0000")
-            )
+            if x["Start"]
+            else pd.to_datetime("1970-01-01T00:00:00+0000"),
+        )
         return events
 
     def sensors(self, value=None, by="Position"):
@@ -103,9 +105,8 @@ class BaseCampaign:
             "endDate": "End Date",
         }
         campaign = self._dict_subset(
-            self._campaigns_api.get_campaign(campaign_id),
-            rename_keys
-            )
+            self._campaigns_api.get_campaign(campaign_id), rename_keys
+        )
         campaign["Start Date"] = pd.to_datetime(campaign["Start Date"])
         campaign["End Date"] = pd.to_datetime(campaign["End Date"])
         return campaign
@@ -116,7 +117,9 @@ class BaseCampaign:
             "tpTimeseriesId": "Tp Timeseries Id",
             "wdTimeseriesId": "Wd Timeseries Id",
         }
-        return self._dict_subset(self._campaigns_api.get_campaign(campaign_id), rename_keys)
+        return self._dict_subset(
+            self._campaigns_api.get_campaign(campaign_id), rename_keys
+        )
 
     def _get_events(self, campaign_id):
         rename_keys = {
@@ -126,9 +129,8 @@ class BaseCampaign:
             "comment": "Comment",
         }
         events = self._dict_list_subset(
-            self._campaigns_api.get_events(campaign_id)["events"],
-            rename_keys
-            )
+            self._campaigns_api.get_events(campaign_id)["events"], rename_keys
+        )
         for event_i in events:
             event_i["Start"] = pd.to_datetime(event_i["Start"])
             event_i["End"] = pd.to_datetime(event_i["End"])
@@ -149,9 +151,8 @@ class BaseCampaign:
             "channels": "Channels",
         }
         sensors = self._dict_list_subset(
-            self._campaigns_api.get_sensors(campaign_id)["sensors"],
-            rename_keys_sensors
-            )
+            self._campaigns_api.get_sensors(campaign_id)["sensors"], rename_keys_sensors
+        )
         for sensor in sensors:
             sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
             sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
@@ -163,7 +164,9 @@ class BaseCampaign:
             "positionStreamId": "Stream id",
         }
         for sensor in sensors:
-            sensor["Channels"] = self._dict_list_subset(sensor["Channels"], rename_keys_channels)
+            sensor["Channels"] = self._dict_list_subset(
+                sensor["Channels"], rename_keys_channels
+            )
         return sensors
 
 
@@ -198,4 +201,7 @@ class SwimCampaign(BaseCampaign):
             "dashboardClosed": "Dashboard Closed",
             "servicesAvailable": "Services Available",
         }
-        return self._dict_subset(self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys)
+        return self._dict_subset(
+            self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys
+        )
+
