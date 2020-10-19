@@ -108,7 +108,10 @@ class BaseCampaign:
             "startDate": "Start Date",
             "endDate": "End Date",
         }
-        return self._dict_subset(self._campaigns_api.get_campaign(campaign_id), rename_keys)
+        campaign = self._dict_subset(self._campaigns_api.get_campaign(campaign_id), rename_keys)
+        campaign["Start Date"] = pd.to_datetime(campaign["Start Date"])
+        campaign["End Date"] = pd.to_datetime(campaign["End Date"])
+        return campaign
 
     def _get_geotrack(self, campaign_id):
         rename_keys = {
@@ -146,6 +149,9 @@ class BaseCampaign:
             "channels": "Channels",
         }
         sensors = self._dict_list_subset(self._campaigns_api.get_sensors(campaign_id)["sensors"], rename_keys_sensors)
+        for sensor in sensors:
+            sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
+            sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
 
         rename_keys_channels = {
             "channelName": "Channel",
@@ -160,6 +166,7 @@ class BaseCampaign:
 
 class GenericCampaign(BaseCampaign):
     pass
+
 
 class SwimCampaign(BaseCampaign):
     def __init__(self, auth_session, campaign_id):
