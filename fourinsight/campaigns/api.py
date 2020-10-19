@@ -28,7 +28,7 @@ class CampaignsAPI:
             return campaign_type
         else:
             raise ValueError("Campaign type {campaign_type} not supported.")
-        
+
     def get_campaigns(self, campaign_type=None):
         if not campaign_type:
             return self._get(self._get_base_url() + "/v1.0/Campaigns").json()
@@ -49,7 +49,7 @@ class CampaignsAPI:
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack").json()
     
     def get_swimops_campaign(self, campaign_id):
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack").json()
+        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops").json()
     
     def get_swimops(self):
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/Swimops").json()
