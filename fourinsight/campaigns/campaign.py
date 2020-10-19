@@ -81,10 +81,6 @@ class BaseCampaign:
     def _filter_dict_value_by(dict_, value, by):
         return list(filter(lambda x: x[by] == value, dict_))
 
-    # @staticmethod
-    # def _dict_subset(dict_, rename_keys):
-    #     return {new_key: dict_.get(old_key, None) for old_key, new_key in rename_keys.items()}
-
     @staticmethod
     def _dict_subset(dict_, rename_keys):
         return {new_key: dict_[old_key] for old_key, new_key in rename_keys.items()}
@@ -130,8 +126,8 @@ class BaseCampaign:
         }
         events = self._dict_list_subset(self._campaigns_api.get_events(campaign_id)["events"], rename_keys)
         for event_i in events:
-            event_i["Start"] = pd.to_datetime(event_i.pop("Start"))
-            event_i["End"] = pd.to_datetime(event_i.pop("End"))
+            event_i["Start"] = pd.to_datetime(event_i["Start"])
+            event_i["End"] = pd.to_datetime(event_i["End"])
         return events
 
     def _get_sensors(self, campaign_id):
