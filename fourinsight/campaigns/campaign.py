@@ -1,6 +1,5 @@
 import pandas as pd
 
-from fourinsight.api.globalsettings import environment
 from .api import CampaignsAPI
 
 class BaseCampaign:
@@ -88,7 +87,6 @@ class BaseCampaign:
     def _dict_list_subset(self, dict_list, rename_keys):
         return [self._dict_subset(dict_i, rename_keys) for dict_i in dict_list]
 
-
     def _get_campaign(self, campaign_id):
         rename_keys = {
             "id": "CampaignID",
@@ -104,7 +102,10 @@ class BaseCampaign:
             "startDate": "Start Date",
             "endDate": "End Date",
         }
-        campaign = self._dict_subset(self._campaigns_api.get_campaign(campaign_id), rename_keys)
+        campaign = self._dict_subset(
+            self._campaigns_api.get_campaign(campaign_id),
+            rename_keys
+            )
         campaign["Start Date"] = pd.to_datetime(campaign["Start Date"])
         campaign["End Date"] = pd.to_datetime(campaign["End Date"])
         return campaign
@@ -124,7 +125,10 @@ class BaseCampaign:
             "eventType": "Event Type",
             "comment": "Comment",
         }
-        events = self._dict_list_subset(self._campaigns_api.get_events(campaign_id)["events"], rename_keys)
+        events = self._dict_list_subset(
+            self._campaigns_api.get_events(campaign_id)["events"],
+            rename_keys
+            )
         for event_i in events:
             event_i["Start"] = pd.to_datetime(event_i["Start"])
             event_i["End"] = pd.to_datetime(event_i["End"])
@@ -144,7 +148,10 @@ class BaseCampaign:
             "detachedTime": "Detached Time",
             "channels": "Channels",
         }
-        sensors = self._dict_list_subset(self._campaigns_api.get_sensors(campaign_id)["sensors"], rename_keys_sensors)
+        sensors = self._dict_list_subset(
+            self._campaigns_api.get_sensors(campaign_id)["sensors"],
+            rename_keys_sensors
+            )
         for sensor in sensors:
             sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
             sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])

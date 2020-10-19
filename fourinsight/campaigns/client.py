@@ -1,8 +1,6 @@
-from fourinsight.api.globalsettings import environment
 from .campaign import GenericCampaign, SwimCampaign
 
 class Client:
-    _env = environment
     def __init__(self, auth_session):
         self._auth_session = auth_session
 

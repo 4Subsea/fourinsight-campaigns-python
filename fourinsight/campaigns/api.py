@@ -10,13 +10,12 @@ _CAMPAIGN_TYPES = [
 
 
 class CampaignsAPI:
-    _environment = environment
     
     def __init__(self, auth_session):
         self._auth_session = auth_session
         
     def _get_base_url(self):
-        return self._environment.api_base_url
+        return environment.api_base_url
 
     def _get(self, *args, **kwargs):
         response = self._auth_session.get(*args, **kwargs)
@@ -47,10 +46,10 @@ class CampaignsAPI:
 
     def get_lowerstack(self, campaign_id):
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack").json()
-    
+
     def get_swimops_campaign(self, campaign_id):
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops").json()
-    
+
     def get_swimops(self):
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/Swimops").json()
 
