@@ -204,4 +204,3 @@ class SwimCampaign(BaseCampaign):
         return self._dict_subset(
             self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys
         )
-
