@@ -35,6 +35,14 @@ class CampaignsAPI:
         else:
             raise ValueError("Campaign type {campaign_type} not supported.")
 
+    def _get_swim_campaigns(self):
+        return self._get(
+            self._get_base_url() + f"/v1.0/Campaigns/Type/SWIM Campaign"
+        ).json()
+
+    def _get_generic_campaigns(self):
+        return self._get(self._get_base_url() + f"/v1.0/Campaigns/Type/Campaign").json()
+
     def get_campaigns(self, campaign_type=None):
         """Campaign list.
 
@@ -45,11 +53,12 @@ class CampaignsAPI:
         """
         if not campaign_type:
             return self._get(self._get_base_url() + "/v1.0/Campaigns").json()
-        else:
-            campaign_type = self._verify_type(campaign_type)
-            return self._get(
-                self._get_base_url() + f"/v1.0/Campaigns/Type/{campaign_type}"
-            ).json()
+
+        campaign_type = self._verify_type(campaign_type)
+        if campaign_type == "SWIM Campaign":
+            return self._get_swim_campaigns()
+        elif campaign_type == "Campaign":
+            return self._get_generic_campaigns()
 
     def get_campaign(self, campaign_id):
         """Campaign dict"""
