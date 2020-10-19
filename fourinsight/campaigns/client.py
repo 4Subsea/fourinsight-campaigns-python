@@ -1,6 +1,16 @@
 from .campaign import GenericCampaign, SwimCampaign
 
 class Client:
+    """
+    Client interface for the 4insight.io campaigns database.
+
+    Parameters
+    ----------
+    auth_session : subclass of ``requests.session``
+        Authorized session instance which appends a valid bearer token to all
+        HTTP calls.
+    """
+
     def __init__(self, auth_session):
         self._auth_session = auth_session
 
