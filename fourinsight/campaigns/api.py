@@ -15,7 +15,7 @@ class CampaignsAPI:
 
     Parameters
     ----------
-    session : subclass of ``requests.session``
+    auth_session : subclass of ``requests.session``
         Authorized session instance which appends a valid bearer token to all
         HTTP calls.
     """
@@ -38,6 +38,13 @@ class CampaignsAPI:
             raise ValueError("Campaign type {campaign_type} not supported.")
 
     def get_campaigns(self, campaign_type=None):
+        """Campaign list.
+
+        Parameters
+        ----------
+        campaign_type : str
+            Campaign type ['Campaign', 'SWIM Campaign'].
+        """
         if not campaign_type:
             return self._get(self._get_base_url() + "/v1.0/Campaigns").json()
         else:
@@ -45,21 +52,27 @@ class CampaignsAPI:
             return self._get(self._get_base_url() + f"/v1.0/Campaigns/Type/{campaign_type}").json()
 
     def get_campaign(self, campaign_id):
+        """Campaign dict"""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}").json()
 
     def get_events(self, campaign_id):
+        """Events dict"""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Events").json()
 
     def get_sensors(self, campaign_id):
+        """Sensors dict"""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Sensors").json()
 
     def get_lowerstack(self, campaign_id):
+        """Lower Stack dict"""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack").json()
 
     def get_swimops_campaign(self, campaign_id):
+        """SWIM operations for campaign."""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops").json()
 
     def get_swimops(self):
+        """SWIM operations list"""
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/Swimops").json()
 
     # def get_campaign_type(self, campaign_id):
