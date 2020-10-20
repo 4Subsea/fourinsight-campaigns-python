@@ -7,24 +7,6 @@ CAMPAIGNS_DATA_LIST = [
         'fieldTitle': 'Troll',
         'wellName': '31/2-F-6',
         'startDate': '2017-10-21T00:00:00+00:00'
-    },
-    {
-        'id': 'ee0315bd-3a02-4e56-bac6-0b7194811fe4',
-        'campaignName': 'Campaign with dashboard 2',
-        'campaignType': 'SWIM Campaign',
-        'vessel': '',
-        'fieldTitle': '',
-        'wellName': '',
-        'startDate': None
-    },
-    {
-        'id': '093a3661-a318-4ed5-b172-0c6a0d627d71',
-        'campaignName': '1214 - 31/2-E-1',
-        'campaignType': 'SWIM Campaign',
-        'vessel': 'Songa Endurance',
-        'fieldTitle': 'Troll',
-        'wellName': '31/2-E-1',
-        'startDate': None
     }
 ]
 
@@ -85,30 +67,6 @@ EVENTS_DATA = {
             'startDate': None,
             'stopDate': None
         },
-        {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
-            'eventType': None,
-            'eventId': 'decc443f-418c-4388-b2e6-fb26cbc63893',
-            'comment': 'Comments #1\n#2',
-            'startDate': None,
-            'stopDate': None
-        },
-        {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
-            'eventType': 'Artifact',
-            'eventId': '47503b2b-807f-42d4-99a4-762ae75b5bf4',
-            'comment': 'something happened! again!',
-            'startDate': '2020-02-04T09:06:28.0000000Z',
-            'stopDate': '2020-02-05T09:06:28.0000000Z'
-        },
-        {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
-            'eventType': 'WLR hook-up/down',
-            'eventId': 'f23c5543-4839-4370-8d03-c46acfccf4cf',
-            'comment': None,
-            'startDate': None,
-            'stopDate': None
-        }
     ]
 }
 
@@ -181,7 +139,7 @@ SWIMOPS_DATA_LIST = [
         "wellSpotBendingMomentUploaded": "string",
         "dashboardClosed": "string",
         "servicesAvailable": "string"
-  }
+    }
 ]
 
 SWIMOPS_DATA = {
