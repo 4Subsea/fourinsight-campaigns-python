@@ -1,6 +1,3 @@
-# from fourinsight.api.globalsettings import environment
-
-
 _CAMPAIGN_TYPES = [
     "SWIM Campaign",
     "Campaign",
