@@ -1,5 +1,5 @@
 import pytest
-from unittest.mock import Mock, MagicMock
+from unittest.mock import Mock
 from .testdata.get_data import (
     CAMPAIGN_DATA,
     CAMPAIGNS_DATA_LIST,
