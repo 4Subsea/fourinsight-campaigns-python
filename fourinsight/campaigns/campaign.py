@@ -86,9 +86,6 @@ class BaseCampaign:
     def _dict_subset(dict_, rename_keys):
         return {new_key: dict_[old_key] for old_key, new_key in rename_keys.items()}
 
-    def _dict_list_subset(self, dict_list, rename_keys):
-        return [self._dict_subset(dict_i, rename_keys) for dict_i in dict_list]
-
     def _get_campaign(self, campaign_id):
         rename_keys = {
             "id": "CampaignID",
@@ -128,9 +125,10 @@ class BaseCampaign:
             "eventType": "Event Type",
             "comment": "Comment",
         }
-        events = self._dict_list_subset(
-            self._campaigns_api.get_events(campaign_id)["events"], rename_keys
-        )
+        events = [
+            self._dict_subset(dict_i, rename_keys)
+            for dict_i in self._campaigns_api.get_events(campaign_id)["events"]
+            ]
         for event_i in events:
             event_i["Start"] = pd.to_datetime(event_i["Start"])
             event_i["End"] = pd.to_datetime(event_i["End"])
@@ -150,9 +148,10 @@ class BaseCampaign:
             "detachedTime": "Detached Time",
             "channels": "Channels",
         }
-        sensors = self._dict_list_subset(
-            self._campaigns_api.get_sensors(campaign_id)["sensors"], rename_keys_sensors
-        )
+        sensors = [
+            self._dict_subset(dict_i, rename_keys_sensors)
+            for dict_i in self._campaigns_api.get_sensors(campaign_id)["sensors"]
+            ]
         for sensor in sensors:
             sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
             sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
@@ -164,9 +163,10 @@ class BaseCampaign:
             "positionStreamId": "Stream id",
         }
         for sensor in sensors:
-            sensor["Channels"] = self._dict_list_subset(
-                sensor["Channels"], rename_keys_channels
-            )
+            sensor["Channels"] = [
+                self._dict_subset(dict_i, rename_keys_channels)
+                for dict_i in sensor["Channels"]
+                ]
         return sensors
 
 
