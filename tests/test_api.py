@@ -86,3 +86,65 @@ class Test_CampaignsAPI:
         campaigns_api.get_campaigns(campaign_type="Campaign")
         auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/Type/Campaign")
         response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_campaigns_raises(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        with pytest.raises(ValueError):
+            campaigns_api.get_campaigns(campaign_type="invalid_type")
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_campaign(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_campaign("1234")
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/1234")
+        response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_events(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_events("1234")
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/1234/Events")
+        response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_sensors(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_sensors("1234")
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/1234/Sensors")
+        response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_lowerstack(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_lowerstack("1234")
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/1234/LowerStack")
+        response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_swimops_campaign(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_swimops_campaign("1234")
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/1234/Swimops")
+        response.json.assert_called()
+
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_swimops(self, env_mock, auth_session, response):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+
+        campaigns_api.get_swimops()
+        auth_session.get.assert_called_once_with(f"test/v1.0/Campaigns/Swimops")
+        response.json.assert_called()
