@@ -1,4 +1,5 @@
 import pandas as pd
+from abc import ABCMeta
 
 from fourinsight.campaigns.api import CampaignsAPI
 
