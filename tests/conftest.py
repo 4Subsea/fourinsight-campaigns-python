@@ -17,5 +17,5 @@ def response():
 def auth_session(response):
     auth_session = Mock()
     auth_session.get.return_value = response
-    auth_session._api_base_url = "test"
+    auth_session._api_base_url = "test_url"
     return auth_session
