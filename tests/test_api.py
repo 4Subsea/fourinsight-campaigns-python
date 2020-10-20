@@ -1,5 +1,4 @@
 import fourinsight.campaigns
-from fourinsight.api.globalsettings import environment
 
 import pytest
 from unittest.mock import Mock, patch
