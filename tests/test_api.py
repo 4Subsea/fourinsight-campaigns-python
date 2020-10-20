@@ -19,13 +19,15 @@ def auth_session(response):
 
 class Test_CampaignsAPI:
 
-    def test_init(self):
-        campaigns_api = fourinsight.campaigns.api.CampaignsAPI("test")
-        assert campaigns_api._auth_session == "test"
+    def test_init(self, auth_session):
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+        assert campaigns_api._auth_session == auth_session
 
-    def test_get_base_url(self):
-        campaigns_api = fourinsight.campaigns.api.CampaignsAPI("test")
-        assert campaigns_api._get_base_url() == environment.api_base_url
+    @patch("fourinsight.campaigns.api.environment")
+    def test_get_base_url(self, env_mock, auth_session):
+        env_mock.api_base_url = "test"
+        campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
+        assert campaigns_api._get_base_url() == "test"
 
     def test__get(self, auth_session, response):
         campaigns_api = fourinsight.campaigns.api.CampaignsAPI(auth_session)
