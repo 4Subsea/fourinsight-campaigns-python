@@ -3,11 +3,6 @@ from unittest.mock import Mock
 
 
 @pytest.fixture
-def myfix():
-    return "myfix-out"
-
-
-@pytest.fixture
 def response():
     response = Mock()
     return response
