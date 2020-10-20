@@ -2,13 +2,7 @@ from fourinsight.campaigns import Client
 from fourinsight.campaigns.campaign import GenericCampaign, SwimCampaign
 
 import pytest
-from unittest.mock import Mock, patch
-
-
-@pytest.fixture
-def auth_session():
-    auth_session = Mock()
-    return auth_session
+from unittest.mock import patch
 
 
 @pytest.fixture
