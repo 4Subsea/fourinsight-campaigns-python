@@ -1,14 +1,13 @@
 from fourinsight.campaigns.campaign import BaseCampaign
 
 import pytest
-from unittest.mock import Mock
 
 
-@pytest.fixture
-def BaseCampaign(auth_session):
-    return Mock()
+# @pytest.fixture
+# def base_campaign(auth_session):
+#     return BaseCampaign(auth_session, "1234")
 
 
 class Test_BaseCampaign:
-    def test_something(self):
-        1 == 1
+    def test_something(self, auth_session3):
+        base_campaign = BaseCampaign(auth_session3, "1234")
