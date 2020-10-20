@@ -49,8 +49,7 @@ class BaseCampaign:
         events = sorted(
             events,
             key=lambda x: x["Start"]
-            if x["Start"]
-            else pd.to_datetime("1970-01-01T00:00:00+0000"),
+            if x["Start"] else pd.to_datetime(0),
         )
         return events
 
