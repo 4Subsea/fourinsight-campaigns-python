@@ -25,60 +25,6 @@ def auth_session(response):
     return auth_session
 
 
-# @pytest.fixture
-# def auth_session2():
-#     auth_session = MagicMock()
-#     auth_session._api_base_url = "test_url"
-#     auth_session._get_called_with_url = None
-
-#     def json_side_effect():
-#         url = auth_session._get_called_with_url
-#         if url.endswith("Campaigns"):
-#             return CAMPAIGNS_DATA_LIST
-#         elif url.endswith("Campaigns/Type/SWIM Campaign"):
-#             return CAMPAIGNS_DATA_LIST
-#         elif url.endswith("Campaigns/Type/Campaign"):
-#             return CAMPAIGNS_DATA_LIST
-#         elif url.endswith("Events"):
-#             return EVENTS_DATA
-#         elif url.endswith("Sensors"):
-#             return SENSOR_DATA
-#         elif url.endswith("LowerStack"):
-#             return LOWERSTACK_DATA
-#         elif url.endswith("/Campaigns/Swimops"):
-#             return SWIMOPS_DATA_LIST
-#         elif url.endswith("Swimops") and not url.endswith("/Campaigns/Swimops"):
-#             return SWIMOPS_DATA
-#         elif "Campaigns" in url and not any(
-#             [
-#                 url.endswith(tag)
-#                 for tag in (
-#                     "Campaigns",
-#                     "SWIM Campaign",
-#                     "Campaign",
-#                     "Events",
-#                     "Sensors",
-#                     "LowerStack",
-#                     "Swimops",
-#                 )
-#             ]
-#         ):
-#             return CAMPAIGN_DATA
-
-#     response = Mock()
-#     response.json.side_effect = json_side_effect
-
-#     def get_side_effect(url, *args, **kwargs):
-#         auth_session._get_called_with_url = url
-#         return response
-#     auth_session.get.side_effect = get_side_effect
-
-#     return auth_session
-
-#     auth_session.get.json.side_effect = get_side_effect
-#     return auth_session
-
-
 @pytest.fixture
 def response2():
     response = Mock()
