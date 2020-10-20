@@ -9,5 +9,5 @@ import pytest
 
 
 class Test_BaseCampaign:
-    def test_something(self, auth_session3):
-        base_campaign = BaseCampaign(auth_session3, "1234")
+    def test_something(self, auth_session2):
+        base_campaign = BaseCampaign(auth_session2, "1234")

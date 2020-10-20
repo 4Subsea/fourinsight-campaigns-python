@@ -125,7 +125,7 @@ def response2():
 
 
 @pytest.fixture
-def auth_session3(response2):
+def auth_session2(response2):
     auth_session = Mock()
     auth_session._api_base_url = "test_url"
 
