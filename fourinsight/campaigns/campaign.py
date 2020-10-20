@@ -1,6 +1,6 @@
 import pandas as pd
 
-from .api import CampaignsAPI
+from fourinsight.api.api import CampaignsAPI
 
 
 class BaseCampaign:
