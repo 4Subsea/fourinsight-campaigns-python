@@ -40,31 +40,31 @@ CAMPAIGN_DATA = {
 }
 
 EVENTS_DATA = {
-    'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
+    'campaignId': 'string',
     'anyFetchFailure': False,
     'events': [
         {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
+            'campaignId': 'string',
             'eventType': 'Connect-Disconnect',
-            'eventId': '5714e706-f297-418b-94d2-b25624e980fe',
+            'eventId': 'string',
             'comment': None,
-            'startDate': '2020-03-09T09:08:37.0000000Z',
-            'stopDate': '2020-03-11T09:08:37.0000000Z'
+            'startDate': '2020-01-01T00:00:00.0000000Z',
+            'stopDate': None
         },
         {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
+            'campaignId': 'string',
             'eventType': 'Artifact',
-            'eventId': '68216ef3-1f11-403a-8379-bf782b6bd404',
+            'eventId': 'string',
             'comment': None,
             'startDate': None,
             'stopDate': None
         },
         {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
+            'campaignId': 'string',
             'eventType': 'WLR connected',
-            'eventId': '2c9f456e-88d9-4616-bbe5-4329718553de',
+            'eventId': 'string',
             'comment': None,
-            'startDate': None,
+            'startDate': "2019-01-01T00:00:00.0000000Z",
             'stopDate': None
         },
     ]

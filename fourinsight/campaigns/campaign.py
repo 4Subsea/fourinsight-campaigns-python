@@ -40,18 +40,23 @@ class BaseCampaign:
 
         """
         if value is None:
-            return self._events
+            return self._sort_list_by_start(self._events)
 
         events = self._filter_dict_value_by(self._events, value, by)
         if len(events) == 0:
             raise RuntimeError("No events matches the criteria.")
 
-        events = sorted(
-            events,
-            key=lambda x: x["Start"]
-            if x["Start"] else pd.to_datetime(0),
+        return self._sort_list_by_start(events)
+
+    @staticmethod
+    def _sort_list_by_start(list_):
+        sorted_list = sorted(
+            list_,
+            key=lambda x: pd.to_datetime(x["Start"])
+            if x["Start"]
+            else pd.to_datetime(0).tz_localize("UTC"),
         )
-        return events
+        return sorted_list
 
     def sensors(self, value=None, by="Position"):
         """Get a sensor by its position or name.
@@ -127,7 +132,7 @@ class BaseCampaign:
         events = [
             self._dict_subset(dict_i, rename_keys)
             for dict_i in self._campaigns_api.get_events(campaign_id)["events"]
-            ]
+        ]
         for event_i in events:
             event_i["Start"] = pd.to_datetime(event_i["Start"])
             event_i["End"] = pd.to_datetime(event_i["End"])
@@ -150,7 +155,7 @@ class BaseCampaign:
         sensors = [
             self._dict_subset(dict_i, rename_keys_sensors)
             for dict_i in self._campaigns_api.get_sensors(campaign_id)["sensors"]
-            ]
+        ]
         for sensor in sensors:
             sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
             sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
@@ -165,7 +170,7 @@ class BaseCampaign:
             sensor["Channels"] = [
                 self._dict_subset(dict_i, rename_keys_channels)
                 for dict_i in sensor["Channels"]
-                ]
+            ]
         return sensors
 
 
