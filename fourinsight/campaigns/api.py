@@ -163,5 +163,18 @@ class CampaignsAPI:
         """
         return self._get(self._get_base_url() + "/v1.0/Campaigns/Swimops").json()
 
-    # def get_campaign_type(self, campaign_id):
-    #     return self.get_campaign(campaign_id)["campaignType"]
+    def get_campaign_type(self, campaign_id):
+        """
+        Get campaign type.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        str
+            Campaign type.
+        """
+        return self.get_campaign(campaign_id)["campaignType"]

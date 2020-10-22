@@ -208,3 +208,24 @@ class SwimCampaign(BaseCampaign):
         return self._dict_subset(
             self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys
         )
+
+
+def Campaign(auth_session, campaign_id):
+    """
+    Provides an instantiated campaign object.
+
+    Parameters
+    ----------
+    auth_session : subclass of ``requests.session``
+        Authorized session instance which appends a valid bearer token to all
+        HTTP calls.
+    campaign_id : str
+        The id of the campaign (GUID).
+    """
+    campaign_type_map = {"Campaign": GenericCampaign, "SWIM Campaign": SwimCampaign}
+
+    campaign_type = CampaignsAPI(auth_session).get_campaign_type(campaign_id)
+    if campaign_type not in campaign_type_map:
+        raise NotImplementedError(f'" Campaign type {campaign_type}" is not supported.')
+
+    return campaign_type_map[campaign_type](auth_session, campaign_id)

@@ -1,6 +1,11 @@
 import pandas as pd
 from fourinsight.campaigns.api import CampaignsAPI
-from fourinsight.campaigns.campaign import BaseCampaign, GenericCampaign, SwimCampaign
+from fourinsight.campaigns.campaign import (
+    BaseCampaign,
+    GenericCampaign,
+    SwimCampaign,
+    Campaign,
+)
 
 import pytest
 from unittest.mock import patch
@@ -376,3 +381,25 @@ class Test_SwimCampaign:
 
     def test_swim_operations(self, swim_campaign):
         assert swim_campaign.swim_operations() == swim_campaign._swim_operations
+
+
+class Test_Campaign:
+    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
+    def test_swim_campaign(self, mock_get_campaign_type, auth_session):
+        mock_get_campaign_type.return_value = "SWIM Campaign"
+        campaign = Campaign(auth_session, "1234")
+        mock_get_campaign_type.assert_called_once_with("1234")
+        assert isinstance(campaign, SwimCampaign)
+
+    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
+    def test_generic_campaign(self, mock_get_campaign_type, auth_session):
+        mock_get_campaign_type.return_value = "Campaign"
+        campaign = Campaign(auth_session, "1234")
+        mock_get_campaign_type.assert_called_once_with("1234")
+        assert isinstance(campaign, GenericCampaign)
+
+    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
+    def test_raises(self, mock_get_campaign_type, auth_session):
+        mock_get_campaign_type.return_value = "INVALID_TYPE"
+        with pytest.raises(NotImplementedError):
+            Campaign(auth_session, "1234")

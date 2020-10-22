@@ -106,3 +106,6 @@ class Test_CampaignsAPI:
         auth_session.get.assert_called_once_with("test_url/v1.0/Campaigns/Swimops")
         response.raise_for_status.assert_called_once()
         response.json.assert_called()
+
+    def test_get_campaign_type(self, campaigns_api, auth_session, response):
+        assert campaigns_api.get_campaign_type("1234") == "SWIM Campaign"
