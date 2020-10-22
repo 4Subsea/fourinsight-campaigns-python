@@ -1,11 +1,20 @@
 import pandas as pd
-from abc import ABC
 
 from fourinsight.campaigns.api import CampaignsAPI
 
 
 class GenericCampaign:
-    """Base class with common methods in all campaigns."""
+    """
+    Generic campaign.
+
+    Parameters
+    ----------
+    auth_session : subclass of ``requests.session``
+        Authorized session instance which appends a valid bearer token to all
+        HTTP calls.
+    campaign_id : str
+        The id of the campaign (GUID).
+    """
 
     def __init__(self, auth_session, campaign_id):
         self._auth_session = auth_session
@@ -25,7 +34,8 @@ class GenericCampaign:
         return self._geotrack
 
     def events(self, value=None, by="Event Type"):
-        """Get the events by its event type.
+        """
+        Get the events by its event type.
 
         Parameters
         ----------
@@ -60,7 +70,8 @@ class GenericCampaign:
         return sorted_list
 
     def sensors(self, value=None, by="Position"):
-        """Get a sensor by its position or name.
+        """
+        Get a sensor by its position or name.
 
         Parameters
         ----------
@@ -176,6 +187,18 @@ class GenericCampaign:
 
 
 class SwimCampaign(GenericCampaign):
+    """
+    SWIM campaign.
+
+    Parameters
+    ----------
+    auth_session : subclass of ``requests.session``
+        Authorized session instance which appends a valid bearer token to all
+        HTTP calls.
+    campaign_id : str
+        The id of the campaign (GUID).
+    """
+
     def __init__(self, auth_session, campaign_id):
         super().__init__(auth_session, campaign_id)
         self._swim_operations = self._get_swim_operations(campaign_id)
@@ -209,7 +232,8 @@ class SwimCampaign(GenericCampaign):
 
 def Campaign(auth_session, campaign_id):
     """
-    Provides an instantiated campaign object.
+    Create a campaign object of type GenericCampaign or SwimCampaign depending
+    on the campaign_id.
 
     Parameters
     ----------
