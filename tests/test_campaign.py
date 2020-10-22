@@ -7,12 +7,12 @@ from unittest.mock import patch
 
 
 @pytest.fixture
-def base_campaign(auth_session2):
-    return BaseCampaign(auth_session2, "1234")
+def base_campaign(auth_session):
+    return BaseCampaign(auth_session, "1234")
 
 @pytest.fixture
-def swim_campaign(auth_session2):
-    return SwimCampaign(auth_session2, "1234")
+def swim_campaign(auth_session):
+    return SwimCampaign(auth_session, "1234")
 
 
 class Test_BaseCampaign:
@@ -26,9 +26,9 @@ class Test_BaseCampaign:
         mock_get_sensors,
         mock_get_events,
         mock_get_geotrack,
-        auth_session2,
+        auth_session,
     ):
-        base_campaign = BaseCampaign(auth_session2, "1234")
+        base_campaign = BaseCampaign(auth_session, "1234")
 
         assert base_campaign._campaign_id == "1234"
         assert isinstance(base_campaign._campaigns_api, CampaignsAPI)
@@ -337,8 +337,8 @@ class Test_BaseCampaign:
         assert out == expect
 
 
-def test_generic_campaign_is_base_campaign(auth_session2):
-    generic_campaign = GenericCampaign(auth_session2, "1234")
+def test_generic_campaign_is_base_campaign(auth_session):
+    generic_campaign = GenericCampaign(auth_session, "1234")
     assert isinstance(generic_campaign, BaseCampaign)
 
 
@@ -348,10 +348,10 @@ class Test_SwimCampaign:
 
     @patch.object(BaseCampaign, "__init__")
     @patch.object(SwimCampaign, "_get_swim_operations")
-    def test_init(self, mock_get_swimops, mock_base_init, auth_session2):
-        swim_campaign = SwimCampaign(auth_session2, "1234")
+    def test_init(self, mock_get_swimops, mock_base_init, auth_session):
+        swim_campaign = SwimCampaign(auth_session, "1234")
         assert swim_campaign._swim_operations == mock_get_swimops.return_value
-        mock_base_init.assert_called_once_with(auth_session2, "1234")
+        mock_base_init.assert_called_once_with(auth_session, "1234")
 
     def test_get_swim_operations(self, swim_campaign):
         out = swim_campaign._get_swim_operations("1234")

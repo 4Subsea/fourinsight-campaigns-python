@@ -14,20 +14,6 @@ from .testdata.get_data import (
 @pytest.fixture
 def response():
     response = Mock()
-    return response
-
-
-@pytest.fixture
-def auth_session(response):
-    auth_session = Mock()
-    auth_session.get.return_value = response
-    auth_session._api_base_url = "test_url"
-    return auth_session
-
-
-@pytest.fixture
-def response2():
-    response = Mock()
     response._get_called_with_url = None
 
     def json_side_effect():
@@ -71,13 +57,13 @@ def response2():
 
 
 @pytest.fixture
-def auth_session2(response2):
+def auth_session(response):
     auth_session = Mock()
     auth_session._api_base_url = "test_url"
 
     def get_side_effect(url, *args, **kwargs):
-        response2._get_called_with_url = url
-        return response2
+        response._get_called_with_url = url
+        return response
 
     auth_session.get.side_effect = get_side_effect
     return auth_session
