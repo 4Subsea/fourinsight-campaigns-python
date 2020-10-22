@@ -10,6 +10,12 @@ from unittest.mock import patch
 def base_campaign(auth_session):
     return BaseCampaign(auth_session, "1234")
 
+
+@pytest.fixture
+def generic_campaign(auth_session):
+    return GenericCampaign(auth_session, "1234")
+
+
 @pytest.fixture
 def swim_campaign(auth_session):
     return SwimCampaign(auth_session, "1234")
@@ -260,9 +266,9 @@ class Test_BaseCampaign:
     def test_get_geotrack(self, base_campaign):
         out = base_campaign._get_geotrack("1234")
         expect = {
-            'HS Timeseries Id': 'e2ba4833-44ae-4cef-b8a7-18ae82fef327',
-            'Tp Timeseries Id': '4cfe7e31-f4b5-471f-92c6-b260ee236cff',
-            'Wd Timeseries Id': '2c6454b8-a274-4845-80e0-cb29c0efc32b'
+            "HS Timeseries Id": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
+            "Tp Timeseries Id": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
+            "Wd Timeseries Id": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
         }
         assert out == expect
 
@@ -270,23 +276,18 @@ class Test_BaseCampaign:
         out = base_campaign._get_events("1234")
         expect = [
             {
-                'Start': pd.to_datetime('2020-01-01 00:00:00+0000'),
-                'End': None,
-                'Event Type': 'Connect-Disconnect',
-                'Comment': None
+                "Start": pd.to_datetime("2020-01-01 00:00:00+0000"),
+                "End": None,
+                "Event Type": "Connect-Disconnect",
+                "Comment": None,
             },
+            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None},
             {
-                'Start': None,
-                'End': None,
-                'Event Type': 'Artifact',
-                'Comment': None
+                "Start": pd.to_datetime("2019-01-01 00:00:00+0000"),
+                "End": None,
+                "Event Type": "WLR connected",
+                "Comment": None,
             },
-            {
-                'Start': pd.to_datetime('2019-01-01 00:00:00+0000'),
-                'End': None,
-                'Event Type': 'WLR connected',
-                'Comment': None
-            }
         ]
         assert out == expect
 
@@ -294,51 +295,50 @@ class Test_BaseCampaign:
         out = base_campaign._get_sensors("1234")
         expect = [
             {
-                'SensorID': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                'Name': 'SN1234',
-                'Position': 'LMRP',
-                'Distance From Wellhead': 'string',
-                'Direction X Axis': 'string',
-                'Direction Z Axis': 'string',
-                'Sampling Rate': 'string',
-                'Sensor Vendor': 'string',
-                'Attached Time': pd.to_datetime('2019-10-13 09:27:19+0000'),
-                'Detached Time': None,
-                'Channels': [
+                "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "SN1234",
+                "Position": "LMRP",
+                "Distance From Wellhead": "string",
+                "Direction X Axis": "string",
+                "Direction Z Axis": "string",
+                "Sampling Rate": "string",
+                "Sensor Vendor": "string",
+                "Attached Time": pd.to_datetime("2019-10-13 09:27:19+0000"),
+                "Detached Time": None,
+                "Channels": [
                     {
-                        'Channel': 'Pitch',
-                        'Units': 'string',
-                        'Timeseries id': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                        'Stream id': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+                        "Channel": "Pitch",
+                        "Units": "string",
+                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     }
-                ]
+                ],
             },
             {
-                'SensorID': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                'Name': 'SN5678',
-                'Position': 'WH',
-                'Distance From Wellhead': 'string',
-                'Direction X Axis': 'string',
-                'Direction Z Axis': 'string',
-                'Sampling Rate': 'string',
-                'Sensor Vendor': 'string',
-                'Attached Time': None,
-                'Detached Time': None,
-                'Channels': [
+                "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "SN5678",
+                "Position": "WH",
+                "Distance From Wellhead": "string",
+                "Direction X Axis": "string",
+                "Direction Z Axis": "string",
+                "Sampling Rate": "string",
+                "Sensor Vendor": "string",
+                "Attached Time": None,
+                "Detached Time": None,
+                "Channels": [
                     {
-                        'Channel': 'Ag',
-                        'Units': 'string',
-                        'Timeseries id': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                        'Stream id': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+                        "Channel": "Ag",
+                        "Units": "string",
+                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     }
-                ]
-            }
+                ],
+            },
         ]
         assert out == expect
 
 
-def test_generic_campaign_is_base_campaign(auth_session):
-    generic_campaign = GenericCampaign(auth_session, "1234")
+def test_generic_campaign_inherit_base(generic_campaign):
     assert isinstance(generic_campaign, BaseCampaign)
 
 
@@ -356,21 +356,21 @@ class Test_SwimCampaign:
     def test_get_swim_operations(self, swim_campaign):
         out = swim_campaign._get_swim_operations("1234")
         expect = {
-            'Operation Status': 'string',
-            'Dashboard Status': 'string',
-            'SLA Level': 'string',
-            'Customer Contact': 'string',
-            'Comments': 'string',
-            'Dashboard Close Date': 'string',
-            'SWIM Instance Status': 'string',
-            'Report Made': 'string',
-            'Report Sent': 'string',
-            'Data Package Made': 'string',
-            'Data Package Sent': 'string',
-            'Experience Log Made': 'string',
-            'WellSpot Bending Moment Uploaded':'string',
-            'Dashboard Closed': 'string',
-            'Services Available': 'string'
+            "Operation Status": "string",
+            "Dashboard Status": "string",
+            "SLA Level": "string",
+            "Customer Contact": "string",
+            "Comments": "string",
+            "Dashboard Close Date": "string",
+            "SWIM Instance Status": "string",
+            "Report Made": "string",
+            "Report Sent": "string",
+            "Data Package Made": "string",
+            "Data Package Sent": "string",
+            "Experience Log Made": "string",
+            "WellSpot Bending Moment Uploaded": "string",
+            "Dashboard Closed": "string",
+            "Services Available": "string",
         }
         assert out == expect
 

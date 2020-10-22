@@ -37,6 +37,6 @@ class Test_Client:
         mock_campaign.assert_called_once_with(auth_session, "test_id")
 
     @patch("fourinsight.campaigns.client.SwimCampaign")
-    def test_get_generic(self, mock_campaign, camp_client, auth_session):
+    def test_get_swim(self, mock_campaign, camp_client, auth_session):
         camp_client.get("test_id", campaign_type="swim")
         mock_campaign.assert_called_once_with(auth_session, "test_id")

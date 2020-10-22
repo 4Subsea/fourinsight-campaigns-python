@@ -1,12 +1,12 @@
 CAMPAIGNS_DATA_LIST = [
     {
-        'id': '6c181d43-0fba-425c-b8bf-06dfb4a661db',
-        'campaignName': '1086 - 31/2-F-6',
-        'campaignType': 'SWIM Campaign',
-        'vessel': 'Songa Endurance',
-        'fieldTitle': 'Troll',
-        'wellName': '31/2-F-6',
-        'startDate': '2017-10-21T00:00:00+00:00'
+        "id": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+        "campaignName": "1086 - 31/2-F-6",
+        "campaignType": "SWIM Campaign",
+        "vessel": "Songa Endurance",
+        "fieldTitle": "Troll",
+        "wellName": "31/2-F-6",
+        "startDate": "2017-10-21T00:00:00+00:00",
     }
 ]
 
@@ -40,88 +40,88 @@ CAMPAIGN_DATA = {
 }
 
 EVENTS_DATA = {
-    'campaignId': 'string',
-    'anyFetchFailure': False,
-    'events': [
+    "campaignId": "string",
+    "anyFetchFailure": False,
+    "events": [
         {
-            'campaignId': 'string',
-            'eventType': 'Connect-Disconnect',
-            'eventId': 'string',
-            'comment': None,
-            'startDate': '2020-01-01T00:00:00.0000000Z',
-            'stopDate': None
+            "campaignId": "string",
+            "eventType": "Connect-Disconnect",
+            "eventId": "string",
+            "comment": None,
+            "startDate": "2020-01-01T00:00:00.0000000Z",
+            "stopDate": None,
         },
         {
-            'campaignId': 'string',
-            'eventType': 'Artifact',
-            'eventId': 'string',
-            'comment': None,
-            'startDate': None,
-            'stopDate': None
+            "campaignId": "string",
+            "eventType": "Artifact",
+            "eventId": "string",
+            "comment": None,
+            "startDate": None,
+            "stopDate": None,
         },
         {
-            'campaignId': 'string',
-            'eventType': 'WLR connected',
-            'eventId': 'string',
-            'comment': None,
-            'startDate': "2019-01-01T00:00:00.0000000Z",
-            'stopDate': None
+            "campaignId": "string",
+            "eventType": "WLR connected",
+            "eventId": "string",
+            "comment": None,
+            "startDate": "2019-01-01T00:00:00.0000000Z",
+            "stopDate": None,
         },
-    ]
+    ],
 }
 
 
 SENSOR_DATA = {
-    'campaignId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    'anyFetchFailure': False,
-    'sensors': [
+    "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "anyFetchFailure": False,
+    "sensors": [
         {
-            'campaignId': 'string',
-            'sensorName': 'SN1234',
-            'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            'position': 'LMRP',
-            'distanceFromWellhead': 'string',
-            'directionXAxis': 'string',
-            'directionZAxis': 'string',
-            'samplingRate': 'string',
-            'sensorVendor': 'string',
-            'attachedTime': '2019-10-13T09:27:19.0000000Z',
-            'detachedTime': None,
-            'channels': [
+            "campaignId": "string",
+            "sensorName": "SN1234",
+            "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "position": "LMRP",
+            "distanceFromWellhead": "string",
+            "directionXAxis": "string",
+            "directionZAxis": "string",
+            "samplingRate": "string",
+            "sensorVendor": "string",
+            "attachedTime": "2019-10-13T09:27:19.0000000Z",
+            "detachedTime": None,
+            "channels": [
                 {
-                    'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'channelName': 'Pitch',
-                    'channelId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'units': 'string',
-                    'timeseriesId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'positionStreamId': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+                    "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "channelName": "Pitch",
+                    "channelId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "units": "string",
+                    "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "positionStreamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 }
-            ]
+            ],
         },
         {
-            'campaignId': 'string',
-            'sensorName': 'SN5678',
-            'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-            'position': 'WH',
-            'distanceFromWellhead': 'string',
-            'directionXAxis': 'string',
-            'directionZAxis': 'string',
-            'samplingRate': 'string',
-            'sensorVendor': 'string',
-            'attachedTime': None,
-            'detachedTime': None,
-            'channels': [
+            "campaignId": "string",
+            "sensorName": "SN5678",
+            "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "position": "WH",
+            "distanceFromWellhead": "string",
+            "directionXAxis": "string",
+            "directionZAxis": "string",
+            "samplingRate": "string",
+            "sensorVendor": "string",
+            "attachedTime": None,
+            "detachedTime": None,
+            "channels": [
                 {
-                    'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'channelName': 'Ag',
-                    'channelId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'units': 'string',
-                    'timeseriesId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-                    'positionStreamId': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+                    "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "channelName": "Ag",
+                    "channelId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "units": "string",
+                    "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "positionStreamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 }
-            ]
-        }
-    ]
+            ],
+        },
+    ],
 }
 
 LOWERSTACK_DATA = {
@@ -136,9 +136,9 @@ LOWERSTACK_DATA = {
             "mass": "string",
             "submergedWeight": "string",
             "height": "string",
-            "addedMassCoefficient": "string"
+            "addedMassCoefficient": "string",
         }
-    ]
+    ],
 }
 
 
@@ -161,7 +161,7 @@ SWIMOPS_DATA_LIST = [
         "experienceLogMade": "string",
         "wellSpotBendingMomentUploaded": "string",
         "dashboardClosed": "string",
-        "servicesAvailable": "string"
+        "servicesAvailable": "string",
     }
 ]
 
@@ -183,5 +183,5 @@ SWIMOPS_DATA = {
     "experienceLogMade": "string",
     "wellSpotBendingMomentUploaded": "string",
     "dashboardClosed": "string",
-    "servicesAvailable": "string"
+    "servicesAvailable": "string",
 }
