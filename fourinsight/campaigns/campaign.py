@@ -1,9 +1,10 @@
 import pandas as pd
+from abc import ABC
 
 from fourinsight.campaigns.api import CampaignsAPI
 
 
-class BaseCampaign:
+class BaseCampaign(ABC):
     """Base class with common methods in all campaigns."""
 
     def __init__(self, auth_session, campaign_id):
