@@ -4,7 +4,7 @@ from abc import ABC
 from fourinsight.campaigns.api import CampaignsAPI
 
 
-class BaseCampaign(ABC):
+class GenericCampaign:
     """Base class with common methods in all campaigns."""
 
     def __init__(self, auth_session, campaign_id):
@@ -175,11 +175,7 @@ class BaseCampaign(ABC):
         return sensors
 
 
-class GenericCampaign(BaseCampaign):
-    pass
-
-
-class SwimCampaign(BaseCampaign):
+class SwimCampaign(GenericCampaign):
     def __init__(self, auth_session, campaign_id):
         super().__init__(auth_session, campaign_id)
         self._swim_operations = self._get_swim_operations(campaign_id)
