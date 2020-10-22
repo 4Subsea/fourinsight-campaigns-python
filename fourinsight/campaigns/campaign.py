@@ -122,6 +122,8 @@ class GenericCampaign:
         )
         campaign["Start Date"] = pd.to_datetime(campaign["Start Date"])
         campaign["End Date"] = pd.to_datetime(campaign["End Date"])
+        if campaign["Water Depth"] is not None:
+            campaign["Water Depth"] = float(campaign["Water Depth"])
         return campaign
 
     def _get_geotrack(self, campaign_id):
@@ -171,6 +173,10 @@ class GenericCampaign:
         for sensor in sensors:
             sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
             sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
+            if sensor["Distance From Wellhead"] is not None:
+                sensor["Distance From Wellhead"] = float(sensor["Distance From Wellhead"])
+            if sensor["Sampling Rate"] is not None:
+                sensor["Sampling Rate"] = float(sensor["Sampling Rate"])
 
         rename_keys_channels = {
             "channelName": "Channel",
