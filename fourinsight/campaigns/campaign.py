@@ -258,6 +258,6 @@ def Campaign(auth_session, campaign_id):
 
     campaign_type = CampaignsAPI(auth_session).get_campaign_type(campaign_id)
     if campaign_type not in campaign_type_map:
-        raise NotImplementedError(f'" Campaign type {campaign_type}" is not supported.')
+        raise NotImplementedError(f'"Campaign type {campaign_type}" is not supported.')
 
     return campaign_type_map[campaign_type](auth_session, campaign_id)
