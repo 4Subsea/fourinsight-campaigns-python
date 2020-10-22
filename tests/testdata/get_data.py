@@ -72,29 +72,52 @@ EVENTS_DATA = {
 
 
 SENSOR_DATA = {
-    'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
+    'campaignId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
     'anyFetchFailure': False,
     'sensors': [
         {
-            'campaignId': '298fbaa3-6ef8-4307-9332-8c32faa7e740',
-            'sensorName': 'SMS0012 - changed',
-            'sensorId': '0c65affc-1414-494b-adbe-e75b4f9e49aa',
-            'position': '',
-            'distanceFromWellhead': '123.45',
-            'directionXAxis': 'FWD-PORT',
-            'directionZAxis': 'UP',
-            'samplingRate': '12',
-            'sensorVendor': 'Pulse',
+            'campaignId': 'string',
+            'sensorName': 'SN1234',
+            'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            'position': 'LMRP',
+            'distanceFromWellhead': 'string',
+            'directionXAxis': 'string',
+            'directionZAxis': 'string',
+            'samplingRate': 'string',
+            'sensorVendor': 'string',
             'attachedTime': '2019-10-13T09:27:19.0000000Z',
-            'detachedTime': '2019-10-13T18:07:00.0000000Z',
+            'detachedTime': None,
             'channels': [
                 {
-                    'sensorId': '0c65affc-1414-494b-adbe-e75b4f9e49aa',
-                    'channelName': 'Temp',
-                    'channelId': 'a9c1299a-e7cc-4eea-a7ad-94156f4aef20',
-                    'units': 'C',
-                    'timeseriesId': '1c866249-e03c-4e11-a55b-20de14a031ec',
-                    'positionStreamId': 'c4c1fe36-8245-47d2-a10a-be4dd814ccd9'
+                    'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'channelName': 'Pitch',
+                    'channelId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'units': 'string',
+                    'timeseriesId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'positionStreamId': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
+                }
+            ]
+        },
+        {
+            'campaignId': 'string',
+            'sensorName': 'SN5678',
+            'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+            'position': 'WH',
+            'distanceFromWellhead': 'string',
+            'directionXAxis': 'string',
+            'directionZAxis': 'string',
+            'samplingRate': 'string',
+            'sensorVendor': 'string',
+            'attachedTime': None,
+            'detachedTime': None,
+            'channels': [
+                {
+                    'sensorId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'channelName': 'Ag',
+                    'channelId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'units': 'string',
+                    'timeseriesId': '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+                    'positionStreamId': '3fa85f64-5717-4562-b3fc-2c963f66afa6'
                 }
             ]
         }
