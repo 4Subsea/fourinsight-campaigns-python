@@ -232,8 +232,7 @@ class SwimCampaign(GenericCampaign):
 
 def Campaign(auth_session, campaign_id):
     """
-    Create a campaign object of type GenericCampaign or SwimCampaign depending
-    on the campaign_id.
+    Interface for getting data from the 4insight.io campaigns database.
 
     Parameters
     ----------
@@ -242,6 +241,12 @@ def Campaign(auth_session, campaign_id):
         HTTP calls.
     campaign_id : str
         The id of the campaign (GUID).
+
+    Returns
+    -------
+    object
+        A campaign type specific object containing all relevant information
+        about the campaign.
     """
     campaign_type_map = {"Campaign": GenericCampaign, "SWIM Campaign": SwimCampaign}
 

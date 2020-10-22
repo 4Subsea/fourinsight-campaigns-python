@@ -1,9 +1,11 @@
+import warnings
+
 from .campaign import GenericCampaign, SwimCampaign
 
 
 class Client:
     """
-    Client interface for the 4insight.io campaigns database.
+    (To be deprecated) Client interface for the 4insight.io campaigns database.
 
     Parameters
     ----------
@@ -13,6 +15,7 @@ class Client:
     """
 
     def __init__(self, auth_session):
+        warnings.warn("To be deprecated. Use Campaign instead.", FutureWarning)
         self._auth_session = auth_session
 
     def get(self, campaign_id, campaign_type="generic"):
