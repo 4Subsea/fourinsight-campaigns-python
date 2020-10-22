@@ -78,5 +78,6 @@ def auth_session2(response2):
     def get_side_effect(url, *args, **kwargs):
         response2._get_called_with_url = url
         return response2
+
     auth_session.get.side_effect = get_side_effect
     return auth_session
