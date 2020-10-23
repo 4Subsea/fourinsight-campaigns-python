@@ -199,7 +199,8 @@ class GenericCampaign:
     def get_sensor_data(
         self, drio_client, source, start=None, end=None, whitelist=None
     ):
-        """Download the sensor data into a DataFrame.
+        """
+        Download the sensor data into a DataFrame.
 
         The data will be limited to within the campaign start and end time as
         given in the General section.
@@ -230,10 +231,10 @@ class GenericCampaign:
 
         Note
         ----
-        You can supply standard enumerated lists from campaigns_4s.Channels.
-        E.g. self.get_sensor_data(drio_client, lmrp_sensor, whitelist=campaigns_4s.Channels.AG)
-        to include all acceleration and gyro data.
-
+        You can supply standard enumerated lists from fourinsight.campaigns.Channels.
+        E.g. self.get_sensor_data(drio_client, lmrp_sensor,
+        whitelist=fourinsight.campaigns.Channels.AG) to include all acceleration
+        and gyro data.
         """
         channels = get_sensor_channel_keys(source["Channels"])
         if whitelist:
