@@ -244,9 +244,9 @@ class GenericCampaign:
 
         start = start or self.general()["Start Date"]
         start = start if not pd.isna(start) else 0
-        end = end or self.general()["End Date"] + pd.Timedelta("1D")
+        end = end or self.general()["End Date"] + pd.to_timedelta("1D")
         end = end if not pd.isna(end) else "now"
-        start, end = pd.Timestamp(start), pd.Timestamp(end)
+        start, end = pd.to_datetime(start), pd.to_datetime(end)
 
         dataframe = download_sensor_data(drio_client, channels, start=start, end=end)
         return dataframe
