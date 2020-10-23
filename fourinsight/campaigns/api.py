@@ -76,7 +76,7 @@ class CampaignsAPI:
         Returns
         -------
         dict
-            Campaign metadata.
+            Campaign dict.
         """
         return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}").json()
 
@@ -92,7 +92,7 @@ class CampaignsAPI:
         Returns
         -------
         dict
-            Events
+            Events dict.
         """
         return self._get(
             self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Events"
@@ -110,7 +110,7 @@ class CampaignsAPI:
         Returns
         -------
         dict
-            Sensor metadata.
+            Sensors dict.
         """
         return self._get(
             self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Sensors"
@@ -128,7 +128,7 @@ class CampaignsAPI:
         Returns
         -------
         dict
-            Lower stack metadata.
+            Lower stack dict.
         """
         return self._get(
             self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack"
@@ -146,7 +146,7 @@ class CampaignsAPI:
         Returns
         -------
         dict
-            Swim operations.
+            Swim operations dict.
         """
         return self._get(
             self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops"
@@ -159,7 +159,7 @@ class CampaignsAPI:
         Returns
         -------
         list of dicts
-            A list of swim operations.
+            A list of swim operations dicts.
         """
         return self._get(self._get_base_url() + "/v1.0/Campaigns/Swimops").json()
 

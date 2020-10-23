@@ -55,7 +55,7 @@ class Test_GenericCampaign:
     def test_events_value_none(self, generic_campaign):
         events_out = generic_campaign.events()
         events_expected = [
-            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None,},
+            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None},
             {
                 "Start": pd.to_datetime("2019-01-01T00:00:00.0000000Z"),
                 "End": None,

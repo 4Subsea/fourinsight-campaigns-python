@@ -170,13 +170,6 @@ class GenericCampaign:
             self._dict_subset(dict_i, rename_keys_sensors)
             for dict_i in self._campaigns_api.get_sensors(campaign_id)["sensors"]
         ]
-        for sensor in sensors:
-            sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
-            sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
-            if sensor["Distance From Wellhead"] is not None:
-                sensor["Distance From Wellhead"] = float(sensor["Distance From Wellhead"])
-            if sensor["Sampling Rate"] is not None:
-                sensor["Sampling Rate"] = float(sensor["Sampling Rate"])
 
         rename_keys_channels = {
             "channelName": "Channel",
@@ -189,6 +182,15 @@ class GenericCampaign:
                 self._dict_subset(dict_i, rename_keys_channels)
                 for dict_i in sensor["Channels"]
             ]
+
+        for sensor in sensors:
+            sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
+            sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
+            if sensor["Distance From Wellhead"] is not None:
+                sensor["Distance From Wellhead"] = float(sensor["Distance From Wellhead"])
+            if sensor["Sampling Rate"] is not None:
+                sensor["Sampling Rate"] = float(sensor["Sampling Rate"])
+
         return sensors
 
 

@@ -1,11 +1,11 @@
-import fourinsight.campaigns
+from fourinsight.campaigns.api import CampaignsAPI
 
 import pytest
 
 
 @pytest.fixture
 def campaigns_api(auth_session):
-    return fourinsight.campaigns.api.CampaignsAPI(auth_session)
+    return CampaignsAPI(auth_session)
 
 
 class Test_CampaignsAPI:
