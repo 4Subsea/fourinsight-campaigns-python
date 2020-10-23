@@ -1,6 +1,6 @@
 import pandas as pd
 
-from fourinsight.campaigns.api import CampaignsAPI
+from .api import CampaignsAPI
 
 from .shared import Channels
 from .utils import download_sensor_data, get_sensor_channel_keys
