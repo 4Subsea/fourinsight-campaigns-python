@@ -2,6 +2,9 @@ import pandas as pd
 
 from fourinsight.campaigns.api import CampaignsAPI
 
+from .shared import Channels
+from .utils import download_sensor_data, get_sensor_channel_keys
+
 
 class GenericCampaign:
     """
@@ -192,6 +195,60 @@ class GenericCampaign:
                 sensor["Sampling Rate"] = float(sensor["Sampling Rate"])
 
         return sensors
+
+    def get_sensor_data(
+        self, drio_client, source, start=None, end=None, whitelist=None
+    ):
+        """Download the sensor data into a DataFrame.
+
+        The data will be limited to within the campaign start and end time as
+        given in the General section.
+
+        Parameters
+        ----------
+        drio_client : datareservoirio.Client
+            Datareservoirio client instance.
+        source : dict
+            Source dict. A dict containing a key ``channels`` with a list of
+            channel dicts.
+        start : str, datetime-like, optional
+            start time (inclusive) of the series given as anything pandas.to_datetime
+            is able to parse. Default to campaign start date, or 1970-01-01 if not
+            given.
+        end : str, datetime-like, optional
+            stop time (inclusive) of the series given as anything pandas.to_datetime
+            is able to parse. Default to campaign end date (inclusive), or now if
+            not given.
+        whitelist : list of str or campaigns_4s.Channels, optional
+            A list of channel names to include in the results. Default to None,
+            meaning all channels.
+
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame containing the time series for the sensor channels.
+
+        Note
+        ----
+        You can supply standard enumerated lists from campaigns_4s.Channels.
+        E.g. self.get_sensor_data(drio_client, lmrp_sensor, whitelist=campaigns_4s.Channels.AG)
+        to include all acceleration and gyro data.
+
+        """
+        channels = get_sensor_channel_keys(source["Channels"])
+        if whitelist:
+            if isinstance(whitelist, Channels):
+                whitelist = whitelist.value
+            channels = {k: v for k, v in channels.items() if k in whitelist}
+
+        start = start or self.general()["Start Date"]
+        start = start if not pd.isna(start) else 0
+        end = end or self.general()["End Date"] + pd.Timedelta("1D")
+        end = end if not pd.isna(end) else "now"
+        start, end = pd.Timestamp(start), pd.Timestamp(end)
+
+        dataframe = download_sensor_data(drio_client, channels, start=start, end=end)
+        return dataframe
 
 
 class SwimCampaign(GenericCampaign):

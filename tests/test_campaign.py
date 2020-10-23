@@ -5,9 +5,10 @@ from fourinsight.campaigns.campaign import (
     SwimCampaign,
     Campaign,
 )
+from fourinsight.campaigns.shared import Channels
 
 import pytest
-from unittest.mock import patch
+from unittest.mock import patch, call
 
 
 @pytest.fixture
@@ -337,6 +338,126 @@ class Test_GenericCampaign:
             },
         ]
         assert out == expect
+
+    @patch(
+        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
+        return_value={"c1": "ts1", "c2": "ts2"},
+    )
+    @patch("fourinsight.campaigns.campaign.download_sensor_data", return_value="abc")
+    def test_get_sensor_data(self, mock_dl_data, mock_ch_keys):
+        campaign = object.__new__(GenericCampaign)
+        start = pd.Timestamp("2019-01-01")
+        end = pd.Timestamp("2019-02-01")
+        campaign._campaign = {"Start Date": start, "End Date": end}
+        channels = [
+            {"Channel": "c1", "Timeseries id": "ts1"},
+            {"Channel": "c2", "Timeseries id": "ts2"},
+        ]
+        result = campaign.get_sensor_data("dummy_client", {"Channels": channels})
+
+        mock_dl_data.assert_called_once_with(
+            "dummy_client",
+            {"c1": "ts1", "c2": "ts2"},
+            start=start,
+            end=end + pd.Timedelta("1D"),
+        )
+        assert result == "abc"
+
+    @patch(
+        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
+        return_value={"c1": "ts1", "c2": "ts2"},
+    )
+    @patch("fourinsight.campaigns.campaign.download_sensor_data")
+    def test_get_sensor_data_whitelist(self, mock_dl_data, mock_ch_keys):
+        campaign = object.__new__(GenericCampaign)
+        start = pd.Timestamp("2019-01-01")
+        end = pd.Timestamp("2019-02-01")
+        campaign._campaign = {"Start Date": start, "End Date": end}
+        channels = [
+            {"Channel": "c1", "Timeseries id": "ts1"},
+            {"Channel": "c2", "Timeseries id": "ts2"},
+        ]
+        campaign.get_sensor_data(
+            "dummy_client", {"Channels": channels}, whitelist=["c2"]
+        )
+
+        mock_dl_data.assert_called_once_with(
+            "dummy_client", {"c2": "ts2"}, start=start, end=end + pd.Timedelta("1D")
+        )
+
+    @patch(
+        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
+        return_value={"Ax": "ts1", "Gx": "ts2"},
+    )
+    @patch("fourinsight.campaigns.campaign.download_sensor_data")
+    def test_get_sensor_data_whitelist_with_enum(self, mock_dl_data, mock_ch_keys):
+        campaign = object.__new__(GenericCampaign)
+        start = pd.Timestamp("2019-01-01")
+        end = pd.Timestamp("2019-02-01")
+        campaign._campaign = {"Start Date": start, "End Date": end}
+        channels = [
+            {"Channel": "Ax", "Timeseries id": "ts1"},
+            {"Channel": "Gx", "Timeseries id": "ts2"},
+        ]
+        campaign.get_sensor_data(
+            "dummy_client", {"Channels": channels}, whitelist=Channels.G
+        )
+
+        mock_dl_data.assert_called_once_with(
+            "dummy_client", {"Gx": "ts2"}, start=start, end=end + pd.Timedelta("1D")
+        )
+
+    @patch("fourinsight.campaigns.campaign.pd.isna", return_value=True)
+    @patch(
+        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
+        return_value={"c1": "ts1", "c2": "ts2"},
+    )
+    @patch("fourinsight.campaigns.campaign.download_sensor_data")
+    def test_get_sensor_data_start_end_is_na(
+        self, mock_dl_data, mock_ch_keys, mock_isna
+    ):
+        campaign = object.__new__(GenericCampaign)
+        start = pd.Timestamp("NaT")
+        end = pd.Timestamp("NaT")
+        campaign._campaign = {"Start Date": start, "End Date": end}
+        channels = [
+            {"Channel": "c1", "Timeseries id": "ts1"},
+            {"Channel": "c2", "Timeseries id": "ts2"},
+        ]
+        with patch("fourinsight.campaigns.campaign.pd.Timestamp") as mock_ts:
+            campaign.get_sensor_data("dummy_client", {"Channels": channels})
+
+        mock_dl_data.assert_called_once()
+        for c in [call(0), call("now")]:
+            print(f"c: {c} in {mock_ts.mock_calls}: {c in mock_ts.mock_calls}")
+            assert all([c in mock_ts.mock_calls])
+
+    @patch(
+        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
+        return_value={"c1": "ts1", "c2": "ts2"},
+    )
+    @patch("fourinsight.campaigns.campaign.download_sensor_data")
+    def test_get_sensor_data_start_end_is_set(self, mock_dl_data, mock_ch_keys):
+        campaign = object.__new__(GenericCampaign)
+        start = pd.Timestamp("2019-01-01")
+        end = pd.Timestamp("2019-02-01")
+        start_custom = pd.Timestamp("2019-07-01")
+        end_custom = pd.Timestamp("2019-07-05")
+        campaign._campaign = {"Start Date": start, "End Date": end}
+        channels = [
+            {"Channel": "c1", "Timeseries id": "ts1"},
+            {"Channel": "c2", "Timeseries id": "ts2"},
+        ]
+        campaign.get_sensor_data(
+            "dummy_client", {"Channels": channels}, start=start_custom, end=end_custom
+        )
+
+        mock_dl_data.assert_called_once_with(
+            "dummy_client",
+            {"c1": "ts1", "c2": "ts2"},
+            start=start_custom,
+            end=end_custom,
+        )
 
 
 class Test_SwimCampaign:
