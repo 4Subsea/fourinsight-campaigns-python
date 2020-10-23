@@ -127,16 +127,16 @@ SENSOR_DATA = {
 LOWERSTACK_DATA = {
     "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "anyFetchFailure": False,
-    "alpha": "string",
+    "alpha": "0.1",
     "elements": [
         {
             "campaignId": "string",
             "name": "string",
             "elementId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "mass": "string",
-            "submergedWeight": "string",
-            "height": "string",
-            "addedMassCoefficient": "string",
+            "mass": "100.0",
+            "submergedWeight": "1000.0",
+            "height": "10.0",
+            "addedMassCoefficient": "2.0",
         }
     ],
 }

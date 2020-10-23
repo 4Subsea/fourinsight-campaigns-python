@@ -465,10 +465,12 @@ class Test_SwimCampaign:
         assert isinstance(swim_campaign, GenericCampaign)
 
     @patch.object(GenericCampaign, "__init__")
+    @patch.object(SwimCampaign, "_get_lowerstack")
     @patch.object(SwimCampaign, "_get_swim_operations")
-    def test_init(self, mock_get_swimops, mock_base_init, auth_session):
+    def test_init(self, mock_get_swimops, mock_get_lowerstack, mock_base_init, auth_session):
         swim_campaign = SwimCampaign(auth_session, "1234")
         assert swim_campaign._swim_operations == mock_get_swimops.return_value
+        assert swim_campaign._lowerstack == mock_get_lowerstack.return_value
         mock_base_init.assert_called_once_with(auth_session, "1234")
 
     def test_get_swim_operations(self, swim_campaign):
@@ -492,8 +494,27 @@ class Test_SwimCampaign:
         }
         assert out == expect
 
+    def test_get_lowerstack(self, swim_campaign):
+        out = swim_campaign._get_lowerstack("1234")
+        expect = {
+            "Alpha": 0.1,
+            "Elements": [
+                {
+                    "Name": "string",
+                    "Mass": 100.0,
+                    "Submerged Weight": 1000.0,
+                    "Height": 10.0,
+                    "Added Mass Coefficient": 2.0,
+                }
+            ]
+        }
+        assert out == expect
+
     def test_swim_operations(self, swim_campaign):
         assert swim_campaign.swim_operations() == swim_campaign._swim_operations
+
+    def test_lowerstack(self, swim_campaign):
+        assert swim_campaign.lowerstack() == swim_campaign._lowerstack
 
 
 class Test_Campaign:

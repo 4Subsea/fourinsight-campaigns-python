@@ -268,10 +268,15 @@ class SwimCampaign(GenericCampaign):
     def __init__(self, auth_session, campaign_id):
         super().__init__(auth_session, campaign_id)
         self._swim_operations = self._get_swim_operations(campaign_id)
+        self._lowerstack = self._get_lowerstack(campaign_id)
 
     def swim_operations(self):
         """Get the SWIM operation for the campaign."""
         return self._swim_operations
+
+    def lowerstack(self):
+        """Get lowerstack dict."""
+        return self._lowerstack
 
     def _get_swim_operations(self, campaign_id):
         rename_keys = {
@@ -294,6 +299,37 @@ class SwimCampaign(GenericCampaign):
         return self._dict_subset(
             self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys
         )
+
+    def _get_lowerstack(self, campaign_id):
+        rename_keys = {
+            "alpha": "Alpha",
+            "elements": "Elements",
+        }
+        lowerstack = self._dict_subset(
+            self._campaigns_api.get_lowerstack(campaign_id), rename_keys
+        )
+
+        rename_keys_elements = {
+            "name": "Name",
+            "mass": "Mass",
+            "submergedWeight": "Submerged Weight",
+            "height": "Height",
+            "addedMassCoefficient": "Added Mass Coefficient",
+        }
+        lowerstack["Elements"] = [
+            self._dict_subset(element, rename_keys_elements)
+            for element in lowerstack["Elements"]
+        ]
+
+        if lowerstack["Alpha"] is not None:
+            lowerstack["Alpha"] = float(lowerstack["Alpha"])
+        for element in lowerstack["Elements"]:
+            if element["Mass"] is not None:
+                element["Mass"] = float(element["Mass"])
+                element["Submerged Weight"] = float(element["Submerged Weight"])
+                element["Height"] = float(element["Height"])
+                element["Added Mass Coefficient"] = float(element["Added Mass Coefficient"])
+        return lowerstack
 
 
 def Campaign(auth_session, campaign_id):
