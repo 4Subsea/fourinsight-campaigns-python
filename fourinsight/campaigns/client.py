@@ -57,7 +57,7 @@ class Client:
         return Campaign(self._session, campaign_id)
 
     def _get_campaign_type(self, campaign_type):
-        campaign_type_map = {"generic": GenericCampaign, "swim": SwimCampaign}
+        campaign_type_map = {"campaign": GenericCampaign, "swim campaign": SwimCampaign}
 
         if campaign_type not in campaign_type_map:
             warnings.warn(
