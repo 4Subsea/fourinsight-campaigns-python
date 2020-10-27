@@ -1,44 +1,26 @@
-_CAMPAIGN_TYPES = [
-    "SWIM Campaign",
-    "Campaign",
-]
+"""
+Python wrapper (convinience) for 4Insight Public API - Campaigns.
+"""
 
 
 class CampaignsAPI:
     """
-    Python wrapper for api.4insight.io.
+    Python wrapper (convinience) for 4Insight Public API - Campaigns.
 
     Parameters
     ----------
-    auth_session : subclass of ``requests.session``
+    session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls.
+        HTTP calls. Use ``fourinsight.api.UserSession`` or
+        ``fourinsight.api.ClientSession``.
     """
 
-    def __init__(self, auth_session):
-        self._auth_session = auth_session
+    def __init__(self, session, api_version="v1.0"):
+        self._session = session
+        self._api_version = api_version
 
-    def _get_base_url(self):
-        return self._auth_session._api_base_url
-
-    def _get(self, *args, **kwargs):
-        response = self._auth_session.get(*args, **kwargs)
-        response.raise_for_status()
-        return response
-
-    def _verify_type(self, campaign_type):
-        if campaign_type in _CAMPAIGN_TYPES:
-            return campaign_type
-        else:
-            raise ValueError(f"Campaign type {campaign_type} not supported.")
-
-    def _get_swim_campaigns(self):
-        return self._get(
-            self._get_base_url() + "/v1.0/Campaigns/Type/SWIM Campaign"
-        ).json()
-
-    def _get_generic_campaigns(self):
-        return self._get(self._get_base_url() + "/v1.0/Campaigns/Type/Campaign").json()
+    def _url(self, relative_url):
+        return f"/{self._api_version}/Campaigns/{relative_url.lstrip('/')}"
 
     def get_campaigns(self, campaign_type=None):
         """
@@ -47,7 +29,7 @@ class CampaignsAPI:
         Parameters
         ----------
         campaign_type : str, optional
-            Campaign type ['Campaign', 'SWIM Campaign']. If None, all campaign
+            Campaign type ['generic', 'swim']. If None, all campaign
             types are returned.
 
         Returns
@@ -56,13 +38,14 @@ class CampaignsAPI:
             A list of campaign dicts.
         """
         if not campaign_type:
-            return self._get(self._get_base_url() + "/v1.0/Campaigns").json()
-
-        campaign_type = self._verify_type(campaign_type)
-        if campaign_type == "SWIM Campaign":
-            return self._get_swim_campaigns()
-        elif campaign_type == "Campaign":
-            return self._get_generic_campaigns()
+            response = self._session.get(self._url(""))
+        elif campaign_type.lower() == "swim":
+            response = self._session.get(self._url("/Type/SWIM Campaign/"))
+        elif campaign_type.lower() == "generic":
+            response = self._session.get(self._url("/Type/Campaign/"))
+        else:
+            raise ValueError("Unknown 'campaign_type'")
+        return response.json()
 
     def get_campaign(self, campaign_id):
         """
@@ -78,7 +61,8 @@ class CampaignsAPI:
         dict
             Campaign dict.
         """
-        return self._get(self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}").json()
+        response = self._session.get(self._url(f"/{campaign_id}/"))
+        return response.json()
 
     def get_events(self, campaign_id):
         """
@@ -94,9 +78,8 @@ class CampaignsAPI:
         dict
             Events dict.
         """
-        return self._get(
-            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Events"
-        ).json()
+        response = self._session.get(self._url(f"/{campaign_id}/Events/"))
+        return response.json()
 
     def get_sensors(self, campaign_id):
         """
@@ -112,9 +95,8 @@ class CampaignsAPI:
         dict
             Sensors dict.
         """
-        return self._get(
-            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Sensors"
-        ).json()
+        response = self._session.get(self._url(f"/{campaign_id}/Sensors/"))
+        return response.json()
 
     def get_lowerstack(self, campaign_id):
         """
@@ -130,9 +112,8 @@ class CampaignsAPI:
         dict
             Lower stack dict.
         """
-        return self._get(
-            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/LowerStack"
-        ).json()
+        response = self._session.get(self._url(f"/{campaign_id}/LowerStack/"))
+        return response.json()
 
     def get_swimops_campaign(self, campaign_id):
         """
@@ -148,9 +129,8 @@ class CampaignsAPI:
         dict
             Swim operations dict.
         """
-        return self._get(
-            self._get_base_url() + f"/v1.0/Campaigns/{campaign_id}/Swimops"
-        ).json()
+        response = self._session.get(self._url(f"/{campaign_id}/Swimops/")
+        return response.json()
 
     def get_swimops(self):
         """
@@ -161,7 +141,8 @@ class CampaignsAPI:
         list of dicts
             A list of swim operations dicts.
         """
-        return self._get(self._get_base_url() + "/v1.0/Campaigns/Swimops").json()
+        response = self._session.get(self._url(f"/Swimops/"))
+        return response.json()
 
     def get_campaign_type(self, campaign_id):
         """
@@ -177,4 +158,4 @@ class CampaignsAPI:
         str
             Campaign type.
         """
-        return self.get_campaign(campaign_id)["campaignType"]
+        return self.get_campaign(campaign_id)["campaignType"].lower()
