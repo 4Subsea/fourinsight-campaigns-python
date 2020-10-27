@@ -12,28 +12,35 @@ class GenericCampaign:
 
     Parameters
     ----------
-    auth_session : subclass of ``requests.session``
+    session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls.
+        HTTP calls. Use ``fourinsight.api.UserSession`` or
+        ``fourinsight.api.ClientSession``.
     campaign_id : str
         The id of the campaign (GUID).
     """
 
-    def __init__(self, auth_session, campaign_id):
-        self._auth_session = auth_session
+    def __init__(self, session, campaign_id):
         self._campaign_id = campaign_id
-        self._campaigns_api = CampaignsAPI(auth_session)
-        self._campaign = self._get_campaign(campaign_id)
-        self._sensors = self._get_sensors(campaign_id)
-        self._events = self._get_events(campaign_id)
-        self._geotrack = self._get_geotrack(campaign_id)
+        self._campaigns_api = CampaignsAPI(session)
+
+        self._campaign = None
+        self._sensors = None
+        self._events = None
+        self._geotrack = None
 
     def general(self):
         """Get general campaign info."""
+        self._campaign = self._campaign or self._campaigns_api.get_campaign(
+            self._campaign_id
+        )
         return self._campaign
 
     def geotrack(self):
         """Get weather (geotrack) information for the campaign."""
+        self._geotrack = self._geotrack or self._campaigns_api.get_geotrack(
+            self._campaign_id
+        )
         return self._geotrack
 
     def events(self, value=None, by="Event Type"):
@@ -53,6 +60,7 @@ class GenericCampaign:
             A list containing event dicts. Results are sorted on `Start`.
 
         """
+        self._events = self._events or self._campaigns_api.get_events(self._campaigns_api)
         if value is None:
             return self._sort_list_by_start(self._events)
 
@@ -89,6 +97,7 @@ class GenericCampaign:
             A list containing sensor dicts.
 
         """
+        self._sensors = self._sensors or self._campaigns_api.get_sensors(self._campaigns_api)
         if value is None:
             return self._sensors
 
@@ -104,97 +113,6 @@ class GenericCampaign:
     @staticmethod
     def _dict_subset(dict_, rename_keys):
         return {new_key: dict_[old_key] for old_key, new_key in rename_keys.items()}
-
-    def _get_campaign(self, campaign_id):
-        rename_keys = {
-            "id": "CampaignID",
-            "projectNumber": "Project Number",
-            "client": "Client",
-            "vessel": "Vessel",
-            "vesselContractor": "Vessel Contractor",
-            "wellName": "Well Name",
-            "wellId": "Well ID",
-            "waterDepth": "Water Depth",
-            "location": "Location",
-            "mainDataProvider": "Main Data Provider",
-            "startDate": "Start Date",
-            "endDate": "End Date",
-        }
-        campaign = self._dict_subset(
-            self._campaigns_api.get_campaign(campaign_id), rename_keys
-        )
-        campaign["Start Date"] = pd.to_datetime(campaign["Start Date"])
-        campaign["End Date"] = pd.to_datetime(campaign["End Date"])
-        if campaign["Water Depth"] is not None:
-            campaign["Water Depth"] = float(campaign["Water Depth"])
-        return campaign
-
-    def _get_geotrack(self, campaign_id):
-        rename_keys = {
-            "hsTimeseriesId": "HS Timeseries Id",
-            "tpTimeseriesId": "Tp Timeseries Id",
-            "wdTimeseriesId": "Wd Timeseries Id",
-        }
-        return self._dict_subset(
-            self._campaigns_api.get_campaign(campaign_id), rename_keys
-        )
-
-    def _get_events(self, campaign_id):
-        rename_keys = {
-            "startDate": "Start",
-            "stopDate": "End",
-            "eventType": "Event Type",
-            "comment": "Comment",
-        }
-        events = [
-            self._dict_subset(dict_i, rename_keys)
-            for dict_i in self._campaigns_api.get_events(campaign_id)["events"]
-        ]
-        for event_i in events:
-            event_i["Start"] = pd.to_datetime(event_i["Start"])
-            event_i["End"] = pd.to_datetime(event_i["End"])
-        return events
-
-    def _get_sensors(self, campaign_id):
-        rename_keys_sensors = {
-            "sensorId": "SensorID",
-            "sensorName": "Name",
-            "position": "Position",
-            "distanceFromWellhead": "Distance From Wellhead",
-            "directionXAxis": "Direction X Axis",
-            "directionZAxis": "Direction Z Axis",
-            "samplingRate": "Sampling Rate",
-            "sensorVendor": "Sensor Vendor",
-            "attachedTime": "Attached Time",
-            "detachedTime": "Detached Time",
-            "channels": "Channels",
-        }
-        sensors = [
-            self._dict_subset(dict_i, rename_keys_sensors)
-            for dict_i in self._campaigns_api.get_sensors(campaign_id)["sensors"]
-        ]
-
-        rename_keys_channels = {
-            "channelName": "Channel",
-            "units": "Units",
-            "timeseriesId": "Timeseries id",
-            "positionStreamId": "Stream id",
-        }
-        for sensor in sensors:
-            sensor["Channels"] = [
-                self._dict_subset(dict_i, rename_keys_channels)
-                for dict_i in sensor["Channels"]
-            ]
-
-        for sensor in sensors:
-            sensor["Attached Time"] = pd.to_datetime(sensor["Attached Time"])
-            sensor["Detached Time"] = pd.to_datetime(sensor["Detached Time"])
-            if sensor["Distance From Wellhead"] is not None:
-                sensor["Distance From Wellhead"] = float(sensor["Distance From Wellhead"])
-            if sensor["Sampling Rate"] is not None:
-                sensor["Sampling Rate"] = float(sensor["Sampling Rate"])
-
-        return sensors
 
     def get_sensor_data(
         self, drio_client, source, start=None, end=None, whitelist=None
@@ -267,93 +185,15 @@ class SwimCampaign(GenericCampaign):
 
     def __init__(self, auth_session, campaign_id):
         super().__init__(auth_session, campaign_id)
-        self._swim_operations = self._get_swim_operations(campaign_id)
-        self._lowerstack = self._get_lowerstack(campaign_id)
+        self._swim_operations = None
+        self._lowerstack = None
 
     def swim_operations(self):
         """Get the SWIM operation for the campaign."""
+        self._swim_operations = self._swim_operations or self._campaigns_api.get_swimops_campaign(self._campaigns_api)
         return self._swim_operations
 
     def lowerstack(self):
         """Get lowerstack dict."""
+        self._lowerstack = self._lowerstack or self._campaigns_api.get_lowerstack(self._campaigns_api)
         return self._lowerstack
-
-    def _get_swim_operations(self, campaign_id):
-        rename_keys = {
-            "operationStatus": "Operation Status",
-            "dashboardStatus": "Dashboard Status",
-            "slaLevel": "SLA Level",
-            "customerContact": "Customer Contact",
-            "comments": "Comments",
-            "dashboardCloseDate": "Dashboard Close Date",
-            "swimInstanceStatus": "SWIM Instance Status",
-            "reportMade": "Report Made",
-            "reportSent": "Report Sent",
-            "dataPackageMade": "Data Package Made",
-            "dataPackageSent": "Data Package Sent",
-            "experienceLogMade": "Experience Log Made",
-            "wellSpotBendingMomentUploaded": "WellSpot Bending Moment Uploaded",
-            "dashboardClosed": "Dashboard Closed",
-            "servicesAvailable": "Services Available",
-        }
-        return self._dict_subset(
-            self._campaigns_api.get_swimops_campaign(campaign_id), rename_keys
-        )
-
-    def _get_lowerstack(self, campaign_id):
-        rename_keys = {
-            "alpha": "Alpha",
-            "elements": "Elements",
-        }
-        lowerstack = self._dict_subset(
-            self._campaigns_api.get_lowerstack(campaign_id), rename_keys
-        )
-
-        rename_keys_elements = {
-            "name": "Name",
-            "mass": "Mass",
-            "submergedWeight": "Submerged Weight",
-            "height": "Height",
-            "addedMassCoefficient": "Added Mass Coefficient",
-        }
-        lowerstack["Elements"] = [
-            self._dict_subset(element, rename_keys_elements)
-            for element in lowerstack["Elements"]
-        ]
-
-        if lowerstack["Alpha"] is not None:
-            lowerstack["Alpha"] = float(lowerstack["Alpha"])
-        for element in lowerstack["Elements"]:
-            if element["Mass"] is not None:
-                element["Mass"] = float(element["Mass"])
-                element["Submerged Weight"] = float(element["Submerged Weight"])
-                element["Height"] = float(element["Height"])
-                element["Added Mass Coefficient"] = float(element["Added Mass Coefficient"])
-        return lowerstack
-
-
-def Campaign(auth_session, campaign_id):
-    """
-    Interface for getting data from the 4insight.io campaigns database.
-
-    Parameters
-    ----------
-    auth_session : subclass of ``requests.session``
-        Authorized session instance which appends a valid bearer token to all
-        HTTP calls.
-    campaign_id : str
-        The id of the campaign (GUID).
-
-    Returns
-    -------
-    object
-        A campaign type specific object containing all relevant information
-        about the campaign.
-    """
-    campaign_type_map = {"Campaign": GenericCampaign, "SWIM Campaign": SwimCampaign}
-
-    campaign_type = CampaignsAPI(auth_session).get_campaign_type(campaign_id)
-    if campaign_type not in campaign_type_map:
-        raise NotImplementedError(f'"Campaign type {campaign_type}" is not supported.')
-
-    return campaign_type_map[campaign_type](auth_session, campaign_id)
