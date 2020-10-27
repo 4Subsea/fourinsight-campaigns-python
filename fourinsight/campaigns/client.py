@@ -5,20 +5,20 @@ from .campaign import GenericCampaign, SwimCampaign
 
 class Client:
     """
-    (To be deprecated) Client interface for the 4insight.io campaigns database.
+    Client interface for the 4insight.io Campaigns.
 
     Parameters
     ----------
-    auth_session : subclass of ``requests.session``
+    session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls.
+        HTTP calls. Use ``fourinsight.api.UserSession`` or
+        ``fourinsight.api.ClientSession``.
     """
 
     def __init__(self, auth_session):
-        warnings.warn("To be deprecated. Use Campaign instead.", FutureWarning)
         self._auth_session = auth_session
 
-    def get(self, campaign_id, campaign_type="generic"):
+    def get(self, campaign_id, campaign_type=None):
         """
         Get the campaign data from the database.
 
@@ -26,9 +26,9 @@ class Client:
         ----------
         campaign_id : str
             The id of the campaign (GUID).
-        campaign_type : str, optional
-            Campaign type ['generic', 'swim']. Temporary until this is
-            automatically inferred.
+        campaign_type : str, deprecated.
+            Deprecated, but left for backwards compatibility. Type is automatically
+            inferred.
 
         Returns
         -------
@@ -36,6 +36,10 @@ class Client:
             A campaign type specific object containing all relevant information
             about the campaign.
         """
+        if campaign_type is not None:
+            warnings.warn(
+                "Deprecated. Campaign type is automatically inferred. "
+                "'campaign_type' keyword will be removed after 1st Jan 2021.")
         CampaignType = self._get_campaign_type(campaign_type)
         return CampaignType(self._auth_session, campaign_id)
 
