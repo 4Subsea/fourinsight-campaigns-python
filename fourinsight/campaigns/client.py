@@ -1,5 +1,6 @@
 import warnings
 
+from .api import CampaignsAPI
 from .campaign import GenericCampaign, SwimCampaign
 
 
@@ -15,8 +16,16 @@ class Client:
         ``fourinsight.api.ClientSession``.
     """
 
-    def __init__(self, auth_session):
-        self._auth_session = auth_session
+    def __init__(self, session):
+        self._session = session
+        self._campaigns_api = CampaignsAPI(self._session, api_version="v1.0")
+
+    def overview(self):
+        """
+        TBA
+        """
+        response = self._campaigns_api.get_campaigns()
+        return response  # cast to DataFrame
 
     def get(self, campaign_id, campaign_type=None):
         """
@@ -39,14 +48,19 @@ class Client:
         if campaign_type is not None:
             warnings.warn(
                 "Deprecated. Campaign type is automatically inferred. "
-                "'campaign_type' keyword will be removed after 1st Jan 2021.")
-        CampaignType = self._get_campaign_type(campaign_type)
-        return CampaignType(self._auth_session, campaign_id)
+                "'campaign_type' keyword will be removed after 1st Jan 2021.",
+                DeprecationWarning
+                )
+
+        campaign_type = self._campaigns_api.get_campaign_type(campaign_id)
+        Campaign = self._get_campaign_type(campaign_type)
+        return Campaign(self._session, campaign_id)
 
     def _get_campaign_type(self, campaign_type):
         campaign_type_map = {"generic": GenericCampaign, "swim": SwimCampaign}
-        campaign_type = campaign_type.lower()
 
         if campaign_type not in campaign_type_map:
-            raise ValueError(f'Unknown campaign type "{campaign_type}" given.')
-        return campaign_type_map[campaign_type]
+            warnings.warn(
+                f"Unknown campaign type: '{campaign_type}'. Casting as 'generic'."
+                )
+        return campaign_type_map.get(campaign_type, GenericCampaign)
