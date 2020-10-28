@@ -43,23 +43,6 @@ def response():
             return CAMPAIGN_DATA_GENERIC
         elif url.endswith("Campaigns/1234"):
             return CAMPAIGN_DATA_SWIM
-        # elif "Campaigns" in url and not any(
-        #     [
-        #         url.endswith(tag)
-        #         for tag in (
-        #             "Campaigns",
-        #             "SWIM Campaign",
-        #             "Campaign",
-        #             "Events",
-        #             "Sensors",
-        #             "LowerStack",
-        #             "Swimops",
-        #             "test_swim_id",
-        #             "test_generic_id",
-        #         )
-        #     ]
-        # ):
-        #     return CAMPAIGN_DATA_SWIM
 
     response.json.side_effect = json_side_effect
     return response
