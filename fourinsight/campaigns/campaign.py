@@ -161,21 +161,24 @@ class GenericCampaign:
         whitelist=fourinsight.campaigns.channels.AG) to include all acceleration
         and gyro data.
         """
+        if not filter_:
+            def cond(channel): return True
+        else:
+            def cond(channel): return channel in filter_
+
         channels = {
             channel["Channel"]: channel["Timeseries id"]
             for channel in source["Channels"]
-            if channel["Channel"] in filter_
+            if cond(channel["Channel"])
         }
 
-        if start is None and not pd.isna(
-            self.general()["Start Date"]
-        ):  # switch to walrus operator when possible
+        # switch to walrus operator when possible
+        if start is None and not pd.isna(self.general()["Start Date"]):
             start = self.general()["Start Date"]
 
         if end is None:
-            if not pd.isna(
-                self.general()["End Date"]
-            ):  # switch to walrus operator when possible
+            # switch to walrus operator when possible
+            if not pd.isna(self.general()["End Date"]):
                 end = self.general()["End Date"]
             else:
                 end = "now"
