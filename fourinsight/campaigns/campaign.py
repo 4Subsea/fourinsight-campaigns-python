@@ -158,7 +158,7 @@ class GenericCampaign:
         ----
         You can supply standard enumerated lists from fourinsight.campaigns.Channels.
         E.g. self.get_sensor_data(drio_client, lmrp_sensor,
-        whitelist=fourinsight.campaigns.channels.AG) to include all acceleration
+        filter_=fourinsight.campaigns.channels.AG) to include all acceleration
         and gyro data.
         """
         if not filter_:
@@ -179,7 +179,7 @@ class GenericCampaign:
         if end is None:
             # switch to walrus operator when possible
             if not pd.isna(self.general()["End Date"]):
-                end = self.general()["End Date"]
+                end = self.general()["End Date"] + pd.Timedelta("1D")
             else:
                 end = "now"
 

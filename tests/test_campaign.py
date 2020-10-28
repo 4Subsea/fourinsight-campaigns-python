@@ -1,14 +1,9 @@
-import pandas as pd
-from fourinsight.campaigns.api import CampaignsAPI
-from fourinsight.campaigns.campaign import (
-    GenericCampaign,
-    SwimCampaign,
-    Campaign,
-)
-from fourinsight.campaigns.shared import Channels
+from unittest.mock import call, patch
 
+import pandas as pd
 import pytest
-from unittest.mock import patch, call
+from fourinsight.campaigns import channels as Channels
+from fourinsight.campaigns.campaign import GenericCampaign, SwimCampaign
 
 
 @pytest.fixture
@@ -22,30 +17,15 @@ def swim_campaign(auth_session):
 
 
 class Test_GenericCampaign:
-    @patch.object(GenericCampaign, "_get_geotrack")
-    @patch.object(GenericCampaign, "_get_events")
-    @patch.object(GenericCampaign, "_get_sensors")
-    @patch.object(GenericCampaign, "_get_campaign")
     def test_init(
         self,
-        mock_get_campaign,
-        mock_get_sensors,
-        mock_get_events,
-        mock_get_geotrack,
         auth_session,
     ):
         generic_campaign = GenericCampaign(auth_session, "1234")
 
         assert generic_campaign._campaign_id == "1234"
-        assert isinstance(generic_campaign._campaigns_api, CampaignsAPI)
-        mock_get_campaign.assert_called_once_with("1234")
-        assert generic_campaign._campaign == mock_get_campaign.return_value
-        mock_get_sensors.assert_called_once_with("1234")
-        assert generic_campaign._sensors == mock_get_sensors.return_value
-        mock_get_events.assert_called_once_with("1234")
-        assert generic_campaign._events == mock_get_events.return_value
-        mock_get_geotrack.assert_called_once_with("1234")
-        assert generic_campaign._geotrack == mock_get_geotrack.return_value
+        for attr in ["_campaign", "_events", "_sensors", "_geotrack"]:
+            assert hasattr(generic_campaign, attr)
 
     def test_general(self, generic_campaign):
         assert generic_campaign.general() == generic_campaign._campaign
@@ -247,105 +227,9 @@ class Test_GenericCampaign:
         expect = {"a1": 1, "b1": "string"}
         assert out == expect
 
-    def test_get_campaign(self, generic_campaign):
-        out = generic_campaign._get_campaign("1234")
-        expect = {
-            "CampaignID": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
-            "Project Number": "0872",
-            "Client": "Maersk Oil",
-            "Vessel": "Ocean Valiant",
-            "Vessel Contractor": "Diamond Offshore",
-            "Well Name": "Could not fetch well 2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
-            "Well ID": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
-            "Water Depth": 100.0,
-            "Location": None,
-            "Main Data Provider": "4Subsea",
-            "Start Date": pd.to_datetime("2017-04-08 00:00:00+0000"),
-            "End Date": pd.to_datetime("2017-05-13 00:00:00+0000"),
-        }
-        assert out == expect
-
-    def test_get_geotrack(self, generic_campaign):
-        out = generic_campaign._get_geotrack("1234")
-        expect = {
-            "HS Timeseries Id": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
-            "Tp Timeseries Id": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
-            "Wd Timeseries Id": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
-        }
-        assert out == expect
-
-    def test_get_events(self, generic_campaign):
-        out = generic_campaign._get_events("1234")
-        expect = [
-            {
-                "Start": pd.to_datetime("2020-01-01 00:00:00+0000"),
-                "End": None,
-                "Event Type": "Connect-Disconnect",
-                "Comment": None,
-            },
-            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None},
-            {
-                "Start": pd.to_datetime("2019-01-01 00:00:00+0000"),
-                "End": None,
-                "Event Type": "WLR connected",
-                "Comment": None,
-            },
-        ]
-        assert out == expect
-
-    def test_get_sensors(self, generic_campaign):
-        out = generic_campaign._get_sensors("1234")
-        expect = [
-            {
-                "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "SN1234",
-                "Position": "LMRP",
-                "Distance From Wellhead": 3.0,
-                "Direction X Axis": "string",
-                "Direction Z Axis": "string",
-                "Sampling Rate": 10.24,
-                "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2019-10-13 09:27:19+0000"),
-                "Detached Time": None,
-                "Channels": [
-                    {
-                        "Channel": "Pitch",
-                        "Units": "string",
-                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    }
-                ],
-            },
-            {
-                "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "SN5678",
-                "Position": "WH",
-                "Distance From Wellhead": 3.0,
-                "Direction X Axis": "string",
-                "Direction Z Axis": "string",
-                "Sampling Rate": 10.24,
-                "Sensor Vendor": "string",
-                "Attached Time": None,
-                "Detached Time": None,
-                "Channels": [
-                    {
-                        "Channel": "Ag",
-                        "Units": "string",
-                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    }
-                ],
-            },
-        ]
-        assert out == expect
-
-    @patch(
-        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
-        return_value={"c1": "ts1", "c2": "ts2"},
-    )
     @patch("fourinsight.campaigns.campaign.download_sensor_data", return_value="abc")
-    def test_get_sensor_data(self, mock_dl_data, mock_ch_keys):
-        campaign = object.__new__(GenericCampaign)
+    def test_get_sensor_data(self, mock_dl_data, generic_campaign):
+        campaign = generic_campaign
         start = pd.to_datetime("2019-01-01")
         end = pd.to_datetime("2019-02-01")
         campaign._campaign = {"Start Date": start, "End Date": end}
@@ -363,13 +247,9 @@ class Test_GenericCampaign:
         )
         assert result == "abc"
 
-    @patch(
-        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
-        return_value={"c1": "ts1", "c2": "ts2"},
-    )
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
-    def test_get_sensor_data_whitelist(self, mock_dl_data, mock_ch_keys):
-        campaign = object.__new__(GenericCampaign)
+    def test_get_sensor_data_whitelist(self, mock_dl_data, generic_campaign):
+        campaign = generic_campaign
         start = pd.to_datetime("2019-01-01")
         end = pd.to_datetime("2019-02-01")
         campaign._campaign = {"Start Date": start, "End Date": end}
@@ -377,21 +257,17 @@ class Test_GenericCampaign:
             {"Channel": "c1", "Timeseries id": "ts1"},
             {"Channel": "c2", "Timeseries id": "ts2"},
         ]
-        campaign.get_sensor_data(
-            "dummy_client", {"Channels": channels}, whitelist=["c2"]
-        )
+        campaign.get_sensor_data("dummy_client", {"Channels": channels}, filter_=["c2"])
 
         mock_dl_data.assert_called_once_with(
             "dummy_client", {"c2": "ts2"}, start=start, end=end + pd.to_timedelta("1D")
         )
 
-    @patch(
-        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
-        return_value={"Ax": "ts1", "Gx": "ts2"},
-    )
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
-    def test_get_sensor_data_whitelist_with_enum(self, mock_dl_data, mock_ch_keys):
-        campaign = object.__new__(GenericCampaign)
+    def test_get_sensor_data_whitelist_with_channels(
+        self, mock_dl_data, generic_campaign
+    ):
+        campaign = generic_campaign
         start = pd.to_datetime("2019-01-01")
         end = pd.to_datetime("2019-02-01")
         campaign._campaign = {"Start Date": start, "End Date": end}
@@ -400,7 +276,7 @@ class Test_GenericCampaign:
             {"Channel": "Gx", "Timeseries id": "ts2"},
         ]
         campaign.get_sensor_data(
-            "dummy_client", {"Channels": channels}, whitelist=Channels.G
+            "dummy_client", {"Channels": channels}, filter_=Channels.G
         )
 
         mock_dl_data.assert_called_once_with(
@@ -408,15 +284,11 @@ class Test_GenericCampaign:
         )
 
     @patch("fourinsight.campaigns.campaign.pd.isna", return_value=True)
-    @patch(
-        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
-        return_value={"c1": "ts1", "c2": "ts2"},
-    )
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
     def test_get_sensor_data_start_end_is_na(
-        self, mock_dl_data, mock_ch_keys, mock_isna
+        self, mock_dl_data, mock_isna, generic_campaign
     ):
-        campaign = object.__new__(GenericCampaign)
+        campaign = generic_campaign
         start = pd.to_datetime("NaT")
         end = pd.to_datetime("NaT")
         campaign._campaign = {"Start Date": start, "End Date": end}
@@ -424,21 +296,15 @@ class Test_GenericCampaign:
             {"Channel": "c1", "Timeseries id": "ts1"},
             {"Channel": "c2", "Timeseries id": "ts2"},
         ]
-        with patch("fourinsight.campaigns.campaign.pd.to_datetime") as mock_ts:
-            campaign.get_sensor_data("dummy_client", {"Channels": channels})
+        campaign.get_sensor_data("dummy_client", {"Channels": channels})
 
-        mock_dl_data.assert_called_once()
-        for c in [call(0), call("now")]:
-            print(f"c: {c} in {mock_ts.mock_calls}: {c in mock_ts.mock_calls}")
-            assert all([c in mock_ts.mock_calls])
+        mock_dl_data.assert_called_once_with(
+            "dummy_client", {"c1": "ts1", "c2": "ts2"}, end="now", start=None
+        )
 
-    @patch(
-        "fourinsight.campaigns.campaign.get_sensor_channel_keys",
-        return_value={"c1": "ts1", "c2": "ts2"},
-    )
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
-    def test_get_sensor_data_start_end_is_set(self, mock_dl_data, mock_ch_keys):
-        campaign = object.__new__(GenericCampaign)
+    def test_get_sensor_data_start_end_is_set(self, mock_dl_data, generic_campaign):
+        campaign = generic_campaign
         start = pd.to_datetime("2019-01-01")
         end = pd.to_datetime("2019-02-01")
         start_custom = pd.to_datetime("2019-07-01")
@@ -464,76 +330,22 @@ class Test_SwimCampaign:
     def test_inherit(self, swim_campaign):
         assert isinstance(swim_campaign, GenericCampaign)
 
-    @patch.object(GenericCampaign, "__init__")
-    @patch.object(SwimCampaign, "_get_lowerstack")
-    @patch.object(SwimCampaign, "_get_swim_operations")
-    def test_init(self, mock_get_swimops, mock_get_lowerstack, mock_base_init, auth_session):
+    def test_init(self, auth_session):
         swim_campaign = SwimCampaign(auth_session, "1234")
-        assert swim_campaign._swim_operations == mock_get_swimops.return_value
-        assert swim_campaign._lowerstack == mock_get_lowerstack.return_value
-        mock_base_init.assert_called_once_with(auth_session, "1234")
 
-    def test_get_swim_operations(self, swim_campaign):
-        out = swim_campaign._get_swim_operations("1234")
-        expect = {
-            "Operation Status": "string",
-            "Dashboard Status": "string",
-            "SLA Level": "string",
-            "Customer Contact": "string",
-            "Comments": "string",
-            "Dashboard Close Date": "string",
-            "SWIM Instance Status": "string",
-            "Report Made": "string",
-            "Report Sent": "string",
-            "Data Package Made": "string",
-            "Data Package Sent": "string",
-            "Experience Log Made": "string",
-            "WellSpot Bending Moment Uploaded": "string",
-            "Dashboard Closed": "string",
-            "Services Available": "string",
-        }
-        assert out == expect
-
-    def test_get_lowerstack(self, swim_campaign):
-        out = swim_campaign._get_lowerstack("1234")
-        expect = {
-            "Alpha": 0.1,
-            "Elements": [
-                {
-                    "Name": "string",
-                    "Mass": 100.0,
-                    "Submerged Weight": 1000.0,
-                    "Height": 10.0,
-                    "Added Mass Coefficient": 2.0,
-                }
-            ]
-        }
-        assert out == expect
+        assert swim_campaign._campaign_id == "1234"
+        for attr in [
+            "_campaign",
+            "_events",
+            "_sensors",
+            "_geotrack",
+            "_lowerstack",
+            "_swim_operations",
+        ]:
+            assert hasattr(swim_campaign, attr)
 
     def test_swim_operations(self, swim_campaign):
         assert swim_campaign.swim_operations() == swim_campaign._swim_operations
 
     def test_lowerstack(self, swim_campaign):
         assert swim_campaign.lowerstack() == swim_campaign._lowerstack
-
-
-class Test_Campaign:
-    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
-    def test_swim_campaign(self, mock_get_campaign_type, auth_session):
-        mock_get_campaign_type.return_value = "SWIM Campaign"
-        campaign = Campaign(auth_session, "1234")
-        mock_get_campaign_type.assert_called_once_with("1234")
-        assert isinstance(campaign, SwimCampaign)
-
-    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
-    def test_generic_campaign(self, mock_get_campaign_type, auth_session):
-        mock_get_campaign_type.return_value = "Campaign"
-        campaign = Campaign(auth_session, "1234")
-        mock_get_campaign_type.assert_called_once_with("1234")
-        assert isinstance(campaign, GenericCampaign)
-
-    @patch("fourinsight.campaigns.campaign.CampaignsAPI.get_campaign_type")
-    def test_raises(self, mock_get_campaign_type, auth_session):
-        mock_get_campaign_type.return_value = "INVALID_TYPE"
-        with pytest.raises(NotImplementedError):
-            Campaign(auth_session, "1234")

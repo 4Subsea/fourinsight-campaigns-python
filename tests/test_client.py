@@ -1,8 +1,9 @@
+from unittest.mock import patch
+
+import pandas as pd
+import pytest
 from fourinsight.campaigns import Client
 from fourinsight.campaigns.campaign import GenericCampaign, SwimCampaign
-
-import pytest
-from unittest.mock import patch
 
 
 @pytest.fixture
@@ -12,7 +13,24 @@ def camp_client(auth_session):
 
 class Test_Client:
     def test_init(self, camp_client, auth_session):
-        assert camp_client._auth_session == auth_session
+        assert camp_client._session == auth_session
+
+    def test_overview(self, camp_client, auth_session):
+        df = camp_client.overview()
+
+        records = [
+            {
+                "CampaignID": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+                "Name": "1086 - 31/2-F-6",
+                "Type": "SWIM Campaign",
+                "Vessel": "Songa Endurance",
+                "Field": "Troll",
+                "Well Name": "31/2-F-6",
+                "Start Date": pd.to_datetime("2017-10-21T00:00:00+00:00"),
+            }
+        ]
+        df_expected = pd.DataFrame.from_records(records, index="CampaignID")
+        pd.testing.assert_frame_equal(df, df_expected)
 
     def test_get_campaign_type_generic(self, camp_client):
         camp_client._get_campaign_type("generic") == GenericCampaign

@@ -14,65 +14,66 @@ def _recast_dict(dict_map, dict_org):
 
 
 _campaigns_short_map = {
-    "id": ("CampaignID", str),
-    "campaignName": ("Name", str),
-    "vessel": ("Vessel", str),
-    "fieldTitle": ("Field", str),
-    "wellName": ("Well Name", str),
+    "id": ("CampaignID", lambda x: x if x is None else str(x)),
+    "campaignType": ("Type", lambda x: x if x is None else str(x)),
+    "campaignName": ("Name", lambda x: x if x is None else str(x)),
+    "vessel": ("Vessel", lambda x: x if x is None else str(x)),
+    "fieldTitle": ("Field", lambda x: x if x is None else str(x)),
+    "wellName": ("Well Name", lambda x: x if x is None else str(x)),
     "startDate": ("Start Date", pd.to_datetime),
 }
 
 _campaigns_map = {
-    "id": ("CampaignID", str),
-    "projectNumber": ("Project Number", str),
-    "client": ("Client", str),
-    "vessel": ("Vessel", str),
-    "vesselContractor": ("Vessel Contractor", str),
-    "wellName": ("Well Name", str),
-    "wellId": ("Well ID", str),
+    "id": ("CampaignID", lambda x: x if x is None else str(x)),
+    "projectNumber": ("Project Number", lambda x: x if x is None else str(x)),
+    "client": ("Client", lambda x: x if x is None else str(x)),
+    "vessel": ("Vessel", lambda x: x if x is None else str(x)),
+    "vesselContractor": ("Vessel Contractor", lambda x: x if x is None else str(x)),
+    "wellName": ("Well Name", lambda x: x if x is None else str(x)),
+    "wellId": ("Well ID", lambda x: x if x is None else str(x)),
     "waterDepth": ("Water Depth", lambda x: x if x is None else float(x)),
     "location": ("Location", lambda x: x if x is None else tuple(x.split("#"))),
-    "mainDataProvider": ("Main Data Provider", str),
+    "mainDataProvider": ("Main Data Provider", lambda x: x if x is None else str(x)),
     "startDate": ("Start Date", pd.to_datetime),
     "endDate": ("End Date", pd.to_datetime),
 }
 
 _geotrack_map = {
-    "hsTimeseriesId": ("HS Timeseries Id", str),
-    "tpTimeseriesId": ("Tp Timeseries Id", str),
-    "wdTimeseriesId": ("Wd Timeseries Id", str),
+    "hsTimeseriesId": ("HS Timeseries Id", lambda x: x if x is None else str(x)),
+    "tpTimeseriesId": ("Tp Timeseries Id", lambda x: x if x is None else str(x)),
+    "wdTimeseriesId": ("Wd Timeseries Id", lambda x: x if x is None else str(x)),
 }
 
 _event_map = {
     "startDate": ("Start", pd.to_datetime),
     "stopDate": ("End", pd.to_datetime),
-    "eventType": ("Event Type", str),
-    "comment": ("Comment", str),
+    "eventType": ("Event Type", lambda x: x if x is None else str(x)),
+    "comment": ("Comment", lambda x: x if x is None else str(x)),
 }
 
 _channel_map = {
-    "channelName": ("Channel", str),
-    "units": ("Units", str),
-    "timeseriesId": ("Timeseries id", str),
-    "positionStreamId": ("Stream id", str),
+    "channelName": ("Channel", lambda x: x if x is None else str(x)),
+    "units": ("Units", lambda x: x if x is None else str(x)),
+    "timeseriesId": ("Timeseries id", lambda x: x if x is None else str(x)),
+    "positionStreamId": ("Stream id", lambda x: x if x is None else str(x)),
     }
 
 _sensor_map = {
-    "sensorId": ("SensorID", str),
-    "sensorName": ("Name", str),
-    "position": ("Position", str),
+    "sensorId": ("SensorID", lambda x: x if x is None else str(x)),
+    "sensorName": ("Name", lambda x: x if x is None else str(x)),
+    "position": ("Position", lambda x: x if x is None else str(x)),
     "distanceFromWellhead": ("Distance From Wellhead", lambda x: x if x is None else float(x)),
-    "directionXAxis": ("Direction X Axis", str),
-    "directionZAxis": ("Direction Z Axis", str),
+    "directionXAxis": ("Direction X Axis", lambda x: x if x is None else str(x)),
+    "directionZAxis": ("Direction Z Axis", lambda x: x if x is None else str(x)),
     "samplingRate": ("Sampling Rate", lambda x: x if x is None else float(x)),
-    "sensorVendor": ("Sensor Vendor", str),
+    "sensorVendor": ("Sensor Vendor", lambda x: x if x is None else str(x)),
     "attachedTime": ("Attached Time", pd.to_datetime),
     "detachedTime": ("Detached Time", pd.to_datetime),
     "channels": ("Channels", lambda x_list: [_recast_dict(_channel_map, x_i) for x_i in x_list]),
 }
 
 _lowerstack_element_map = {
-    "name": ("Name", str),
+    "name": ("Name", lambda x: x if x is None else str(x)),
     "mass": ("Mass", lambda x: x if x is None else float(x)),
     "submergedWeight": ("Submerged Weight", lambda x: x if x is None else float(x)),
     "height": ("Height", lambda x: x if x is None else float(x)),
@@ -91,21 +92,21 @@ _lowerstack_map = {
 }
 
 _swim_ops_campaign_map = {
-    "operationStatus": ("Operation Status", str),
-    "dashboardStatus": ("Dashboard Status", str),
-    "slaLevel": ("SLA Level", str),
-    "customerContact": ("Customer Contact", str),
-    "comments": ("Comments", str),
+    "operationStatus": ("Operation Status", lambda x: x if x is None else str(x)),
+    "dashboardStatus": ("Dashboard Status", lambda x: x if x is None else str(x)),
+    "slaLevel": ("SLA Level", lambda x: x if x is None else str(x)),
+    "customerContact": ("Customer Contact", lambda x: x if x is None else str(x)),
+    "comments": ("Comments", lambda x: x if x is None else str(x)),
     "dashboardCloseDate": ("Dashboard Close Date", pd.to_datetime),
-    "swimInstanceStatus": ("SWIM Instance Status", str),
-    "reportMade": ("Report Made", str),
-    "reportSent": ("Report Sent", str),
-    "dataPackageMade": ("Data Package Made", str),
-    "dataPackageSent": ("Data Package Sent", str),
-    "experienceLogMade": ("Experience Log Made", str),
-    "wellSpotBendingMomentUploaded": ("WellSpot Bending Moment Uploaded", str),
-    "dashboardClosed": ("Dashboard Closed", str),
-    "servicesAvailable": ("Services Available", str),
+    "swimInstanceStatus": ("SWIM Instance Status", lambda x: x if x is None else str(x)),
+    "reportMade": ("Report Made", lambda x: x if x is None else str(x)),
+    "reportSent": ("Report Sent", lambda x: x if x is None else str(x)),
+    "dataPackageMade": ("Data Package Made", lambda x: x if x is None else str(x)),
+    "dataPackageSent": ("Data Package Sent", lambda x: x if x is None else str(x)),
+    "experienceLogMade": ("Experience Log Made", lambda x: x if x is None else str(x)),
+    "wellSpotBendingMomentUploaded": ("WellSpot Bending Moment Uploaded", lambda x: x if x is None else str(x)),
+    "dashboardClosed": ("Dashboard Closed", lambda x: x if x is None else str(x)),
+    "servicesAvailable": ("Services Available", lambda x: x if x is None else str(x)),
 }
 
 
@@ -126,7 +127,10 @@ class CampaignsAPI:
         self._api_version = api_version
 
     def _url(self, relative_url):
-        return f"/{self._api_version}/Campaigns/{relative_url.lstrip('/')}"
+        url = f"/{self._api_version}/Campaigns"
+        if relative_url:
+            url += f"/{relative_url.lstrip('/')}"
+        return url
 
     def get_campaigns(self, campaign_type=None):
         """
@@ -145,10 +149,10 @@ class CampaignsAPI:
         """
         if not campaign_type:
             response = self._session.get(self._url(""))
-        elif campaign_type.lower() == "swim":
-            response = self._session.get(self._url("/Type/SWIM Campaign/"))
-        elif campaign_type.lower() == "generic":
-            response = self._session.get(self._url("/Type/Campaign/"))
+        elif campaign_type.lower() == "swim campaign":
+            response = self._session.get(self._url("/Type/SWIM Campaign"))
+        elif campaign_type.lower() == "campaign":
+            response = self._session.get(self._url("/Type/Campaign"))
         else:
             raise ValueError("Unknown 'campaign_type'")
 
@@ -172,7 +176,7 @@ class CampaignsAPI:
         dict
             Campaign dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/"))
+        response = self._session.get(self._url(f"/{campaign_id}"))
         response_out = _recast_dict(_campaigns_map, response.json())
         return response_out
 
@@ -191,7 +195,7 @@ class CampaignsAPI:
         dict
             Campaign dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/"))
+        response = self._session.get(self._url(f"/{campaign_id}"))
         response_out = _recast_dict(_geotrack_map, response.json())
         return response_out
 
@@ -209,7 +213,7 @@ class CampaignsAPI:
         dict
             Events dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/Events/"))
+        response = self._session.get(self._url(f"/{campaign_id}/Events"))
         response_out = [
             _recast_dict(_event_map, event_item)
             for event_item in response.json()["events"]
@@ -230,7 +234,7 @@ class CampaignsAPI:
         dict
             Sensors dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/Sensors/"))
+        response = self._session.get(self._url(f"/{campaign_id}/Sensors"))
         response_out = [
             _recast_dict(_sensor_map, event_item)
             for event_item in response.json()["sensors"]
@@ -251,7 +255,7 @@ class CampaignsAPI:
         dict
             Lower stack dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/LowerStack/"))
+        response = self._session.get(self._url(f"/{campaign_id}/LowerStack"))
         response_out = _recast_dict(_lowerstack_map, response.json())
         return response_out
 
@@ -269,7 +273,7 @@ class CampaignsAPI:
         dict
             Swim operations dict.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/Swimops/"))
+        response = self._session.get(self._url(f"/{campaign_id}/Swimops"))
         response_out = _recast_dict(_swim_ops_campaign_map, response.json())
         return response_out
 
@@ -282,7 +286,7 @@ class CampaignsAPI:
         list of dicts
             A list of swim operations dicts.
         """
-        response = self._session.get(self._url(f"/Swimops/"))
+        response = self._session.get(self._url(f"/Swimops"))
         response_out = [
             _recast_dict(_swim_ops_campaign_map, swim_ops_item)
             for swim_ops_item in response.json()
@@ -303,5 +307,5 @@ class CampaignsAPI:
         str
             Campaign type.
         """
-        response = self._session.get(self._url(f"/{campaign_id}/"))
+        response = self._session.get(self._url(f"/{campaign_id}"))
         return response.json()["campaignType"].lower()
