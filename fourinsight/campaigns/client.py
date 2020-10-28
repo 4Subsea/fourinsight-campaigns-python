@@ -1,5 +1,7 @@
 import warnings
 
+import pandas as pd
+
 from .api import CampaignsAPI
 from .campaign import GenericCampaign, SwimCampaign
 
@@ -25,7 +27,7 @@ class Client:
         TBA
         """
         response = self._campaigns_api.get_campaigns()
-        return response  # cast to DataFrame
+        return pd.DataFrame.from_records(response, index="CampaignID")
 
     def get(self, campaign_id, campaign_type=None):
         """
