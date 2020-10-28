@@ -1,7 +1,8 @@
 import pytest
 from unittest.mock import Mock
 from .testdata.get_data import (
-    CAMPAIGN_DATA,
+    CAMPAIGN_DATA_SWIM,
+    CAMPAIGN_DATA_GENERIC,
     CAMPAIGNS_DATA_LIST,
     EVENTS_DATA,
     SENSOR_DATA,
@@ -36,21 +37,29 @@ def response():
             return SWIMOPS_DATA_LIST
         elif url.endswith("Swimops") and not url.endswith("/Campaigns/Swimops"):
             return SWIMOPS_DATA
-        elif "Campaigns" in url and not any(
-            [
-                url.endswith(tag)
-                for tag in (
-                    "Campaigns",
-                    "SWIM Campaign",
-                    "Campaign",
-                    "Events",
-                    "Sensors",
-                    "LowerStack",
-                    "Swimops",
-                )
-            ]
-        ):
-            return CAMPAIGN_DATA
+        elif url.endswith("Campaigns/test_swim_id"):
+            return CAMPAIGN_DATA_SWIM
+        elif url.endswith("Campaigns/test_generic_id"):
+            return CAMPAIGN_DATA_GENERIC
+        elif url.endswith("Campaigns/1234"):
+            return CAMPAIGN_DATA_SWIM
+        # elif "Campaigns" in url and not any(
+        #     [
+        #         url.endswith(tag)
+        #         for tag in (
+        #             "Campaigns",
+        #             "SWIM Campaign",
+        #             "Campaign",
+        #             "Events",
+        #             "Sensors",
+        #             "LowerStack",
+        #             "Swimops",
+        #             "test_swim_id",
+        #             "test_generic_id",
+        #         )
+        #     ]
+        # ):
+        #     return CAMPAIGN_DATA_SWIM
 
     response.json.side_effect = json_side_effect
     return response

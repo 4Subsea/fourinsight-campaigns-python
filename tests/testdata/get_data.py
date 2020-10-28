@@ -11,11 +11,39 @@ CAMPAIGNS_DATA_LIST = [
 ]
 
 
-CAMPAIGN_DATA = {
+CAMPAIGN_DATA_SWIM = {
     "id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
     "campaignName": "0872 - 30_17a-J4 (P3)",
     "campaignTypeId": "SWIM Campaign",
     "campaignType": "SWIM Campaign",
+    "poNumber": None,
+    "projectNumber": "0872",
+    "client": "Maersk Oil",
+    "vesselId": "85719e72-0eaf-43f2-bdd1-2894b735ebd8",
+    "vessel": "Ocean Valiant",
+    "vesselContractor": "Diamond Offshore",
+    "wellName": "Could not fetch well 2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
+    "wellId": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
+    "fieldTitle": "Janice",
+    "waterDepth": "100.0",
+    "location": None,
+    "mainDataProvider": "4Subsea",
+    "startDate": "2017-04-08T00:00:00+00:00",
+    "endDate": "2017-05-13T00:00:00+00:00",
+    "geoPositionId": "c1092920-0434-483a-ac6b-2511715ab84c",
+    "geoLocation": "10#21",
+    "geoTitle": "10 er test 2",
+    "hsTimeseriesId": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
+    "tpTimeseriesId": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
+    "wdTimeseriesId": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
+    "anyFetchFailure": True,
+}
+
+CAMPAIGN_DATA_GENERIC = {
+    "id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+    "campaignName": "0872 - 30_17a-J4 (P3)",
+    "campaignTypeId": "Campaign",
+    "campaignType": "Campaign",
     "poNumber": None,
     "projectNumber": "0872",
     "client": "Maersk Oil",
