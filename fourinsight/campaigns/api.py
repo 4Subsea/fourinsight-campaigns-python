@@ -2,6 +2,9 @@ import pandas as pd
 
 
 def _recast_dict(dict_map, dict_org):
+    """
+    Filter and rename keys, and cast items in a dict.
+    """
     dict_trans = {}
     for key, value in dict_org.items():
         if key in dict_map:

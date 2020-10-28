@@ -1,3 +1,3 @@
+from . import channels
+from .campaign import GenericCampaign, SwimCampaign
 from .client import Client
-from .campaign import Campaign
-from .shared import Channels

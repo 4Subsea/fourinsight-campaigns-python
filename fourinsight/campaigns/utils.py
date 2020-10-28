@@ -81,22 +81,3 @@ def download_sensor_data(drio_client, channels, start=None, end=None):
     df = pd.concat(data, axis=1)
 
     return df
-
-
-def get_sensor_channel_keys(sensor_channels):
-    """Get a dict of the channel names as keys and corresponding series id as value.
-
-    Parameters
-    ----------
-    sensor_channels : list of dict
-        The "Channels" dict list as given by the sensor dict.
-
-    Returns
-    -------
-    dict
-        Channel_name: series_id
-
-    """
-    channels = to_dict(sensor_channels, "Channel")
-    channels = {k: v["Timeseries id"] for k, v in channels.items()}
-    return channels
