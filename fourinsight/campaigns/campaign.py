@@ -1,9 +1,7 @@
 import pandas as pd
 
 from .api import CampaignsAPI
-
-from .shared import Channels
-from .utils import download_sensor_data, get_sensor_channel_keys
+from .utils import download_sensor_data
 
 
 class GenericCampaign:
@@ -29,17 +27,21 @@ class GenericCampaign:
         self._events = None
         self._geotrack = None
 
+    def _lazy_load(self, attr, api_call, args=()):
+        if getattr(self, attr) is None:
+            setattr(self, attr, api_call(*args))
+
     def general(self):
         """Get general campaign info."""
-        self._campaign = self._campaign or self._campaigns_api.get_campaign(
-            self._campaign_id
+        self._lazy_load(
+            "_campaign", self._campaigns_api.get_campaign, args=(self._campaign_id,)
         )
         return self._campaign
 
     def geotrack(self):
         """Get weather (geotrack) information for the campaign."""
-        self._geotrack = self._geotrack or self._campaigns_api.get_geotrack(
-            self._campaign_id
+        self._lazy_load(
+            "_geotrack", self._campaigns_api.get_geotrack, args=(self._campaign_id,)
         )
         return self._geotrack
 
@@ -60,7 +62,10 @@ class GenericCampaign:
             A list containing event dicts. Results are sorted on `Start`.
 
         """
-        self._events = self._events or self._campaigns_api.get_events(self._campaigns_api)
+        self._lazy_load(
+            "_events", self._campaigns_api.get_events, args=(self._campaign_id,)
+        )
+
         if value is None:
             return self._sort_list_by_start(self._events)
 
@@ -97,7 +102,10 @@ class GenericCampaign:
             A list containing sensor dicts.
 
         """
-        self._sensors = self._sensors or self._campaigns_api.get_sensors(self._campaigns_api)
+        self._lazy_load(
+            "_sensors", self._campaigns_api.get_sensors, args=(self._campaign_id,)
+        )
+
         if value is None:
             return self._sensors
 
@@ -114,9 +122,7 @@ class GenericCampaign:
     def _dict_subset(dict_, rename_keys):
         return {new_key: dict_[old_key] for old_key, new_key in rename_keys.items()}
 
-    def get_sensor_data(
-        self, drio_client, source, start=None, end=None, whitelist=None
-    ):
+    def get_sensor_data(self, drio_client, source, start=None, end=None, filter_=None):
         """
         Download the sensor data into a DataFrame.
 
@@ -138,8 +144,9 @@ class GenericCampaign:
             stop time (inclusive) of the series given as anything pandas.to_datetime
             is able to parse. Default to campaign end date (inclusive), or now if
             not given.
-        whitelist : list of str or campaigns_4s.Channels, optional
-            A list of channel names to include in the results. Default to None,
+        filter_ : list of str, optional
+            A list of channel names to include in the results. Common options
+            are available in ``fourinsight.campaigns.channels``. Default to None,
             meaning all channels.
 
         Returns
@@ -151,20 +158,27 @@ class GenericCampaign:
         ----
         You can supply standard enumerated lists from fourinsight.campaigns.Channels.
         E.g. self.get_sensor_data(drio_client, lmrp_sensor,
-        whitelist=fourinsight.campaigns.Channels.AG) to include all acceleration
+        whitelist=fourinsight.campaigns.channels.AG) to include all acceleration
         and gyro data.
         """
-        channels = get_sensor_channel_keys(source["Channels"])
-        if whitelist:
-            if isinstance(whitelist, Channels):
-                whitelist = whitelist.value
-            channels = {k: v for k, v in channels.items() if k in whitelist}
+        channels = {
+            channel["Channel"]: channel["Timeseries id"]
+            for channel in source["Channels"]
+            if channel["Channel"] in filter_
+        }
 
-        start = start or self.general()["Start Date"]
-        start = start if not pd.isna(start) else 0
-        end = end or self.general()["End Date"] + pd.to_timedelta("1D")
-        end = end if not pd.isna(end) else "now"
-        start, end = pd.to_datetime(start), pd.to_datetime(end)
+        if start is None and not pd.isna(
+            self.general()["Start Date"]
+        ):  # switch to walrus operator when possible
+            start = self.general()["Start Date"]
+
+        if end is None:
+            if not pd.isna(
+                self.general()["End Date"]
+            ):  # switch to walrus operator when possible
+                end = self.general()["End Date"]
+            else:
+                end = "now"
 
         dataframe = download_sensor_data(drio_client, channels, start=start, end=end)
         return dataframe
@@ -190,10 +204,18 @@ class SwimCampaign(GenericCampaign):
 
     def swim_operations(self):
         """Get the SWIM operation for the campaign."""
-        self._swim_operations = self._swim_operations or self._campaigns_api.get_swimops_campaign(self._campaigns_api)
+        self._lazy_load(
+            "_swim_operations",
+            self._campaigns_api.get_swimops_campaign,
+            args=(self._campaign_id,),
+        )
         return self._swim_operations
 
     def lowerstack(self):
         """Get lowerstack dict."""
-        self._lowerstack = self._lowerstack or self._campaigns_api.get_lowerstack(self._campaigns_api)
+        self._lazy_load(
+            "_lowerstack",
+            self._campaigns_api.get_lowerstack,
+            args=(self._campaign_id,),
+        )
         return self._lowerstack
