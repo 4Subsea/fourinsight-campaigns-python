@@ -24,7 +24,7 @@ class Client:
 
     def overview(self):
         """
-        TBA
+        Overview of all campaigns. List view.
         """
         response = self._campaigns_api.get_campaigns()
         return pd.DataFrame.from_records(response, index="CampaignID")
