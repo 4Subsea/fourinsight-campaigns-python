@@ -30,6 +30,16 @@ class Test_GenericCampaign:
     def test_general(self, generic_campaign):
         assert generic_campaign.general() == generic_campaign._campaign
 
+    def test_lazy_load(self, generic_campaign):
+        with patch.object(generic_campaign._campaigns_api, "get_campaign") as mock_get:
+            mock_get.return_value = {"abc": 123}
+
+            out_1 = generic_campaign.general()
+            out_2 = generic_campaign.general()
+        assert {"abc": 123} == out_1
+        assert out_1 == out_2
+        mock_get.assert_called_once_with("1234")
+
     def test_geotrack(self, generic_campaign):
         assert generic_campaign.geotrack() == generic_campaign._geotrack
 
