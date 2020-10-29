@@ -1,113 +1,116 @@
 import pandas as pd
 
 
-def _recast_dict(dict_map, dict_org):
+def _dict_rename(dict_org, dict_map):
     """
-    Filter and rename keys, and cast items in a dict.
+    Recursively rename and filter dict keys.
+
+    Parameters
+    ----------
+    dict_org : dict
+        Original dictionary.
+    dict_map : dict
+        Dictionary mapping old-to-new key names. See Notes.
+
+    Returns
+    -------
+    dict_new: dict
+        Key-renamed and filetered copy of 'dict_org'.
+
+    Notes
+    -----
+    'dict_map' is used to rename and filter keys. Eg.
+
+    'dict_org = {"a": 1, "b": {"one": 1, "two": 2}, "c": 3}' and
+    'dict_map = {("a", "A"): None, ("b", "B"): {("one", "One"): None, ("two", "Two"): None}}'
+
+    would yield
+
+    'dict_new = {"A": 1, "B": {"One": 1, "Two": 2}}'.
     """
-    dict_trans = {}
-    for key, value in dict_org.items():
-        if key in dict_map:
-            trans = dict_map[key][1] or (lambda v: v)
-            dict_trans[dict_map[key][0]] = trans(value)
-    return dict_trans
+    dict_new = {}
+    for (key_old, key_new), value_map in dict_map.items():
+        if value_map is None:
+            dict_new[key_new] = dict_org[key_old]
+        elif isinstance(value_map, dict):
+            value_old = dict_org[key_old]
+
+            if isinstance(value_old, list):
+                dict_new[key_new] = [
+                    _dict_rename(value_old_i, value_map) for value_old_i in value_old
+                ]
+            else:
+                dict_new[key_new] = _dict_rename(value_old, value_map)
+        else:
+            raise ValueError("Values in mapping dict must be 'None' or 'dict'")
+    return dict_new
 
 
-_campaigns_short_map = {
-    "id": ("CampaignID", lambda x: x if x is None else str(x)),
-    "campaignType": ("Type", lambda x: x if x is None else str(x)),
-    "campaignName": ("Name", lambda x: x if x is None else str(x)),
-    "vessel": ("Vessel", lambda x: x if x is None else str(x)),
-    "fieldTitle": ("Field", lambda x: x if x is None else str(x)),
-    "wellName": ("Well Name", lambda x: x if x is None else str(x)),
-    "startDate": ("Start Date", pd.to_datetime),
-}
+class JSONSpecialParse:
+    def __init__(self, datetime_keys=(), location_keys=(), float_keys=(), int_keys=()):
+        self._datetime_keys = datetime_keys
+        self._location_keys = location_keys
 
-_campaigns_map = {
-    "id": ("CampaignID", lambda x: x if x is None else str(x)),
-    "projectNumber": ("Project Number", lambda x: x if x is None else str(x)),
-    "client": ("Client", lambda x: x if x is None else str(x)),
-    "vessel": ("Vessel", lambda x: x if x is None else str(x)),
-    "vesselContractor": ("Vessel Contractor", lambda x: x if x is None else str(x)),
-    "wellName": ("Well Name", lambda x: x if x is None else str(x)),
-    "wellId": ("Well ID", lambda x: x if x is None else str(x)),
-    "waterDepth": ("Water Depth", lambda x: x if x is None else float(x)),
-    "location": ("Location", lambda x: x if x is None else tuple(x.split("#"))),
-    "mainDataProvider": ("Main Data Provider", lambda x: x if x is None else str(x)),
-    "startDate": ("Start Date", pd.to_datetime),
-    "endDate": ("End Date", pd.to_datetime),
-}
+        # Remove when endpoints start returning native values
+        self._float_keys = float_keys
+        self._int_keys = int_keys
 
-_geotrack_map = {
-    "hsTimeseriesId": ("HS Timeseries Id", lambda x: x if x is None else str(x)),
-    "tpTimeseriesId": ("Tp Timeseries Id", lambda x: x if x is None else str(x)),
-    "wdTimeseriesId": ("Wd Timeseries Id", lambda x: x if x is None else str(x)),
-}
+    def __call__(self, dct):
+        dct_update = {
+            key: pd.to_datetime(value)
+            for key, value in dct.items()
+            if key in self._datetime_keys
+        }
+        dct.update(dct_update)
 
-_event_map = {
-    "startDate": ("Start", pd.to_datetime),
-    "stopDate": ("End", pd.to_datetime),
-    "eventType": ("Event Type", lambda x: x if x is None else str(x)),
-    "comment": ("Comment", lambda x: x if x is None else str(x)),
-}
+        dct_update = {}
+        for key, value in dct.items():
+            if key in self._location_keys:
+                try:
+                    val1, val2 = value.split("#")
+                except(AttributeError, ValueError):
+                    dct_update[key] = value
+                else:
+                    dct_update[key] = (float(val1), float(val2))
+        dct.update(dct_update)
 
-_channel_map = {
-    "channelName": ("Channel", lambda x: x if x is None else str(x)),
-    "units": ("Units", lambda x: x if x is None else str(x)),
-    "timeseriesId": ("Timeseries id", lambda x: x if x is None else str(x)),
-    "positionStreamId": ("Stream id", lambda x: x if x is None else str(x)),
-    }
+        # Remove when endpoints start returning native values
+        dct_update = {
+            key: None if value is None else float(value)
+            for key, value in dct.items()
+            if key in self._float_keys
+        }
+        dct.update(dct_update)
 
-_sensor_map = {
-    "sensorId": ("SensorID", lambda x: x if x is None else str(x)),
-    "sensorName": ("Name", lambda x: x if x is None else str(x)),
-    "position": ("Position", lambda x: x if x is None else str(x)),
-    "distanceFromWellhead": ("Distance From Wellhead", lambda x: x if x is None else float(x)),
-    "directionXAxis": ("Direction X Axis", lambda x: x if x is None else str(x)),
-    "directionZAxis": ("Direction Z Axis", lambda x: x if x is None else str(x)),
-    "samplingRate": ("Sampling Rate", lambda x: x if x is None else float(x)),
-    "sensorVendor": ("Sensor Vendor", lambda x: x if x is None else str(x)),
-    "attachedTime": ("Attached Time", pd.to_datetime),
-    "detachedTime": ("Detached Time", pd.to_datetime),
-    "channels": ("Channels", lambda x_list: [_recast_dict(_channel_map, x_i) for x_i in x_list]),
-}
+        dct_update = {
+            key: None if value is None else int(value)
+            for key, value in dct.items()
+            if key in self._int_keys
+        }
+        dct.update(dct_update)
+        return dct
 
-_lowerstack_element_map = {
-    "name": ("Name", lambda x: x if x is None else str(x)),
-    "mass": ("Mass", lambda x: x if x is None else float(x)),
-    "submergedWeight": ("Submerged Weight", lambda x: x if x is None else float(x)),
-    "height": ("Height", lambda x: x if x is None else float(x)),
-    "addedMassCoefficient": (
-        "Added Mass Coefficient",
-        lambda x: x if x is None else float(x),
+
+json_special_hook = JSONSpecialParse(
+    datetime_keys=(
+        "startDate",
+        "endDate",
+        "stopDate",
+        "attachedTime",
+        "detachedTime",
+        "dashboardCloseDate",
     ),
-}
-
-_lowerstack_map = {
-    "alpha": ("Alpha", lambda x: x if x is None else float(x)),
-    "elements": (
-        "Elements",
-        lambda x_list: [_recast_dict(_lowerstack_element_map, x_i) for x_i in x_list],
+    location_keys=("location",),
+    float_keys=(
+        "distanceFromWellhead",
+        "samplingRate",
+        "mass",
+        "submergedWeight",
+        "height",
+        "addedMassCoefficient",
+        "alpha",
     ),
-}
-
-_swim_ops_campaign_map = {
-    "operationStatus": ("Operation Status", lambda x: x if x is None else str(x)),
-    "dashboardStatus": ("Dashboard Status", lambda x: x if x is None else str(x)),
-    "slaLevel": ("SLA Level", lambda x: x if x is None else str(x)),
-    "customerContact": ("Customer Contact", lambda x: x if x is None else str(x)),
-    "comments": ("Comments", lambda x: x if x is None else str(x)),
-    "dashboardCloseDate": ("Dashboard Close Date", pd.to_datetime),
-    "swimInstanceStatus": ("SWIM Instance Status", lambda x: x if x is None else str(x)),
-    "reportMade": ("Report Made", lambda x: x if x is None else str(x)),
-    "reportSent": ("Report Sent", lambda x: x if x is None else str(x)),
-    "dataPackageMade": ("Data Package Made", lambda x: x if x is None else str(x)),
-    "dataPackageSent": ("Data Package Sent", lambda x: x if x is None else str(x)),
-    "experienceLogMade": ("Experience Log Made", lambda x: x if x is None else str(x)),
-    "wellSpotBendingMomentUploaded": ("WellSpot Bending Moment Uploaded", lambda x: x if x is None else str(x)),
-    "dashboardClosed": ("Dashboard Closed", lambda x: x if x is None else str(x)),
-    "servicesAvailable": ("Services Available", lambda x: x if x is None else str(x)),
-}
+)
 
 
 class CampaignsAPI:
@@ -147,6 +150,16 @@ class CampaignsAPI:
         list of dicts
             A list of campaign dicts.
         """
+        response_map = {
+            ("id", "CampaignID"): None,
+            ("campaignName", "Name"): None,
+            ("campaignType", "Type"): None,
+            ("vessel", "Vessel"): None,
+            ("fieldTitle", "Field"): None,
+            ("wellName", "Well Name"): None,
+            ("startDate", "Start Date"): None,
+        }
+
         if not campaign_type:
             response = self._session.get(self._url(""))
         elif campaign_type.lower() == "swim campaign":
@@ -157,8 +170,8 @@ class CampaignsAPI:
             raise ValueError("Unknown 'campaign_type'")
 
         response_out = [
-            _recast_dict(_campaigns_short_map, campaign_item)
-            for campaign_item in response.json()
+            _dict_rename(campaign_item, response_map)
+            for campaign_item in response.json(object_hook=json_special_hook)
         ]
         return response_out
 
@@ -176,8 +189,25 @@ class CampaignsAPI:
         dict
             Campaign dict.
         """
+        response_map = {
+            ("id", "CampaignID"): None,
+            ("projectNumber", "Project Number"): None,
+            ("client", "Client"): None,
+            ("vessel", "Vessel"): None,
+            ("vesselContractor", "Vessel Contractor"): None,
+            ("wellName", "Well Name"): None,
+            ("wellId", "Well ID"): None,
+            ("waterDepth", "Water Depth"): None,
+            ("location", "Location"): None,
+            ("mainDataProvider", "Main Data Provider"): None,
+            ("startDate", "Start Date"): None,
+            ("endDate", "End Date"): None,
+        }
+
         response = self._session.get(self._url(f"/{campaign_id}"))
-        response_out = _recast_dict(_campaigns_map, response.json())
+        response_out = _dict_rename(
+            response.json(object_hook=json_special_hook), response_map
+        )
         return response_out
 
     def get_geotrack(self, campaign_id):
@@ -195,8 +225,16 @@ class CampaignsAPI:
         dict
             Campaign dict.
         """
+        response_map = {
+            ("hsTimeseriesId", "HS Timeseries Id"): None,
+            ("tpTimeseriesId", "Tp Timeseries Id"): None,
+            ("wdTimeseriesId", "Wd Timeseries Id"): None,
+        }
+
         response = self._session.get(self._url(f"/{campaign_id}"))
-        response_out = _recast_dict(_geotrack_map, response.json())
+        response_out = _dict_rename(
+            response.json(object_hook=json_special_hook), response_map
+        )
         return response_out
 
     def get_events(self, campaign_id):
@@ -213,10 +251,16 @@ class CampaignsAPI:
         dict
             Events dict.
         """
+        response_map = {
+            ("startDate", "Start"): None,
+            ("stopDate", "End"): None,
+            ("eventType", "Event Type"): None,
+            ("comment", "Comment"): None,
+        }
         response = self._session.get(self._url(f"/{campaign_id}/Events"))
         response_out = [
-            _recast_dict(_event_map, event_item)
-            for event_item in response.json()["events"]
+            _dict_rename(event_item, response_map)
+            for event_item in response.json(object_hook=json_special_hook)["events"]
         ]
         return response_out
 
@@ -234,10 +278,29 @@ class CampaignsAPI:
         dict
             Sensors dict.
         """
+        response_map = {
+            ("sensorId", "SensorID"): None,
+            ("sensorName", "Name"): None,
+            ("position", "Position"): None,
+            ("distanceFromWellhead", "Distance From Wellhead"): None,
+            ("directionXAxis", "Direction X Axis"): None,
+            ("directionZAxis", "Direction Z Axis"): None,
+            ("samplingRate", "Sampling Rate"): None,
+            ("sensorVendor", "Sensor Vendor"): None,
+            ("attachedTime", "Attached Time"): None,
+            ("detachedTime", "Detached Time"): None,
+            ("channels", "Channels"): {
+                ("channelName", "Channel"): None,
+                ("units", "Units"): None,
+                ("timeseriesId", "Timeseries id"): None,
+                ("positionStreamId", "Stream id"): None,
+            },
+        }
+
         response = self._session.get(self._url(f"/{campaign_id}/Sensors"))
         response_out = [
-            _recast_dict(_sensor_map, event_item)
-            for event_item in response.json()["sensors"]
+            _dict_rename(sensor_item, response_map)
+            for sensor_item in response.json(object_hook=json_special_hook)["sensors"]
         ]
         return response_out
 
@@ -255,8 +318,20 @@ class CampaignsAPI:
         dict
             Lower stack dict.
         """
+        response_map = {
+            ("alpha", "Alpha"): None,
+            ("elements", "Elements"): {
+                ("name", "Name"): None,
+                ("mass", "Mass"): None,
+                ("submergedWeight", "Submerged Weight"): None,
+                ("height", "Height"): None,
+                ("addedMassCoefficient", "Added Mass Coefficient"): None,
+            },
+        }
         response = self._session.get(self._url(f"/{campaign_id}/LowerStack"))
-        response_out = _recast_dict(_lowerstack_map, response.json())
+        response_out = _dict_rename(
+            response.json(object_hook=json_special_hook), response_map
+        )
         return response_out
 
     def get_swimops_campaign(self, campaign_id):
@@ -273,8 +348,28 @@ class CampaignsAPI:
         dict
             Swim operations dict.
         """
+        response_map = {
+            ("operationStatus", "Operation Status"): None,
+            ("dashboardStatus", "Dashboard Status"): None,
+            ("slaLevel", "SLA Level"): None,
+            ("customerContact", "Customer Contact"): None,
+            ("comments", "Comments"): None,
+            ("dashboardCloseDate", "Dashboard Close Date"): None,
+            ("swimInstanceStatus", "SWIM Instance Status"): None,
+            ("reportMade", "Report Made"): None,
+            ("reportSent", "Report Sent"): None,
+            ("dataPackageMade", "Data Package Made"): None,
+            ("dataPackageSent", "Data Package Sent"): None,
+            ("experienceLogMade", "Experience Log Made"): None,
+            ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+            ("dashboardClosed", "Dashboard Closed"): None,
+            ("servicesAvailable", "Services Available"): None,
+        }
+
         response = self._session.get(self._url(f"/{campaign_id}/Swimops"))
-        response_out = _recast_dict(_swim_ops_campaign_map, response.json())
+        response_out = _dict_rename(
+            response.json(object_hook=json_special_hook), response_map
+        )
         return response_out
 
     def get_swimops(self):
@@ -286,10 +381,28 @@ class CampaignsAPI:
         list of dicts
             A list of swim operations dicts.
         """
+        response_map = {
+            ("operationStatus", "Operation Status"): None,
+            ("dashboardStatus", "Dashboard Status"): None,
+            ("slaLevel", "SLA Level"): None,
+            ("customerContact", "Customer Contact"): None,
+            ("comments", "Comments"): None,
+            ("dashboardCloseDate", "Dashboard Close Date"): None,
+            ("swimInstanceStatus", "SWIM Instance Status"): None,
+            ("reportMade", "Report Made"): None,
+            ("reportSent", "Report Sent"): None,
+            ("dataPackageMade", "Data Package Made"): None,
+            ("dataPackageSent", "Data Package Sent"): None,
+            ("experienceLogMade", "Experience Log Made"): None,
+            ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+            ("dashboardClosed", "Dashboard Closed"): None,
+            ("servicesAvailable", "Services Available"): None,
+        }
+
         response = self._session.get(self._url(f"/Swimops"))
         response_out = [
-            _recast_dict(_swim_ops_campaign_map, swim_ops_item)
-            for swim_ops_item in response.json()
+            _dict_rename(swim_ops_item, response_map)
+            for swim_ops_item in response.json(object_hook=json_special_hook)
         ]
         return response_out
 
@@ -308,4 +421,4 @@ class CampaignsAPI:
             Campaign type.
         """
         response = self._session.get(self._url(f"/{campaign_id}"))
-        return response.json()["campaignType"].lower()
+        return response.json(object_hook=json_special_hook)["campaignType"].lower()
