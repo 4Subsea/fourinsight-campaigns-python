@@ -3,6 +3,7 @@ from unittest.mock import patch
 
 import pandas as pd
 import pytest
+
 from fourinsight.campaigns import Client
 from fourinsight.campaigns.campaign import GenericCampaign, SwimCampaign
 

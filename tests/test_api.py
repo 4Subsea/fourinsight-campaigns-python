@@ -2,7 +2,8 @@ import json
 
 import pandas as pd
 import pytest
-from fourinsight.campaigns.api import CampaignsAPI, _dict_rename, JSONSpecialParse
+
+from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
 
 
 @pytest.fixture

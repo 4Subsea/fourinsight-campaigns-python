@@ -1,12 +1,11 @@
 from unittest.mock import MagicMock
 
-import pytest
-
 import numpy as np
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
 
-from fourinsight.campaigns.utils import to_dict, download_sensor_data
+from fourinsight.campaigns.utils import download_sensor_data, to_dict
 
 
 class Test_to_dict:

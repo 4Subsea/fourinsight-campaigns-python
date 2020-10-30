@@ -1,16 +1,17 @@
 import json
+from unittest.mock import Mock
 
 import pytest
-from unittest.mock import Mock
+
 from .testdata.get_data import (
-    CAMPAIGN_DATA_SWIM,
     CAMPAIGN_DATA_GENERIC,
+    CAMPAIGN_DATA_SWIM,
     CAMPAIGNS_DATA_LIST,
     EVENTS_DATA,
-    SENSOR_DATA,
     LOWERSTACK_DATA,
-    SWIMOPS_DATA_LIST,
+    SENSOR_DATA,
     SWIMOPS_DATA,
+    SWIMOPS_DATA_LIST,
 )
 
 

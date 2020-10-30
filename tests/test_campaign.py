@@ -2,6 +2,7 @@ from unittest.mock import call, patch
 
 import pandas as pd
 import pytest
+
 from fourinsight.campaigns import channels as Channels
 from fourinsight.campaigns.campaign import GenericCampaign, SwimCampaign
 
