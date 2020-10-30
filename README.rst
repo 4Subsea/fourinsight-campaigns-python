@@ -1,4 +1,5 @@
 fourinsight-campaigns
 #####################
 
-4insight campaigns.
+:py:mod:`fourinsight.campaigns` is a utility tool for getting information from the campaigns
+database in 4insight.io.
