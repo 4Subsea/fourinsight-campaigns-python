@@ -28,16 +28,12 @@ class Test_CampaignsAPI:
 
     def test_get_campaigns_swim(self, campaigns_api, auth_session, response):
         campaigns_api.get_campaigns(campaign_type="SWIM Campaign")
-        auth_session.get.assert_called_once_with(
-            "/v1.0/Campaigns/Type/SWIM Campaign"
-        )
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/Type/SWIM Campaign")
         response.json.assert_called()
 
     def test_get_campaigns_generic(self, campaigns_api, auth_session, response):
         campaigns_api.get_campaigns(campaign_type="Campaign")
-        auth_session.get.assert_called_once_with(
-            "/v1.0/Campaigns/Type/Campaign"
-        )
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/Type/Campaign")
         response.json.assert_called()
 
     def test_get_campaigns_raises(self, campaigns_api):
@@ -61,9 +57,7 @@ class Test_CampaignsAPI:
 
     def test_get_lowerstack(self, campaigns_api, auth_session, response):
         campaigns_api.get_lowerstack("1234")
-        auth_session.get.assert_called_once_with(
-            "/v1.0/Campaigns/1234/LowerStack"
-        )
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/LowerStack")
         response.json.assert_called()
 
     def test_get_swimops_campaign(self, campaigns_api, auth_session, response):
@@ -89,19 +83,13 @@ class Test__dict_rename:
             "d": [
                 {"tell": "me", "why": "!"},
                 {"tell": "you", "why": "?"},
-            ]
+            ],
         }
 
         dict_map = {
             ("a", "A"): None,
-            ("b", "b"): {
-                ("one", "One"): None,
-                ("two", "TWO"): None
-            },
-            ("d", "D"): {
-                ("tell", "Tell"): None,
-                ("why", "WHY"): None
-            }
+            ("b", "b"): {("one", "One"): None, ("two", "TWO"): None},
+            ("d", "D"): {("tell", "Tell"): None, ("why", "WHY"): None},
         }
 
         dict_expected = {
@@ -110,7 +98,7 @@ class Test__dict_rename:
             "D": [
                 {"Tell": "me", "WHY": "!"},
                 {"Tell": "you", "WHY": "?"},
-            ]
+            ],
         }
 
         dict_out = _dict_rename(dict_org, dict_map)
@@ -119,7 +107,7 @@ class Test__dict_rename:
 
 class Test_JSONSpecialParse:
     def test_datetime(self):
-        json_str = '''{
+        json_str = """{
             "a_datetime": "2020-01-01 00:01:00Z",
             "b_other": "something",
             "nested": [
@@ -128,7 +116,7 @@ class Test_JSONSpecialParse:
                     "nested_datetime_2": "2020-01-01 00:03:00Z"
                 }
             ]
-        }'''
+        }"""
 
         dict_expected = {
             "a_datetime": pd.to_datetime("2020-01-01 00:01:00Z"),
@@ -136,24 +124,20 @@ class Test_JSONSpecialParse:
             "nested": [
                 {
                     "nested_datetime_1": pd.to_datetime("2020-01-01 00:02:00Z"),
-                    "nested_datetime_2": pd.to_datetime("2020-01-01 00:03:00Z")
+                    "nested_datetime_2": pd.to_datetime("2020-01-01 00:03:00Z"),
                 }
-            ]
+            ],
         }
 
         json_special_hook = JSONSpecialParse(
-            datetime_keys=(
-                "a_datetime",
-                "nested_datetime_1",
-                "nested_datetime_2"
-                )
-            )
+            datetime_keys=("a_datetime", "nested_datetime_1", "nested_datetime_2")
+        )
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
 
     def test_location(self):
-        json_str = '''{
+        json_str = """{
             "a_location": "1.23#4.56",
             "b_other": "something",
             "nested": [
@@ -162,7 +146,7 @@ class Test_JSONSpecialParse:
                     "nested_location_2": "12.13#14.15"
                 }
             ]
-        }'''
+        }"""
 
         dict_expected = {
             "a_location": (1.23, 4.56),
@@ -170,25 +154,21 @@ class Test_JSONSpecialParse:
             "nested": [
                 {
                     "nested_location_1": (7.89, 10.11),
-                    "nested_location_2": (12.13, 14.15)
+                    "nested_location_2": (12.13, 14.15),
                 }
-            ]
+            ],
         }
 
         json_special_hook = JSONSpecialParse(
-            location_keys=(
-                "a_location",
-                "nested_location_1",
-                "nested_location_2"
-                )
-            )
+            location_keys=("a_location", "nested_location_1", "nested_location_2")
+        )
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
 
     def test_numbers(self):
         """Deprecate when REST API endpoint starts returning native values"""
-        json_str = '''{
+        json_str = """{
             "a_float": "1.23",
             "b_other": "something",
             "nested": [
@@ -197,34 +177,23 @@ class Test_JSONSpecialParse:
                     "nested_int_2": "12"
                 }
             ]
-        }'''
+        }"""
 
         dict_expected = {
             "a_float": 1.23,
             "b_other": "something",
-            "nested": [
-                {
-                    "nested_float_1": 7.89,
-                    "nested_int_2": 12
-                }
-            ]
+            "nested": [{"nested_float_1": 7.89, "nested_int_2": 12}],
         }
 
         json_special_hook = JSONSpecialParse(
-            float_keys=(
-                "a_float",
-                "nested_float_1"
-                ),
-            int_keys=(
-                "nested_int_2",
-                )
-            )
+            float_keys=("a_float", "nested_float_1"), int_keys=("nested_int_2",)
+        )
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
 
     def test_mixed(self):
-        json_str = '''{
+        json_str = """{
             "a_location": "1.23#4.56",
             "b_other": "something",
             "nested": [
@@ -233,7 +202,7 @@ class Test_JSONSpecialParse:
                     "nested_datetime_2": "2020-01-01 04:00:12Z"
                 }
             ]
-        }'''
+        }"""
 
         dict_expected = {
             "a_location": (1.23, 4.56),
@@ -241,20 +210,15 @@ class Test_JSONSpecialParse:
             "nested": [
                 {
                     "nested_location_1": (7.89, 10.11),
-                    "nested_datetime_2": pd.to_datetime("2020-01-01 04:00:12Z")
+                    "nested_datetime_2": pd.to_datetime("2020-01-01 04:00:12Z"),
                 }
-            ]
+            ],
         }
 
         json_special_hook = JSONSpecialParse(
-            location_keys=(
-                "a_location",
-                "nested_location_1"
-                ),
-            datetime_keys=(
-                "nested_datetime_2",
-                )
-            )
+            location_keys=("a_location", "nested_location_1"),
+            datetime_keys=("nested_datetime_2",),
+        )
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out

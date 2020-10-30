@@ -51,8 +51,8 @@ class Client:
             warnings.warn(
                 "Deprecated. Campaign type is automatically inferred. "
                 "'campaign_type' keyword will be removed after 1st Jan 2021.",
-                DeprecationWarning
-                )
+                DeprecationWarning,
+            )
 
         campaign_type = self._campaigns_api.get_campaign_type(campaign_id)
         Campaign = self._get_campaign_type(campaign_type)
@@ -64,5 +64,5 @@ class Client:
         if campaign_type not in campaign_type_map:
             warnings.warn(
                 f"Unknown campaign type: '{campaign_type}'. Casting as 'generic'."
-                )
+            )
         return campaign_type_map.get(campaign_type, GenericCampaign)

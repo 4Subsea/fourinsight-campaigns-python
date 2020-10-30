@@ -6,10 +6,7 @@ import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
-from fourinsight.campaigns.utils import (
-    to_dict,
-    download_sensor_data
-)
+from fourinsight.campaigns.utils import to_dict, download_sensor_data
 
 
 class Test_to_dict:
@@ -35,7 +32,6 @@ class Test_to_dict:
 
 
 class Test_download_sensor_data:
-
     @pytest.fixture
     def dummy_data(self):
         index = pd.DatetimeIndex(np.array([1, 2, 3]) * 1e9)
@@ -48,9 +44,7 @@ class Test_download_sensor_data:
     def test_download_one_channel(self, dummy_data):
         index, data = dummy_data
         mock_client = MagicMock()
-        mock_client.get = MagicMock(
-            side_effect=[data["LMRP"], data["RISER"]]
-        )
+        mock_client.get = MagicMock(side_effect=[data["LMRP"], data["RISER"]])
         expected = pd.DataFrame({"LMRP": [1, 2, 3]}, index=index)
         result = download_sensor_data(mock_client, {"LMRP": "abc"})
         assert_frame_equal(expected, result)
@@ -58,12 +52,8 @@ class Test_download_sensor_data:
     def test_download_two_channels(self, dummy_data):
         index, data = dummy_data
         mock_client = MagicMock()
-        mock_client.get = MagicMock(
-            side_effect=[data["LMRP"], data["RISER"]]
-        )
-        expected = pd.DataFrame(
-            {"LMRP": [1, 2, 3], "RISER": [5, 6, 7]}, index=index
-        )
+        mock_client.get = MagicMock(side_effect=[data["LMRP"], data["RISER"]])
+        expected = pd.DataFrame({"LMRP": [1, 2, 3], "RISER": [5, 6, 7]}, index=index)
         result = download_sensor_data(mock_client, {"LMRP": "abc", "RISER": "bcd"})
         assert_frame_equal(expected, result, check_like=True)
 

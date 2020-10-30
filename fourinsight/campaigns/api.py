@@ -68,7 +68,7 @@ class JSONSpecialParse:
             if key in self._location_keys:
                 try:
                     val1, val2 = value.split("#")
-                except(AttributeError, ValueError):
+                except (AttributeError, ValueError):
                     dct_update[key] = value
                 else:
                     dct_update[key] = (float(val1), float(val2))

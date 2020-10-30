@@ -162,9 +162,14 @@ class GenericCampaign:
         and gyro data.
         """
         if not filter_:
-            def cond(channel): return True
+
+            def cond(channel):
+                return True
+
         else:
-            def cond(channel): return channel in filter_
+
+            def cond(channel):
+                return channel in filter_
 
         channels = {
             channel["Channel"]: channel["Timeseries id"]
