@@ -31,11 +31,3 @@ fourinsight.campaigns.utils
    :members:
    :undoc-members:
    :show-inheritance:
-
-fourinsight.campaigns.shared
-****************************
-
-.. automodule:: fourinsight.campaigns.shared
-   :members:
-   :undoc-members:
-   :show-inheritance:

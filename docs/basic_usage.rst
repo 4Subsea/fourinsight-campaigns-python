@@ -1,13 +1,16 @@
 Basic Usage
 ###########
 
-TODO!
+Used together with :py:mod:`fourinsight.api` and :py:mod:`datareservoirio`,
+:py:mod:`fourinsight.campaigns` makes up an easy-to-use Python interface for
+retrieving metadata about campaigns from `4insight.io`_ and download timeseries data
+related to a campaign from `DataReservoir.io`_.
 
-Create a client and get campaign data
--------------------------------------
+Authenticate
+------------
 
-To be able to communicate with the campaigns database, an authenticated session
-is required. An authenticated User Session can be set up using the
+To be able to communicate with the 4insight campaigns database, an authenticated session
+is required. A User Session can be set up using the
 :py:mod:`fourinsight.api` library::
 
     from fourinsight.api import UserSession
@@ -20,14 +23,27 @@ is required. An authenticated User Session can be set up using the
     require any user interaction, but expects a ``client_id`` and ``client_secret``
     to be given for authentication. :ref:`Contact us <support>` and we will help you.
 
-When an authenticated session is available, the campaigns client can be initiated::
+To be able to download timeseries data from the DataReservoir, a datareservoir client
+must be initiated::
+
+    import datareservoirio as drio
+    drio_auth = drio.Authenticator()
+    drio_client = drio.Client(drio_auth)
+
+Now you have everything set up to start using the tools provided by
+:py:mod:`fourinsight.campaigns`.
+
+Create a client and get campaign data
+-------------------------------------
+
+Initiate a campaigns client::
 
     from fourinsight.campaigns import Client
     client = Client(session)
 
 The campaigns client can be used to get a list of available campaigns in 4insight
 using the ``client.overview()`` method, or to get data for a particular campaign
-using the ```client.get`` method::
+using the ``client.get`` method::
 
     campaign = client.get('campaign_guid')
 
@@ -53,13 +69,20 @@ is to filter by position::
 Get sensor data
 ---------------
 
-When working with a campaign it is possible to download all (or some) channels into
-a pandas.DataFrame using the ``download_sensor_data`` method::
+Sensor data can be downloaded from the DataReservoir into a pandas.DataFrame using
+the ``client.download_sensor_data`` method::
 
-    sensor = campaign.sensors()[0]   # choose a sensor from the list of sensors
+    # Choose which sensor to download from the list of sensors
+    sensor = campaign.sensors()[0]
+    # Download the sensor data
     campaign.get_sensor_data(drio_client, sensor, filter_=["Ax", "Ay"])
 
-You can also use built-in lists provided by :py:mod:`fourinsight.campaigns.channels`::
+The ``filter_`` argument decides which channels to download. A built-in channel
+list is provided by :py:mod:`fourinsight.campaigns.channels`::
 
     from fourinsight.campaigns import channels
     campaign.get_sensor_data(drio_client, lmrp_sensor, filter_=channels.AG)
+
+
+.. _4Insight.io: https://4insight.io
+.. _DataReservoir.io: https://www.4subsea.com/solutions/digitalisation/datareservoir/
