@@ -10,7 +10,5 @@ Contents
 
    getting_started
    basic_usage
-   logging
    api
-   developer
    support
