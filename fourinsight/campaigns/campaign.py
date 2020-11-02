@@ -156,7 +156,7 @@ class GenericCampaign:
 
         Note
         ----
-        You can supply standard enumerated lists from fourinsight.campaigns.Channels.
+        You can supply pre-defiend lists from fourinsight.campaigns.channels.
         E.g. self.get_sensor_data(drio_client, lmrp_sensor,
         filter_=fourinsight.campaigns.channels.AG) to include all acceleration
         and gyro data.
