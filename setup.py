@@ -9,7 +9,7 @@ setup(
     url="https://4insight.io/",
     packages=["fourinsight.campaigns"],
     install_requires=[
-        "fourinsight-api"
+        "fourinsight-api",
         "pandas",
     ],
     zip_safe=False,
