@@ -71,7 +71,10 @@ class JSONSpecialParse:
                 except (AttributeError, ValueError):
                     dct_update[key] = value
                 else:
-                    dct_update[key] = (float(val1), float(val2))
+                    dct_update[key] = (
+                        None if val1 == "null" else float(val1),
+                        None if val2 == "null" else float(val2),
+                    )
         dct.update(dct_update)
 
         # Remove when endpoints start returning native values

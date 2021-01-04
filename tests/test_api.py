@@ -167,6 +167,36 @@ class Test_JSONSpecialParse:
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
 
+    def test_location_null(self):
+        json_str = """{
+            "a_location": "null#null",
+            "b_other": "something",
+            "nested": [
+                {
+                    "nested_location_1": "null#10.11",
+                    "nested_location_2": "12.13#null"
+                }
+            ]
+        }"""
+
+        dict_expected = {
+            "a_location": (None, None),
+            "b_other": "something",
+            "nested": [
+                {
+                    "nested_location_1": (None, 10.11),
+                    "nested_location_2": (12.13, None),
+                }
+            ],
+        }
+
+        json_special_hook = JSONSpecialParse(
+            location_keys=("a_location", "nested_location_1", "nested_location_2")
+        )
+
+        dict_out = json.loads(json_str, object_hook=json_special_hook)
+        assert dict_expected == dict_out
+
     def test_numbers(self):
         """Deprecate when REST API endpoint starts returning native values"""
         json_str = """{
