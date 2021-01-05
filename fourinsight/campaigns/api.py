@@ -214,22 +214,15 @@ class CampaignsAPI:
             ("waterDepth", "Water Depth"): None,
             ("location", "Location"): None,
             ("mainDataProvider", "Main Data Provider"): None,
+            ("startDate", "Start Date"): None,
+            ("endDate", "End Date"): None,
             ("geoPositionId", "Geo Position ID"): None,
             ("geoLocation", "Geo Location"): None,
             ("geoTitle", "Geo Title"): None,
-            ("startDate", "Start Date"): None,
-            ("endDate", "End Date"): None,
             ("hsTimeseriesId", "Hs Timeseries ID"): None,
             ("tpTimeseriesId", "Tp Timeseries ID"): None,
             ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
-
-        if campaign_type:
-            # pass   # TODO warning
-            warnings.warn(
-                "Filtering by campaign type not supported yet",
-                UserWarning,
-            )
 
         response = self._session.get(self._url(""))
 

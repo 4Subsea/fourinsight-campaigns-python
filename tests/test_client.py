@@ -22,14 +22,30 @@ class Test_Client:
 
         records = [
             {
-                "CampaignID": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Name": "1086 - 31/2-F-6",
                 "Type": "SWIM Campaign",
+                "Client": "string",
+                "PO Number": "string",
+                "Project Number": "string",
                 "Vessel": "Songa Endurance",
+                "Vessel Contractor": "string",
                 "Well Name": "31/2-F-6",
-                "Start Date": pd.to_datetime("2017-10-21T00:00:00+00:00"),
-            }
+                "Well ID": "string",
+                "Water Depth": 100.0,
+                "Location": (1.3, 2.4),
+                "Main Data Provider": "string",
+                "Start Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
+                "End Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
+                "Geo Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Geo Location": (3.2, 4.5),
+                "Geo Title": "string",
+                "Hs Timeseries ID": "string",
+                "Tp Timeseries ID": "string",
+                "Wd Timeseries ID": "string",
+            },
         ]
+
         df_expected = pd.DataFrame.from_records(records, index="CampaignID")
         pd.testing.assert_frame_equal(df, df_expected)
 

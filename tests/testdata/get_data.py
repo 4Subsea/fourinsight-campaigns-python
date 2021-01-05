@@ -1,13 +1,42 @@
+# CAMPAIGNS_DATA_LIST = [
+#     {
+#         "id": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+#         "modified": "string",
+#         "campaignName": "1086 - 31/2-F-6",
+#         "campaignType": "SWIM Campaign",
+#         "poNumber": "string"
+#         "vessel": "Songa Endurance",
+#         "fieldTitle": "Troll",
+#         "wellName": "31/2-F-6",
+#         "startDate": "2017-10-21T00:00:00+00:00",
+#     }
+# ]
+
 CAMPAIGNS_DATA_LIST = [
     {
-        "id": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "modified": "string",
         "campaignName": "1086 - 31/2-F-6",
         "campaignType": "SWIM Campaign",
+        "poNumber": "string",
+        "projectNumber": "string",
+        "client": "string",
         "vessel": "Songa Endurance",
-        "fieldTitle": "Troll",
+        "vesselContractor": "string",
         "wellName": "31/2-F-6",
-        "startDate": "2017-10-21T00:00:00+00:00",
-    }
+        "wellId": "string",
+        "waterDepth": "100.",
+        "location": "1.3#2.4",
+        "mainDataProvider": "string",
+        "startDate": "2021-01-05T13:49:51.815Z",
+        "endDate": "2021-01-05T13:49:51.815Z",
+        "geoPositionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "geoLocation": "3.2#4.5",
+        "geoTitle": "string",
+        "hsTimeseriesId": "string",
+        "tpTimeseriesId": "string",
+        "wdTimeseriesId": "string",
+    },
 ]
 
 
