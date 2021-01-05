@@ -105,7 +105,10 @@ json_special_hook = JSONSpecialParse(
         "detachedTime",
         "dashboardCloseDate",
     ),
-    location_keys=("location",),
+    location_keys=(
+        "location",
+        "geoLocation"
+    ),
     float_keys=(
         "distanceFromWellhead",
         "samplingRate",
@@ -114,6 +117,8 @@ json_special_hook = JSONSpecialParse(
         "height",
         "addedMassCoefficient",
         "alpha",
+        "waterDepth",
+
     ),
 )
 
@@ -199,10 +204,24 @@ class CampaignsAPI:
             ("id", "CampaignID"): None,
             ("campaignName", "Name"): None,
             ("campaignType", "Type"): None,
+            ("client", "Client"): None,
+            ("poNumber", "PO Number"): None,
+            ("projectNumber", "Project Number"): None,
             ("vessel", "Vessel"): None,
-            # ("fieldTitle", "Field"): None,
+            ("vesselContractor", "Vessel Contractor"): None,
             ("wellName", "Well Name"): None,
+            ("wellId", "Well ID"): None,
+            ("waterDepth", "Water Depth"): None,
+            ("location", "Location"): None,
+            ("mainDataProvider", "Main Data Provider"): None,
+            ("geoPositionId", "Geo Position ID"): None,
+            ("geoLocation", "Geo Location"): None,
+            ("geoTitle", "Geo Title"): None,
             ("startDate", "Start Date"): None,
+            ("endDate", "End Date"): None,
+            ("hsTimeseriesId", "Hs Timeseries ID"): None,
+            ("tpTimeseriesId", "Tp Timeseries ID"): None,
+            ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
         if campaign_type:
@@ -218,6 +237,13 @@ class CampaignsAPI:
             _dict_rename(campaign_item, response_map)
             for campaign_item in response.json(object_hook=json_special_hook)
         ]
+
+        if campaign_type:
+            response_out = [
+                item for item in response_out
+                if item["Type"].lower() == campaign_type.lower()
+                ]
+
         return response_out
 
     def get_campaign(self, campaign_id):
