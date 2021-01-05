@@ -1,3 +1,5 @@
+import warnings
+
 import pandas as pd
 
 
@@ -138,6 +140,46 @@ class CampaignsAPI:
             url += f"/{relative_url.lstrip('/')}"
         return url
 
+    # def get_campaigns(self, campaign_type=None):
+    #     """
+    #     Get list of campaigns.
+
+    #     Parameters
+    #     ----------
+    #     campaign_type : str, optional
+    #         Campaign type ['generic', 'swim']. If None, all campaign
+    #         types are returned.
+
+    #     Returns
+    #     -------
+    #     list of dicts
+    #         A list of campaign dicts.
+    #     """
+    #     response_map = {
+    #         ("id", "CampaignID"): None,
+    #         ("campaignName", "Name"): None,
+    #         ("campaignType", "Type"): None,
+    #         ("vessel", "Vessel"): None,
+    #         ("fieldTitle", "Field"): None,
+    #         ("wellName", "Well Name"): None,
+    #         ("startDate", "Start Date"): None,
+    #     }
+
+    #     if not campaign_type:
+    #         response = self._session.get(self._url(""))
+    #     elif campaign_type.lower() == "swim campaign":
+    #         response = self._session.get(self._url("/Type/SWIM Campaign"))
+    #     elif campaign_type.lower() == "campaign":
+    #         response = self._session.get(self._url("/Type/Campaign"))
+    #     else:
+    #         raise ValueError("Unknown 'campaign_type'")
+
+    #     response_out = [
+    #         _dict_rename(campaign_item, response_map)
+    #         for campaign_item in response.json(object_hook=json_special_hook)
+    #     ]
+    #     return response_out
+
     def get_campaigns(self, campaign_type=None):
         """
         Get list of campaigns.
@@ -158,19 +200,19 @@ class CampaignsAPI:
             ("campaignName", "Name"): None,
             ("campaignType", "Type"): None,
             ("vessel", "Vessel"): None,
-            ("fieldTitle", "Field"): None,
+            # ("fieldTitle", "Field"): None,
             ("wellName", "Well Name"): None,
             ("startDate", "Start Date"): None,
         }
 
-        if not campaign_type:
-            response = self._session.get(self._url(""))
-        elif campaign_type.lower() == "swim campaign":
-            response = self._session.get(self._url("/Type/SWIM Campaign"))
-        elif campaign_type.lower() == "campaign":
-            response = self._session.get(self._url("/Type/Campaign"))
-        else:
-            raise ValueError("Unknown 'campaign_type'")
+        if campaign_type:
+            # pass   # TODO warning
+            warnings.warn(
+                "Filtering by campaign type not supported yet",
+                UserWarning,
+            )
+
+        response = self._session.get(self._url(""))
 
         response_out = [
             _dict_rename(campaign_item, response_map)

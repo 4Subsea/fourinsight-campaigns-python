@@ -27,20 +27,6 @@ class Test_CampaignsAPI:
         auth_session.get.assert_called_once_with("/v1.0/Campaigns")
         response.json.assert_called()
 
-    def test_get_campaigns_swim(self, campaigns_api, auth_session, response):
-        campaigns_api.get_campaigns(campaign_type="SWIM Campaign")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/Type/SWIM Campaign")
-        response.json.assert_called()
-
-    def test_get_campaigns_generic(self, campaigns_api, auth_session, response):
-        campaigns_api.get_campaigns(campaign_type="Campaign")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/Type/Campaign")
-        response.json.assert_called()
-
-    def test_get_campaigns_raises(self, campaigns_api):
-        with pytest.raises(ValueError):
-            campaigns_api.get_campaigns(campaign_type="invalid_type")
-
     def test_get_campaign(self, campaigns_api, auth_session, response):
         campaigns_api.get_campaign("1234")
         auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234")

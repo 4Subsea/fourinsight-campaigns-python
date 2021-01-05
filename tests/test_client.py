@@ -26,7 +26,6 @@ class Test_Client:
                 "Name": "1086 - 31/2-F-6",
                 "Type": "SWIM Campaign",
                 "Vessel": "Songa Endurance",
-                "Field": "Troll",
                 "Well Name": "31/2-F-6",
                 "Start Date": pd.to_datetime("2017-10-21T00:00:00+00:00"),
             }
