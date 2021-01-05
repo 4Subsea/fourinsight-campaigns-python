@@ -103,10 +103,7 @@ json_special_hook = JSONSpecialParse(
         "detachedTime",
         "dashboardCloseDate",
     ),
-    location_keys=(
-        "location",
-        "geoLocation"
-    ),
+    location_keys=("location", "geoLocation"),
     float_keys=(
         "distanceFromWellhead",
         "samplingRate",
@@ -116,7 +113,6 @@ json_special_hook = JSONSpecialParse(
         "addedMassCoefficient",
         "alpha",
         "waterDepth",
-
     ),
 )
 
@@ -191,9 +187,10 @@ class CampaignsAPI:
 
         if campaign_type:
             response_out = [
-                item for item in response_out
+                item
+                for item in response_out
                 if item["Type"].lower() == campaign_type.lower()
-                ]
+            ]
 
         return response_out
 
