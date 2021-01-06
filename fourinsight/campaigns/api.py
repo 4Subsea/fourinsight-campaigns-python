@@ -170,9 +170,9 @@ class CampaignsAPI:
             ("mainDataProvider", "Main Data Provider"): None,
             ("startDate", "Start Date"): None,
             ("endDate", "End Date"): None,
-            ("geoPositionId", "Geo Position ID"): None,
-            ("geoLocation", "Geo Location"): None,
-            ("geoTitle", "Geo Title"): None,
+            ("geoPositionId", "GeoTrack Position ID"): None,
+            ("geoLocation", "GeoTrack Location"): None,
+            ("geoTitle", "GeoTrack Title"): None,
             ("hsTimeseriesId", "Hs Timeseries ID"): None,
             ("tpTimeseriesId", "Tp Timeseries ID"): None,
             ("wdTimeseriesId", "Wd Timeseries ID"): None,
@@ -184,14 +184,6 @@ class CampaignsAPI:
             _dict_rename(campaign_item, response_map)
             for campaign_item in response.json(object_hook=json_special_hook)
         ]
-
-        if campaign_type:
-            response_out = [
-                item
-                for item in response_out
-                if item["Type"].lower() == campaign_type.lower()
-            ]
-
         return response_out
 
     def get_campaign(self, campaign_id):
