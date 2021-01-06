@@ -29,7 +29,7 @@ class Client:
         response = self._campaigns_api.get_campaigns()
         return pd.DataFrame.from_records(response, index="CampaignID")
 
-    def get(self, campaign_id, campaign_type=None):
+    def get(self, campaign_id):
         """
         Get the campaign data from the database.
 
@@ -47,12 +47,6 @@ class Client:
             A campaign type specific object containing all relevant information
             about the campaign.
         """
-        if campaign_type is not None:
-            warnings.warn(
-                "Deprecated. Campaign type is automatically inferred. "
-                "'campaign_type' keyword will be removed after 1st Jan 2021.",
-                DeprecationWarning,
-            )
 
         campaign_type = self._campaigns_api.get_campaign_type(campaign_id)
         Campaign = self._get_campaign_type(campaign_type)

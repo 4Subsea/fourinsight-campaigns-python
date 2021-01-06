@@ -22,15 +22,30 @@ class Test_Client:
 
         records = [
             {
-                "CampaignID": "6c181d43-0fba-425c-b8bf-06dfb4a661db",
+                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Name": "1086 - 31/2-F-6",
                 "Type": "SWIM Campaign",
+                "Client": "string",
+                "PO Number": "string",
+                "Project Number": "string",
                 "Vessel": "Songa Endurance",
-                "Field": "Troll",
+                "Vessel Contractor": "string",
                 "Well Name": "31/2-F-6",
-                "Start Date": pd.to_datetime("2017-10-21T00:00:00+00:00"),
-            }
+                "Well ID": "string",
+                "Water Depth": 100.0,
+                "Location": (1.3, 2.4),
+                "Main Data Provider": "string",
+                "Start Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
+                "End Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
+                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "GeoTrack Location": (3.2, 4.5),
+                "GeoTrack Title": "string",
+                "Hs Timeseries ID": "string",
+                "Tp Timeseries ID": "string",
+                "Wd Timeseries ID": "string",
+            },
         ]
+
         df_expected = pd.DataFrame.from_records(records, index="CampaignID")
         pd.testing.assert_frame_equal(df, df_expected)
 
@@ -51,12 +66,3 @@ class Test_Client:
     def test_get_swim(self, mock_campaign, camp_client, auth_session):
         camp_client.get("test_swim_id")
         mock_campaign.assert_called_once_with(auth_session, "test_swim_id")
-
-    @patch("fourinsight.campaigns.client.SwimCampaign")
-    def test_get_warning(self, mock_campaign, camp_client, auth_session):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            camp_client.get("test_swim_id", campaign_type="swim")
-
-            assert len(w) == 1
-            assert issubclass(w[-1].category, DeprecationWarning)

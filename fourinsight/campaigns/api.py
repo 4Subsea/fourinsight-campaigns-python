@@ -103,7 +103,7 @@ json_special_hook = JSONSpecialParse(
         "detachedTime",
         "dashboardCloseDate",
     ),
-    location_keys=("location",),
+    location_keys=("location", "geoLocation"),
     float_keys=(
         "distanceFromWellhead",
         "samplingRate",
@@ -112,6 +112,7 @@ json_special_hook = JSONSpecialParse(
         "height",
         "addedMassCoefficient",
         "alpha",
+        "waterDepth",
     ),
 )
 
@@ -145,7 +146,7 @@ class CampaignsAPI:
         Parameters
         ----------
         campaign_type : str, optional
-            Campaign type ['generic', 'swim']. If None, all campaign
+            Campaign type ('campaign' or 'swim campaign'). If None, all campaign
             types are returned.
 
         Returns
@@ -157,20 +158,27 @@ class CampaignsAPI:
             ("id", "CampaignID"): None,
             ("campaignName", "Name"): None,
             ("campaignType", "Type"): None,
+            ("client", "Client"): None,
+            ("poNumber", "PO Number"): None,
+            ("projectNumber", "Project Number"): None,
             ("vessel", "Vessel"): None,
-            ("fieldTitle", "Field"): None,
+            ("vesselContractor", "Vessel Contractor"): None,
             ("wellName", "Well Name"): None,
+            ("wellId", "Well ID"): None,
+            ("waterDepth", "Water Depth"): None,
+            ("location", "Location"): None,
+            ("mainDataProvider", "Main Data Provider"): None,
             ("startDate", "Start Date"): None,
+            ("endDate", "End Date"): None,
+            ("geoPositionId", "GeoTrack Position ID"): None,
+            ("geoLocation", "GeoTrack Location"): None,
+            ("geoTitle", "GeoTrack Title"): None,
+            ("hsTimeseriesId", "Hs Timeseries ID"): None,
+            ("tpTimeseriesId", "Tp Timeseries ID"): None,
+            ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
-        if not campaign_type:
-            response = self._session.get(self._url(""))
-        elif campaign_type.lower() == "swim campaign":
-            response = self._session.get(self._url("/Type/SWIM Campaign"))
-        elif campaign_type.lower() == "campaign":
-            response = self._session.get(self._url("/Type/Campaign"))
-        else:
-            raise ValueError("Unknown 'campaign_type'")
+        response = self._session.get(self._url(""))
 
         response_out = [
             _dict_rename(campaign_item, response_map)
