@@ -66,12 +66,3 @@ class Test_Client:
     def test_get_swim(self, mock_campaign, camp_client, auth_session):
         camp_client.get("test_swim_id")
         mock_campaign.assert_called_once_with(auth_session, "test_swim_id")
-
-    @patch("fourinsight.campaigns.client.SwimCampaign")
-    def test_get_warning(self, mock_campaign, camp_client, auth_session):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            camp_client.get("test_swim_id", campaign_type="swim")
-
-            assert len(w) == 1
-            assert issubclass(w[-1].category, DeprecationWarning)
