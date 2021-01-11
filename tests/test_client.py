@@ -50,12 +50,12 @@ class Test_Client:
         pd.testing.assert_frame_equal(df, df_expected)
 
     def test_get_campaign_type_generic(self, camp_client):
-        camp_client._get_campaign_type("generic") == GenericCampaign
-        camp_client._get_campaign_type("Generic") == GenericCampaign
+        assert camp_client._get_campaign_type("campaign") == GenericCampaign
+        assert camp_client._get_campaign_type("Campaign") == GenericCampaign
 
     def test_get_campaign_type_swim(self, camp_client):
-        camp_client._get_campaign_type("swim") == SwimCampaign
-        camp_client._get_campaign_type("Swim") == SwimCampaign
+        assert camp_client._get_campaign_type("swim campaign") == SwimCampaign
+        assert camp_client._get_campaign_type("Swim Campaign") == SwimCampaign
 
     @patch("fourinsight.campaigns.client.GenericCampaign")
     def test_get_generic(self, mock_campaign, camp_client, auth_session):
