@@ -23,6 +23,17 @@ class Test_CampaignsAPI:
         assert campaigns_api._url("something") == "/v1.0/Campaigns/something"
         assert campaigns_api._url("/something") == "/v1.0/Campaigns/something"
 
+    def test_get_geotrack(self, campaigns_api, auth_session, response):
+        out = campaigns_api.get_geotrack("1234")
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234")
+        response.json.assert_called()
+        expect = {
+            "HS Timeseries Id": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
+            "Tp Timeseries Id": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
+            "Wd Timeseries Id": "2c6454b8-a274-4845-80e0-cb29c0efc32b"
+        }
+        assert expect == out
+
     def test_get_campaigns(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_campaigns()
         auth_session.get.assert_called_once_with("/v1.0/Campaigns")
