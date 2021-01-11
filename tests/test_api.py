@@ -75,7 +75,7 @@ class Test_CampaignsAPI:
             "Client": "Maersk Oil",
             "Vessel": "Ocean Valiant",
             "Vessel Contractor": "Diamond Offshore",
-            "Well Name": "Could not fetch well 2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
+            "Well Name": "string",
             "Well ID": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
             "Water Depth": 100.0,
             "Location": None,
