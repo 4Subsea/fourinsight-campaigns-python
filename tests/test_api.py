@@ -2,8 +2,8 @@ import json
 
 import pandas as pd
 import pytest
-
-from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
+from fourinsight.campaigns.api import (CampaignsAPI, JSONSpecialParse,
+                                       _dict_rename)
 
 
 @pytest.fixture
@@ -30,7 +30,7 @@ class Test_CampaignsAPI:
         expect = {
             "HS Timeseries Id": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
             "Tp Timeseries Id": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
-            "Wd Timeseries Id": "2c6454b8-a274-4845-80e0-cb29c0efc32b"
+            "Wd Timeseries Id": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
         }
         assert expect == out
 
@@ -96,18 +96,13 @@ class Test_CampaignsAPI:
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
             },
-            {
-                "Start": None,
-                "End": None,
-                "Event Type": "Artifact",
-                "Comment": None,
-            },
+            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None,},
             {
                 "Start": pd.to_datetime("2019-01-01T00:00:00.0000000Z"),
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
-            }
+            },
         ]
         assert expect == out
 
@@ -134,7 +129,7 @@ class Test_CampaignsAPI:
                         "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     }
-                ]
+                ],
             },
             {
                 "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -154,8 +149,8 @@ class Test_CampaignsAPI:
                         "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     }
-                ]
-            }
+                ],
+            },
         ]
         assert expect == out
 
@@ -171,9 +166,9 @@ class Test_CampaignsAPI:
                     "Mass": 100.0,
                     "Submerged Weight": 1000.0,
                     "Height": 10.0,
-                    "Added Mass Coefficient": 2.0
+                    "Added Mass Coefficient": 2.0,
                 }
-            ]
+            ],
         }
         assert expect == out
 
@@ -196,7 +191,7 @@ class Test_CampaignsAPI:
             "Experience Log Made": "string",
             "WellSpot Bending Moment Uploaded": "string",
             "Dashboard Closed": "string",
-            "Services Available": "string"
+            "Services Available": "string",
         }
         expect == out
 
@@ -220,7 +215,7 @@ class Test_CampaignsAPI:
                 "Experience Log Made": "string",
                 "WellSpot Bending Moment Uploaded": "string",
                 "Dashboard Closed": "string",
-                "Services Available": "string"
+                "Services Available": "string",
             }
         ]
         assert expect == out
@@ -235,10 +230,7 @@ class Test__dict_rename:
             "a": "this",
             "b": {"one": 1, "two": 2},
             "c": "ignore me",
-            "d": [
-                {"tell": "me", "why": "!"},
-                {"tell": "you", "why": "?"},
-            ],
+            "d": [{"tell": "me", "why": "!"}, {"tell": "you", "why": "?"},],
         }
 
         dict_map = {
@@ -250,10 +242,7 @@ class Test__dict_rename:
         dict_expected = {
             "A": "this",
             "b": {"One": 1, "TWO": 2},
-            "D": [
-                {"Tell": "me", "WHY": "!"},
-                {"Tell": "you", "WHY": "?"},
-            ],
+            "D": [{"Tell": "me", "WHY": "!"}, {"Tell": "you", "WHY": "?"},],
         }
 
         dict_out = _dict_rename(dict_org, dict_map)
