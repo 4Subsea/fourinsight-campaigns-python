@@ -1,4 +1,5 @@
 import pandas as pd
+from abc import ABCMeta, abstractmethod
 
 
 def _dict_rename(dict_org, dict_map):
@@ -96,6 +97,8 @@ class JSONSpecialParse:
 
 json_special_hook = JSONSpecialParse(
     datetime_keys=(
+        "start",
+        "stop",
         "startDate",
         "endDate",
         "stopDate",
@@ -117,6 +120,336 @@ json_special_hook = JSONSpecialParse(
 )
 
 
+# class BaseCampaignsAPI(metaclass=ABCMeta):
+
+
+#     @abstractmethod
+#     def get_campaigns(self, *args, **kwargs):
+#         pass
+
+#     @abstractmethod
+#     def get_campaign(self, *args, **kwargs):
+#         pass
+
+
+# class CampaignsAPI:
+#     """
+#     Python wrapper (convinience) for 4Insight Public API - Campaigns.
+
+#     Parameters
+#     ----------
+#     session : authorized session
+#         Authorized session instance which appends a valid bearer token to all
+#         HTTP calls. Use ``fourinsight.api.UserSession`` or
+#         ``fourinsight.api.ClientSession``.
+#     """
+
+#     def __init__(self, session, api_version="v1.0"):
+#         self._session = session
+#         self._api_version = api_version
+
+#     def _url(self, relative_url):
+#         url = f"/{self._api_version}/Campaigns"
+#         if relative_url:
+#             url += f"/{relative_url.lstrip('/')}"
+#         return url
+
+#     def get_campaigns(self, campaign_type=None):
+#         """
+#         Get list of campaigns.
+
+#         Parameters
+#         ----------
+#         campaign_type : str, optional
+#             Campaign type ('campaign' or 'swim campaign'). If None, all campaign
+#             types are returned.
+
+#         Returns
+#         -------
+#         list of dicts
+#             A list of campaign dicts.
+#         """
+#         response_map = {
+#             ("id", "CampaignID"): None,
+#             ("campaignName", "Name"): None,
+#             ("campaignType", "Type"): None,
+#             ("client", "Client"): None,
+#             ("poNumber", "PO Number"): None,
+#             ("projectNumber", "Project Number"): None,
+#             ("vessel", "Vessel"): None,
+#             ("vesselContractor", "Vessel Contractor"): None,
+#             ("wellName", "Well Name"): None,
+#             ("wellId", "Well ID"): None,
+#             ("waterDepth", "Water Depth"): None,
+#             ("location", "Location"): None,
+#             ("mainDataProvider", "Main Data Provider"): None,
+#             ("startDate", "Start Date"): None,
+#             ("endDate", "End Date"): None,
+#             ("geoPositionId", "GeoTrack Position ID"): None,
+#             ("geoLocation", "GeoTrack Location"): None,
+#             ("geoTitle", "GeoTrack Title"): None,
+#             ("hsTimeseriesId", "Hs Timeseries ID"): None,
+#             ("tpTimeseriesId", "Tp Timeseries ID"): None,
+#             ("wdTimeseriesId", "Wd Timeseries ID"): None,
+#         }
+
+#         response = self._session.get(self._url(""))
+
+#         response_out = [
+#             _dict_rename(campaign_item, response_map)
+#             for campaign_item in response.json(object_hook=json_special_hook)
+#         ]
+#         return response_out
+
+#     def get_campaign(self, campaign_id):
+#         """
+#         Get campaign.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Campaign dict.
+#         """
+#         response_map = {
+#             ("id", "CampaignID"): None,
+#             ("projectNumber", "Project Number"): None,
+#             ("client", "Client"): None,
+#             ("vessel", "Vessel"): None,
+#             ("vesselContractor", "Vessel Contractor"): None,
+#             ("wellName", "Well Name"): None,
+#             ("wellId", "Well ID"): None,
+#             ("waterDepth", "Water Depth"): None,
+#             ("location", "Location"): None,
+#             ("mainDataProvider", "Main Data Provider"): None,
+#             ("startDate", "Start Date"): None,
+#             ("endDate", "End Date"): None,
+#         }
+
+#         response = self._session.get(self._url(f"/{campaign_id}"))
+#         response_out = _dict_rename(
+#             response.json(object_hook=json_special_hook), response_map
+#         )
+#         return response_out
+
+#     def get_geotrack(self, campaign_id):
+#         """
+#         Get GeoTrack information. (There is no corresponding API endpoint.
+#         Introduced for consistency and convinience downstream.)
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Campaign dict.
+#         """
+#         response_map = {
+#             ("hsTimeseriesId", "HS Timeseries Id"): None,
+#             ("tpTimeseriesId", "Tp Timeseries Id"): None,
+#             ("wdTimeseriesId", "Wd Timeseries Id"): None,
+#         }
+
+#         response = self._session.get(self._url(f"/{campaign_id}"))
+#         response_out = _dict_rename(
+#             response.json(object_hook=json_special_hook), response_map
+#         )
+#         return response_out
+
+#     def get_events(self, campaign_id):
+#         """
+#         Get events.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Events dict.
+#         """
+#         response_map = {
+#             ("startDate", "Start"): None,
+#             ("stopDate", "End"): None,
+#             ("eventType", "Event Type"): None,
+#             ("comment", "Comment"): None,
+#         }
+#         response = self._session.get(self._url(f"/{campaign_id}/Events"))
+#         response_out = [
+#             _dict_rename(event_item, response_map)
+#             for event_item in response.json(object_hook=json_special_hook)["events"]
+#         ]
+#         return response_out
+
+#     def get_sensors(self, campaign_id):
+#         """
+#         Get sensors.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Sensors dict.
+#         """
+#         response_map = {
+#             ("sensorId", "SensorID"): None,
+#             ("sensorName", "Name"): None,
+#             ("position", "Position"): None,
+#             ("distanceFromWellhead", "Distance From Wellhead"): None,
+#             ("directionXAxis", "Direction X Axis"): None,
+#             ("directionZAxis", "Direction Z Axis"): None,
+#             ("samplingRate", "Sampling Rate"): None,
+#             ("sensorVendor", "Sensor Vendor"): None,
+#             ("attachedTime", "Attached Time"): None,
+#             ("detachedTime", "Detached Time"): None,
+#             ("channels", "Channels"): {
+#                 ("channelName", "Channel"): None,
+#                 ("units", "Units"): None,
+#                 ("timeseriesId", "Timeseries id"): None,
+#                 ("positionStreamId", "Stream id"): None,
+#             },
+#         }
+
+#         response = self._session.get(self._url(f"/{campaign_id}/Sensors"))
+#         response_out = [
+#             _dict_rename(sensor_item, response_map)
+#             for sensor_item in response.json(object_hook=json_special_hook)["sensors"]
+#         ]
+#         return response_out
+
+#     def get_lowerstack(self, campaign_id):
+#         """
+#         Get lower stack.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Lower stack dict.
+#         """
+#         response_map = {
+#             ("alpha", "Alpha"): None,
+#             ("elements", "Elements"): {
+#                 ("name", "Name"): None,
+#                 ("mass", "Mass"): None,
+#                 ("submergedWeight", "Submerged Weight"): None,
+#                 ("height", "Height"): None,
+#                 ("addedMassCoefficient", "Added Mass Coefficient"): None,
+#             },
+#         }
+#         response = self._session.get(self._url(f"/{campaign_id}/LowerStack"))
+#         response_out = _dict_rename(
+#             response.json(object_hook=json_special_hook), response_map
+#         )
+#         return response_out
+
+#     def get_swimops_campaign(self, campaign_id):
+#         """
+#         Get SWIM operations for campaign.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         dict
+#             Swim operations dict.
+#         """
+#         response_map = {
+#             ("operationStatus", "Operation Status"): None,
+#             ("dashboardStatus", "Dashboard Status"): None,
+#             ("slaLevel", "SLA Level"): None,
+#             ("customerContact", "Customer Contact"): None,
+#             ("comments", "Comments"): None,
+#             ("dashboardCloseDate", "Dashboard Close Date"): None,
+#             ("swimInstanceStatus", "SWIM Instance Status"): None,
+#             ("reportMade", "Report Made"): None,
+#             ("reportSent", "Report Sent"): None,
+#             ("dataPackageMade", "Data Package Made"): None,
+#             ("dataPackageSent", "Data Package Sent"): None,
+#             ("experienceLogMade", "Experience Log Made"): None,
+#             ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+#             ("dashboardClosed", "Dashboard Closed"): None,
+#             ("servicesAvailable", "Services Available"): None,
+#         }
+
+#         response = self._session.get(self._url(f"/{campaign_id}/Swimops"))
+#         response_out = _dict_rename(
+#             response.json(object_hook=json_special_hook), response_map
+#         )
+#         return response_out
+
+#     def get_swimops(self):
+#         """
+#         Get SWIM operations.
+
+#         Returns
+#         -------
+#         list of dicts
+#             A list of swim operations dicts.
+#         """
+#         response_map = {
+#             ("operationStatus", "Operation Status"): None,
+#             ("dashboardStatus", "Dashboard Status"): None,
+#             ("slaLevel", "SLA Level"): None,
+#             ("customerContact", "Customer Contact"): None,
+#             ("comments", "Comments"): None,
+#             ("dashboardCloseDate", "Dashboard Close Date"): None,
+#             ("swimInstanceStatus", "SWIM Instance Status"): None,
+#             ("reportMade", "Report Made"): None,
+#             ("reportSent", "Report Sent"): None,
+#             ("dataPackageMade", "Data Package Made"): None,
+#             ("dataPackageSent", "Data Package Sent"): None,
+#             ("experienceLogMade", "Experience Log Made"): None,
+#             ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+#             ("dashboardClosed", "Dashboard Closed"): None,
+#             ("servicesAvailable", "Services Available"): None,
+#         }
+
+#         response = self._session.get(self._url(f"/Swimops"))
+#         response_out = [
+#             _dict_rename(swim_ops_item, response_map)
+#             for swim_ops_item in response.json(object_hook=json_special_hook)
+#         ]
+#         return response_out
+
+#     def get_campaign_type(self, campaign_id):
+#         """
+#         Get campaign type.
+
+#         Parameters
+#         ----------
+#         campaign_id : str
+#             Campaign ID
+
+#         Returns
+#         -------
+#         str
+#             Campaign type.
+#         """
+#         response = self._session.get(self._url(f"/{campaign_id}"))
+#         return response.json(object_hook=json_special_hook)["campaignType"].lower()
+
+
 class CampaignsAPI:
     """
     Python wrapper (convinience) for 4Insight Public API - Campaigns.
@@ -129,17 +462,39 @@ class CampaignsAPI:
         ``fourinsight.api.ClientSession``.
     """
 
-    def __init__(self, session, api_version="v1.0"):
-        self._session = session
-        self._api_version = api_version
+    _API_VERSION = "v1.1"
 
-    def _url(self, relative_url):
-        url = f"/{self._api_version}/Campaigns"
+    def __init__(self, session, *args, **kwargs):
+        self._session = session
+
+    def _url(self, relative_url, api_version=None):
+        if api_version is None:
+            api_version = self._API_VERSION
+
+        url = f"/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
 
-    def get_campaigns(self, campaign_type=None):
+    def _get_payload(self, url, *args, **kwargs):
+        next_link = url
+        payload = []
+        while next_link:
+            json_response = self._session.get(next_link).json(*args, **kwargs)
+            payload.extend(json_response["value"])
+            next_link = json_response["@odata.nextLink"]
+        return payload
+
+    def _get_method(self, api_version=None):
+        if api_version is None:
+            api_version = self._API_VERSION
+
+        if api_version.lower() == "v1.0":
+            return lambda url, *args, **kwargs: self._session.get(url).json(*args, **kwargs)
+        else:
+            return self._get_payload
+
+    def get_campaigns(self):
         """
         Get list of campaigns.
 
@@ -178,12 +533,13 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
-        response = self._session.get(self._url(""))
+        response = self._get_method()(self._url(""), object_hook=json_special_hook)
 
         response_out = [
             _dict_rename(campaign_item, response_map)
-            for campaign_item in response.json(object_hook=json_special_hook)
+            for campaign_item in response
         ]
+
         return response_out
 
     def get_campaign(self, campaign_id):
@@ -215,9 +571,10 @@ class CampaignsAPI:
             ("endDate", "End Date"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}"))
+        api_version = "v1.0"
+        response = self._get_method(api_version)(self._url(f"/{campaign_id}", api_version=api_version), object_hook=json_special_hook)
         response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+            response, response_map
         )
         return response_out
 
@@ -242,9 +599,10 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries Id"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}"))
+        api_version = "v1.0"
+        response = self._get_method(api_version)(self._url(f"/{campaign_id}", api_version=api_version), object_hook=json_special_hook)
         response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+            response, response_map
         )
         return response_out
 
@@ -263,15 +621,17 @@ class CampaignsAPI:
             Events dict.
         """
         response_map = {
-            ("startDate", "Start"): None,
-            ("stopDate", "End"): None,
+            ("start", "Start"): None,
+            ("stop", "End"): None,
             ("eventType", "Event Type"): None,
             ("comment", "Comment"): None,
         }
-        response = self._session.get(self._url(f"/{campaign_id}/Events"))
+
+        response = self._get_method()(self._url(f"/{campaign_id}/Events"), object_hook=json_special_hook)
+
         response_out = [
             _dict_rename(event_item, response_map)
-            for event_item in response.json(object_hook=json_special_hook)["events"]
+            for event_item in response
         ]
         return response_out
 
@@ -290,28 +650,23 @@ class CampaignsAPI:
             Sensors dict.
         """
         response_map = {
-            ("sensorId", "SensorID"): None,
-            ("sensorName", "Name"): None,
+            ("id", "SensorID"): None,
+            ("name", "Name"): None,
             ("position", "Position"): None,
-            ("distanceFromWellhead", "Distance From Wellhead"): None,
+            ("distanceFromWH", "Distance From Wellhead"): None,
             ("directionXAxis", "Direction X Axis"): None,
             ("directionZAxis", "Direction Z Axis"): None,
             ("samplingRate", "Sampling Rate"): None,
             ("sensorVendor", "Sensor Vendor"): None,
-            ("attachedTime", "Attached Time"): None,
-            ("detachedTime", "Detached Time"): None,
-            ("channels", "Channels"): {
-                ("channelName", "Channel"): None,
-                ("units", "Units"): None,
-                ("timeseriesId", "Timeseries id"): None,
-                ("positionStreamId", "Stream id"): None,
-            },
+            ("attached", "Attached Time"): None,
+            ("detached", "Detached Time"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}/Sensors"))
+        response = self._get_method()(self._url(f"/{campaign_id}/Sensors"), object_hook=json_special_hook)
+
         response_out = [
             _dict_rename(sensor_item, response_map)
-            for sensor_item in response.json(object_hook=json_special_hook)["sensors"]
+            for sensor_item in response
         ]
         return response_out
 
@@ -339,9 +694,10 @@ class CampaignsAPI:
                 ("addedMassCoefficient", "Added Mass Coefficient"): None,
             },
         }
-        response = self._session.get(self._url(f"/{campaign_id}/LowerStack"))
+        api_version = "v1.0"
+        response = self._get_method(api_version)(self._url(f"/{campaign_id}/LowerStack", api_version=api_version), object_hook=json_special_hook)
         response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+            response, response_map
         )
         return response_out
 
@@ -377,9 +733,9 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}/Swimops"))
+        response = self._get_method()(self._url(f"/{campaign_id}/Swimops"), object_hook=json_special_hook)
         response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+            response[0], response_map
         )
         return response_out
 
@@ -410,10 +766,11 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._session.get(self._url(f"/Swimops"))
+        api_version = "v1.0"   # change to v1.1 when bug is fixed
+        response = self._get_method(api_version)(self._url("/Swimops", api_version=api_version), object_hook=json_special_hook)
         response_out = [
             _dict_rename(swim_ops_item, response_map)
-            for swim_ops_item in response.json(object_hook=json_special_hook)
+            for swim_ops_item in response
         ]
         return response_out
 
@@ -431,5 +788,5 @@ class CampaignsAPI:
         str
             Campaign type.
         """
-        response = self._session.get(self._url(f"/{campaign_id}"))
-        return response.json(object_hook=json_special_hook)["campaignType"].lower()
+        response = self._get_method()(self._url(f"/{campaign_id}"), object_hook=json_special_hook)
+        return response["campaignType"].lower()
