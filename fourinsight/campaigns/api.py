@@ -649,7 +649,7 @@ class CampaignsAPI:
         ]
         return response_out
 
-    def get_sensors(self, campaign_id):
+    def _get_sensors(self, campaign_id):
         """
         Get sensors.
 
@@ -686,6 +686,61 @@ class CampaignsAPI:
             for sensor_item in response
         ]
         return response_out
+
+    def _get_channels(self, campaign_id, sensor_id):
+        """
+        Get sensors channels.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+        sensor_id : str
+            Sensor ID
+
+        Returns
+        -------
+        list
+            Channel list.
+        """
+        response_map = {
+            ("name", "Channel"): None,
+            ("units", "Units"): None,
+            ("timeseriesId", "Timeseries id"): None,
+            ("streamId", "Stream id"): None,
+        }
+
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Sensors/{sensor_id}/channels"),
+            object_hook=json_special_hook
+        )
+
+        response_out = [
+            _dict_rename(channel_item, response_map)
+            for channel_item in response
+        ]
+        return response_out
+
+        return response_out
+
+    def get_sensors(self, campaign_id):
+        """
+        Get sensors.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        dict
+            Sensors dict.
+        """
+        sensors = self._get_sensors(campaign_id)
+        for sensor in sensors:
+            sensor["Channels"] = self._get_channels(campaign_id, sensor["SensorID"])
+        return sensors
 
     def get_lowerstack(self, campaign_id):
         """
