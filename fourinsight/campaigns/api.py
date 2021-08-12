@@ -485,14 +485,17 @@ class CampaignsAPI:
             next_link = json_response["@odata.nextLink"]
         return payload
 
-    def _get_method(self, api_version=None):
-        if api_version is None:
-            api_version = self._API_VERSION
+    def _get_payload_v10(self, url, *args, **kwargs):   # remove when v1.1 has all endpoints
+        return self._session.get(url).json(*args, **kwargs)
 
-        if api_version.lower() == "v1.0":
-            return lambda url, *args, **kwargs: self._session.get(url).json(*args, **kwargs)
-        else:
-            return self._get_payload
+    # def _get_method(self, api_version=None):
+    #     if api_version is None:
+    #         api_version = self._API_VERSION
+
+    #     if api_version.lower() == "v1.0":
+    #         return lambda url, *args, **kwargs: self._session.get(url).json(*args, **kwargs)
+    #     else:
+    #         return self._get_payload
 
     def get_campaigns(self):
         """
@@ -533,7 +536,7 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
-        response = self._get_method()(self._url(""), object_hook=json_special_hook)
+        response = self._get_payload(self._url(""), object_hook=json_special_hook)
 
         response_out = [
             _dict_rename(campaign_item, response_map)
@@ -571,8 +574,12 @@ class CampaignsAPI:
             ("endDate", "End Date"): None,
         }
 
-        api_version = "v1.0"
-        response = self._get_method(api_version)(self._url(f"/{campaign_id}", api_version=api_version), object_hook=json_special_hook)
+        # change to v1.1 when available
+        response = self._get_payload_v10(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook
+        )
+
         response_out = _dict_rename(
             response, response_map
         )
@@ -599,8 +606,12 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries Id"): None,
         }
 
-        api_version = "v1.0"
-        response = self._get_method(api_version)(self._url(f"/{campaign_id}", api_version=api_version), object_hook=json_special_hook)
+        # change to v1.1 when available
+        response = self._get_payload_v10(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook
+        )
+
         response_out = _dict_rename(
             response, response_map
         )
@@ -627,7 +638,10 @@ class CampaignsAPI:
             ("comment", "Comment"): None,
         }
 
-        response = self._get_method()(self._url(f"/{campaign_id}/Events"), object_hook=json_special_hook)
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Events"),
+            object_hook=json_special_hook
+        )
 
         response_out = [
             _dict_rename(event_item, response_map)
@@ -662,7 +676,10 @@ class CampaignsAPI:
             ("detached", "Detached Time"): None,
         }
 
-        response = self._get_method()(self._url(f"/{campaign_id}/Sensors"), object_hook=json_special_hook)
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Sensors"),
+            object_hook=json_special_hook
+        )
 
         response_out = [
             _dict_rename(sensor_item, response_map)
@@ -694,8 +711,13 @@ class CampaignsAPI:
                 ("addedMassCoefficient", "Added Mass Coefficient"): None,
             },
         }
-        api_version = "v1.0"
-        response = self._get_method(api_version)(self._url(f"/{campaign_id}/LowerStack", api_version=api_version), object_hook=json_special_hook)
+
+        # change to v1.1 when available
+        response = self._get_payload_v10(
+            self._url(f"/{campaign_id}/LowerStack", api_version="v1.0"),
+            object_hook=json_special_hook
+        )
+
         response_out = _dict_rename(
             response, response_map
         )
@@ -733,7 +755,11 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._get_method()(self._url(f"/{campaign_id}/Swimops"), object_hook=json_special_hook)
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Swimops"),
+            object_hook=json_special_hook
+        )
+
         response_out = _dict_rename(
             response[0], response_map
         )
@@ -766,8 +792,7 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        api_version = "v1.0"   # change to v1.1 when bug is fixed
-        response = self._get_method(api_version)(self._url("/Swimops", api_version=api_version), object_hook=json_special_hook)
+        response = self._get_payload(self._url("/Swimops"), object_hook=json_special_hook)
         response_out = [
             _dict_rename(swim_ops_item, response_map)
             for swim_ops_item in response
@@ -788,5 +813,9 @@ class CampaignsAPI:
         str
             Campaign type.
         """
-        response = self._get_method()(self._url(f"/{campaign_id}"), object_hook=json_special_hook)
+        # change to v1.1 when available
+        response = self._get_payload_v10(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook
+        )
         return response["campaignType"].lower()
