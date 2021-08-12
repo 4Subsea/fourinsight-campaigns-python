@@ -103,6 +103,25 @@ SENSORS_DATA = {
   "@odata.nextLink": None
 }
 
+CHANNELS_DATA = {
+  "@odata.context": "string",
+  "@odata.count": "string",
+  "value": [
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "created": "2021-08-12T12:00:39.280Z",
+      "modified": "2021-08-12T12:00:39.280Z",
+      "name": "string",
+      "units": "string",
+      "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "streamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "metadataId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    }
+  ],
+  "@odata.nextLink": None
+}
+
 LOWERSTACK_DATA = {
     "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "anyFetchFailure": False,
@@ -230,25 +249,6 @@ CAMPAIGN_DATA_GENERIC = {
     "tpTimeseriesId": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
     "wdTimeseriesId": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
     "anyFetchFailure": True,
-}
-
-CHANNELS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created": "2021-08-12T12:00:39.280Z",
-      "modified": "2021-08-12T12:00:39.280Z",
-      "name": "string",
-      "units": "string",
-      "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "streamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "metadataId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
-  "@odata.nextLink": None
 }
 
 LOGS_DATA = {
