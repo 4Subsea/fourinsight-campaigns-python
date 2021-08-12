@@ -3,15 +3,29 @@ from unittest.mock import Mock
 
 import pytest
 
-from .testdata.get_data import (
-    CAMPAIGN_DATA_GENERIC,
-    CAMPAIGN_DATA_SWIM,
-    CAMPAIGNS_DATA_LIST,
+# from .testdata.get_data import (
+#     CAMPAIGN_DATA_GENERIC,
+#     CAMPAIGN_DATA_SWIM,
+#     CAMPAIGNS_DATA_LIST,
+#     EVENTS_DATA,
+#     LOWERSTACK_DATA,
+#     SENSOR_DATA,
+#     SWIMOPS_DATA,
+#     SWIMOPS_DATA_LIST,
+# )
+
+from .testdata.get_data_v11 import (
+    CAMPAIGNS_DATA,
+    CAMPAIGNS_NEXT_DATA,
     EVENTS_DATA,
+    SENSORS_DATA,
     LOWERSTACK_DATA,
-    SENSOR_DATA,
     SWIMOPS_DATA,
-    SWIMOPS_DATA_LIST,
+    SWIMOPS_CAMPAIGN_DATA,
+    CAMPAIGN_DATA_SWIM,
+    CAMPAIGN_DATA_GENERIC,
+    CHANNELS_DATA,
+    LOGS_DATA,
 )
 
 
@@ -25,27 +39,33 @@ def response():
         if not url:
             return
         elif url.endswith("Campaigns"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Campaigns/Type/SWIM Campaign"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Campaigns/Type/Campaign"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Events"):
+            return json.loads(json.dumps(CAMPAIGNS_DATA), **kwargs)
+        elif url.endswith("campaigns next link"):
+            return json.loads(json.dumps(CAMPAIGNS_NEXT_DATA), **kwargs)
+        # elif url.endswith("Campaigns/Type/SWIM Campaign"):
+        #     return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
+        # elif url.endswith("Campaigns/Type/Campaign"):
+        #     return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
+        elif url.lower().endswith("events"):
             return json.loads(json.dumps(EVENTS_DATA), **kwargs)
-        elif url.endswith("Sensors"):
-            return json.loads(json.dumps(SENSOR_DATA), **kwargs)
-        elif url.endswith("LowerStack"):
+        elif url.lower().endswith("sensors"):
+            return json.loads(json.dumps(SENSORS_DATA), **kwargs)
+        elif url.lower().endswith("lowerstack"):
             return json.loads(json.dumps(LOWERSTACK_DATA), **kwargs)
-        elif url.endswith("/Campaigns/Swimops"):
-            return json.loads(json.dumps(SWIMOPS_DATA_LIST), **kwargs)
-        elif url.endswith("Swimops") and not url.endswith("/Campaigns/Swimops"):
+        elif url.lower().endswith("/campaigns/swimops"):
             return json.loads(json.dumps(SWIMOPS_DATA), **kwargs)
-        elif url.endswith("Campaigns/test_swim_id"):
+        elif url.lower().endswith("swimops") and not url.lower().endswith("/campaigns/swimops"):
+            return json.loads(json.dumps(SWIMOPS_CAMPAIGN_DATA), **kwargs)
+        elif url.lower().endswith("campaigns/test_swim_id"):
             return json.loads(json.dumps(CAMPAIGN_DATA_SWIM), **kwargs)
-        elif url.endswith("Campaigns/test_generic_id"):
+        elif url.lower().endswith("campaigns/test_generic_id"):
             return json.loads(json.dumps(CAMPAIGN_DATA_GENERIC), **kwargs)
-        elif url.endswith("Campaigns/1234"):
+        elif url.lower().endswith("campaigns/1234"):
             return json.loads(json.dumps(CAMPAIGN_DATA_SWIM), **kwargs)
+        elif url.lower().endswith("channels"):
+            return json.loads(json.dumps(CHANNELS_DATA), **kwargs)
+        elif url.lower().endswith("logs"):
+            return json.loads(json.dumps(LOGS_DATA), **kwargs)
 
     response.json.side_effect = json_side_effect
     return response

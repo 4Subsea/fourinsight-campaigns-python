@@ -3,6 +3,8 @@ import json
 import pandas as pd
 import pytest
 
+from unittest.mock import call
+
 from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
 
 
@@ -14,14 +16,16 @@ def campaigns_api(auth_session):
 class Test_CampaignsAPI:
     def test_init(self, campaigns_api, auth_session):
         assert campaigns_api._session == auth_session
-        assert campaigns_api._api_version == "v1.0"
 
     def test__url_bare(self, campaigns_api):
-        assert campaigns_api._url("") == "/v1.0/Campaigns"
+        assert campaigns_api._url("") == "/v1.1/Campaigns"
 
     def test__url_something(self, campaigns_api):
-        assert campaigns_api._url("something") == "/v1.0/Campaigns/something"
-        assert campaigns_api._url("/something") == "/v1.0/Campaigns/something"
+        assert campaigns_api._url("something") == "/v1.1/Campaigns/something"
+        assert campaigns_api._url("/something") == "/v1.1/Campaigns/something"
+
+    def test__url_version(self, campaigns_api):
+        assert campaigns_api._url("", api_version="test_version") == "/test_version/Campaigns"
 
     def test_get_geotrack(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_geotrack("1234")
@@ -36,31 +40,55 @@ class Test_CampaignsAPI:
 
     def test_get_campaigns(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_campaigns()
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns")
+        call_list = [call("/v1.1/Campaigns"), call("campaigns next link")]
+        auth_session.get.assert_has_calls(call_list)
         response.json.assert_called()
         expect = [
             {
                 "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "1086 - 31/2-F-6",
-                "Type": "SWIM Campaign",
+                "Name": "string",
+                "Type": "string",
                 "Client": "string",
                 "PO Number": "string",
                 "Project Number": "string",
-                "Vessel": "Songa Endurance",
+                "Vessel": "string",
                 "Vessel Contractor": "string",
-                "Well Name": "31/2-F-6",
-                "Well ID": "string",
-                "Water Depth": 100.0,
+                "Well Name": "string",
+                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
-                "End Date": pd.to_datetime("2021-01-05T13:49:51.815Z"),
+                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
-                "Hs Timeseries ID": "string",
-                "Tp Timeseries ID": "string",
-                "Wd Timeseries ID": "string",
+                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            },
+            {
+                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "string",
+                "Type": "string",
+                "Client": "string",
+                "PO Number": "string",
+                "Project Number": "string",
+                "Vessel": "string",
+                "Vessel Contractor": "string",
+                "Well Name": "string",
+                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Water Depth": 0.0,
+                "Location": (1.3, 2.4),
+                "Main Data Provider": "string",
+                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "GeoTrack Location": (3.2, 4.5),
+                "GeoTrack Title": "string",
+                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             }
         ]
         assert expect == out
@@ -87,75 +115,81 @@ class Test_CampaignsAPI:
 
     def test_get_events(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_events("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/Events")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Events")
         response.json.assert_called()
         expect = [
             {
-                "Start": pd.to_datetime("2020-01-01T00:00:00.0000000Z"),
-                "End": None,
-                "Event Type": "Connect-Disconnect",
-                "Comment": None,
-            },
-            {
-                "Start": None,
-                "End": None,
-                "Event Type": "Artifact",
-                "Comment": None,
-            },
-            {
-                "Start": pd.to_datetime("2019-01-01T00:00:00.0000000Z"),
-                "End": None,
-                "Event Type": "WLR connected",
-                "Comment": None,
+                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Event Type": "string",
+                "Comment": "string",
             },
         ]
         assert expect == out
 
     def test_get_sensors(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_sensors("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/Sensors")
+        call_list = [
+            call("/v1.1/Campaigns/1234/Sensors"),
+            call("/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels")
+        ]
+        auth_session.get.assert_has_calls(call_list)
         response.json.assert_called()
         expect = [
             {
                 "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "SN1234",
-                "Position": "LMRP",
-                "Distance From Wellhead": 3.0,
+                "Name": "string",
+                "Position": "string",
+                "Distance From Wellhead": 0.0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 10.24,
+                "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2019-10-13T09:27:19.0000000Z"),
-                "Detached Time": None,
+                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
                 "Channels": [
                     {
-                        "Channel": "Pitch",
+                        "Channel": "string",
                         "Units": "string",
                         "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                         "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     }
                 ],
             },
+        ]
+        assert expect == out
+
+    def test__get_sensors(self, campaigns_api, auth_session, response):
+        out = campaigns_api._get_sensors("1234")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors")
+        response.json.assert_called()
+        expect = [
             {
                 "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "SN5678",
-                "Position": "WH",
-                "Distance From Wellhead": 3.0,
+                "Name": "string",
+                "Position": "string",
+                "Distance From Wellhead": 0.0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 10.24,
+                "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": None,
-                "Detached Time": None,
-                "Channels": [
-                    {
-                        "Channel": "Ag",
-                        "Units": "string",
-                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    }
-                ],
+                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
             },
+        ]
+        assert expect == out
+
+    def test__get_channels(self, campaigns_api, auth_session, response):
+        out = campaigns_api._get_channels("1234", "sensor_id")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors/sensor_id/channels")
+        response.json.assert_called()
+        expect = [
+            {
+                "Channel": "string",
+                "Units": "string",
+                "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            }
         ]
         assert expect == out
 
@@ -179,7 +213,7 @@ class Test_CampaignsAPI:
 
     def test_get_swimops_campaign(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_swimops_campaign("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/Swimops")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Swimops")
         response.json.assert_called()
         expect = {
             "Operation Status": "string",
@@ -187,7 +221,7 @@ class Test_CampaignsAPI:
             "SLA Level": "string",
             "Customer Contact": "string",
             "Comments": "string",
-            "Dashboard Close Date": pd.to_datetime("2020-10-21T13:12:09.814Z"),
+            "Dashboard Close Date": pd.to_datetime("2021-08-12T11:56:23.069Z"),
             "SWIM Instance Status": "string",
             "Report Made": "string",
             "Report Sent": "string",
@@ -202,7 +236,7 @@ class Test_CampaignsAPI:
 
     def test_get_swimops(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_swimops()
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/Swimops")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/Swimops")
         response.json.assert_called()
         expect = [
             {
@@ -211,7 +245,7 @@ class Test_CampaignsAPI:
                 "SLA Level": "string",
                 "Customer Contact": "string",
                 "Comments": "string",
-                "Dashboard Close Date": pd.to_datetime("2020-10-21T13:12:09.814Z"),
+                "Dashboard Close Date": pd.to_datetime("2021-08-12T11:54:42.513Z"),
                 "SWIM Instance Status": "string",
                 "Report Made": "string",
                 "Report Sent": "string",
