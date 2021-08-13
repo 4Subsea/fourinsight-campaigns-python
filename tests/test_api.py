@@ -124,6 +124,24 @@ class Test_CampaignsAPI:
                 "Event Type": "string",
                 "Comment": "string",
             },
+            {
+                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "End": None,
+                "Event Type": "WLR connected",
+                "Comment": None,
+            },
+            {
+                "Start": None,
+                "End": None,
+                "Event Type": "Artifact",
+                "Comment": None,
+            },
+            {
+                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "End": None,
+                "Event Type": "Connect-Disconnect",
+                "Comment": None,
+            },
         ]
         assert expect == out
 
@@ -156,6 +174,26 @@ class Test_CampaignsAPI:
                     }
                 ],
             },
+            {
+                "SensorID": "<wh sensor id>",
+                "Name": "SN1234",
+                "Position": "WH",
+                "Distance From Wellhead": 0.0,
+                "Direction X Axis": "string",
+                "Direction Z Axis": "string",
+                "Sampling Rate": 0.0,
+                "Sensor Vendor": "string",
+                "Attached Time": None,
+                "Detached Time": None,
+                "Channels": [
+                    {
+                        "Channel": "string",
+                        "Units": "string",
+                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    }
+                ],
+            },
         ]
         assert expect == out
 
@@ -175,6 +213,18 @@ class Test_CampaignsAPI:
                 "Sensor Vendor": "string",
                 "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
                 "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+            },
+            {
+                "SensorID": "<wh sensor id>",
+                "Name": "SN1234",
+                "Position": "WH",
+                "Distance From Wellhead": 0.0,
+                "Direction X Axis": "string",
+                "Direction Z Axis": "string",
+                "Sampling Rate": 0.0,
+                "Sensor Vendor": "string",
+                "Attached Time": None,
+                "Detached Time": None,
             },
         ]
         assert expect == out

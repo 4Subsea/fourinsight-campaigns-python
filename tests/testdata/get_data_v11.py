@@ -75,6 +75,36 @@ EVENTS_DATA = {
       "comment": "string",
       "created": "2021-08-12T11:49:38.286Z",
       "modified": "2021-08-12T11:49:38.286Z"
+    },
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "start": "2021-08-12T11:49:38.286Z",
+      "stop": None,
+      "eventType": "WLR connected",
+      "comment": None,
+      "created": "2021-08-12T11:49:38.286Z",
+      "modified": "2021-08-12T11:49:38.286Z"
+    },
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "start": None,
+      "stop": None,
+      "eventType": "Artifact",
+      "comment": None,
+      "created": "2021-08-12T11:49:38.286Z",
+      "modified": "2021-08-12T11:49:38.286Z"
+    },
+    {
+      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "start": "2021-08-12T11:49:38.286Z",
+      "stop": None,
+      "eventType": "Connect-Disconnect",
+      "comment": None,
+      "created": "2021-08-12T11:49:38.286Z",
+      "modified": "2021-08-12T11:49:38.286Z"
     }
   ],
   "@odata.nextLink": None
@@ -98,6 +128,21 @@ SENSORS_DATA = {
       "sensorVendor": "string",
       "attached": "2021-08-12T11:51:19.667Z",
       "detached": "2021-08-12T11:51:19.667Z"
+    },
+    {
+      "id": "<wh sensor id>",
+      "campaignId": "1123456789",
+      "created": "2021-08-12T11:51:19.667Z",
+      "modified": "2021-08-12T11:51:19.667Z",
+      "name": "SN1234",
+      "position": "WH",
+      "distanceFromWH": 0,
+      "directionXAxis": "string",
+      "directionZAxis": "string",
+      "samplingRate": 0,
+      "sensorVendor": "string",
+      "attached": None,
+      "detached": None
     }
   ],
   "@odata.nextLink": None

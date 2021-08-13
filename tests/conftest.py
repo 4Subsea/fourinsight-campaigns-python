@@ -1,6 +1,8 @@
 import json
 from unittest.mock import Mock
 
+import json
+
 import pytest
 
 # from .testdata.get_data import (
@@ -41,6 +43,7 @@ DATA_MAP = {
     # "/v1.1/campaigns/1234/sensors/5678/channels": CHANNELS_DATA,
     "/v1.1/campaigns/1234/sensors/sensor_id/channels": CHANNELS_DATA,
     "/v1.1/campaigns/1234/sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels": CHANNELS_DATA,
+    "/v1.1/campaigns/1234/sensors/<wh sensor id>/channels": CHANNELS_DATA,
     "/v1.0/campaigns/1234": CAMPAIGN_DATA_SWIM,
     "/v1.0/campaigns/test_generic_id": CAMPAIGN_DATA_GENERIC,
     "/v1.0/campaigns/test_swim_id": CAMPAIGN_DATA_SWIM,
