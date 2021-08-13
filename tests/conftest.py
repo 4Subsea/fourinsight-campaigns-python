@@ -53,7 +53,7 @@ def response():
 @pytest.fixture
 def auth_session(response):
     auth_session = Mock()
-    auth_session._api_base_url = "test_url"
+    auth_session._api_base_url = "test/api/base/url"
 
     def get_side_effect(url, *args, **kwargs):
         response._get_called_with_url = url
