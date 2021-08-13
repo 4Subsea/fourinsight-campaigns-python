@@ -230,8 +230,8 @@ class Test_CampaignsAPI:
         assert expect == out
 
     def test__get_channels(self, campaigns_api, auth_session, response):
-        out = campaigns_api._get_channels("1234", "sensor_id")
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors/sensor_id/channels")
+        out = campaigns_api._get_channels("1234", "<wh sensor id>")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels")
         response.json.assert_called()
         expect = [
             {
