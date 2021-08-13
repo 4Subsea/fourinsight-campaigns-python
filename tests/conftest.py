@@ -3,7 +3,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from .testdata.get_data_v11 import (
+from .testdata.get_data import (
     CAMPAIGNS_DATA,
     CAMPAIGNS_NEXT_DATA,
     EVENTS_DATA,
