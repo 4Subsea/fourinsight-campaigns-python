@@ -37,9 +37,6 @@ class Client:
         ----------
         campaign_id : str
             The id of the campaign (GUID).
-        campaign_type : str, deprecated.
-            Deprecated, but left for backwards compatibility. Type is automatically
-            inferred.
 
         Returns
         -------
