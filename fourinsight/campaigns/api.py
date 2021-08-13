@@ -135,7 +135,7 @@ class CampaignsAPI:
 
     _API_VERSION = "v1.1"
 
-    def __init__(self, session, *args, **kwargs):
+    def __init__(self, session):
         self._session = session
 
     def _url(self, relative_url, api_version=None):

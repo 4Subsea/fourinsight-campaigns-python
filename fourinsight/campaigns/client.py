@@ -20,7 +20,7 @@ class Client:
 
     def __init__(self, session):
         self._session = session
-        self._campaigns_api = CampaignsAPI(self._session, api_version="v1.0")
+        self._campaigns_api = CampaignsAPI(self._session)
 
     def overview(self):
         """
