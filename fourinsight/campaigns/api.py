@@ -156,17 +156,8 @@ class CampaignsAPI:
             next_link = json_response["@odata.nextLink"]
         return payload
 
-    def _get_payload_v10(self, url, *args, **kwargs):   # remove when v1.1 has all endpoints
+    def _get_payload_legacy(self, url, *args, **kwargs):   # remove when v1.1 has all endpoints
         return self._session.get(url).json(*args, **kwargs)
-
-    # def _get_method(self, api_version=None):
-    #     if api_version is None:
-    #         api_version = self._API_VERSION
-
-    #     if api_version.lower() == "v1.0":
-    #         return lambda url, *args, **kwargs: self._session.get(url).json(*args, **kwargs)
-    #     else:
-    #         return self._get_payload
 
     def get_campaigns(self):
         """
@@ -246,7 +237,7 @@ class CampaignsAPI:
         }
 
         # change to v1.1 when available
-        response = self._get_payload_v10(
+        response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
             object_hook=json_special_hook
         )
@@ -278,7 +269,7 @@ class CampaignsAPI:
         }
 
         # change to v1.1 when available
-        response = self._get_payload_v10(
+        response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
             object_hook=json_special_hook
         )
@@ -439,7 +430,7 @@ class CampaignsAPI:
         }
 
         # change to v1.1 when available
-        response = self._get_payload_v10(
+        response = self._get_payload_legacy(
             self._url(f"/{campaign_id}/LowerStack", api_version="v1.0"),
             object_hook=json_special_hook
         )
@@ -540,7 +531,7 @@ class CampaignsAPI:
             Campaign type.
         """
         # change to v1.1 when available
-        response = self._get_payload_v10(
+        response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
             object_hook=json_special_hook
         )
