@@ -1,4 +1,4 @@
-from unittest.mock import call, patch
+from unittest.mock import patch
 
 import pandas as pd
 import pytest
@@ -17,8 +17,13 @@ def swim_campaign(auth_session):
     return SwimCampaign(auth_session, "1234")
 
 
-# def assert_list_of_dicts_equal(list1, list2):
-#     assert [e for e in list1 if e not in list2] == []
+def assert_list_of_dicts_equal(list1, list2):
+    """Check if lists contain the same elements"""
+    assert len(list1) == len(list2)
+    for list1_i in list1:
+        assert (list1_i in list2)
+        list2.pop(list2.index(list1_i))
+    assert not list2
 
 
 class Test_GenericCampaign:
@@ -52,12 +57,6 @@ class Test_GenericCampaign:
         events_out = generic_campaign.events()
         events_expected = [
             {
-                "Start": None,
-                "End": None,
-                "Event Type": "Artifact",
-                "Comment": None
-            },
-            {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "Event Type": "string",
@@ -70,17 +69,19 @@ class Test_GenericCampaign:
                 "Comment": None,
             },
             {
+                "Start": None,
+                "End": None,
+                "Event Type": "Artifact",
+                "Comment": None
+            },
+            {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
             },
         ]
-        assert events_out == events_expected
-        # import unittest
-        # unittest.TestCase().assertCountEqual(events_out, events_expected)
-        # assert [e for e in events_out if e not in events_expected] == []
-        # assert_list_of_dicts_equal(events_out, events_expected)
+        assert_list_of_dicts_equal(events_out, events_expected)
 
     def test_events_value_connect_disconnect(self, generic_campaign):
         events_out = generic_campaign.events(
@@ -178,7 +179,7 @@ class Test_GenericCampaign:
                 ],
             },
         ]
-        assert sensors_out == sensors_expect
+        sensors_out == sensors_expect
 
     def test_sensor_by_position(self, generic_campaign):
         sensors_out = generic_campaign.sensors(value="WH", by="Position")
