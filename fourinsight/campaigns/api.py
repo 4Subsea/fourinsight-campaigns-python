@@ -156,7 +156,9 @@ class CampaignsAPI:
             next_link = json_response["@odata.nextLink"]
         return payload
 
-    def _get_payload_legacy(self, url, *args, **kwargs):   # remove when v1.1 has all endpoints
+    def _get_payload_legacy(
+        self, url, *args, **kwargs
+    ):  # remove when v1.1 has all endpoints
         return self._session.get(url).json(*args, **kwargs)
 
     def get_campaigns(self):
@@ -201,8 +203,7 @@ class CampaignsAPI:
         response = self._get_payload(self._url(""), object_hook=json_special_hook)
 
         response_out = [
-            _dict_rename(campaign_item, response_map)
-            for campaign_item in response
+            _dict_rename(campaign_item, response_map) for campaign_item in response
         ]
 
         return response_out
@@ -239,12 +240,10 @@ class CampaignsAPI:
         # change to v1.1 when available
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
-            object_hook=json_special_hook
+            object_hook=json_special_hook,
         )
 
-        response_out = _dict_rename(
-            response, response_map
-        )
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_geotrack(self, campaign_id):
@@ -271,12 +270,10 @@ class CampaignsAPI:
         # change to v1.1 when available
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
-            object_hook=json_special_hook
+            object_hook=json_special_hook,
         )
 
-        response_out = _dict_rename(
-            response, response_map
-        )
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_events(self, campaign_id):
@@ -301,13 +298,11 @@ class CampaignsAPI:
         }
 
         response = self._get_payload(
-            self._url(f"/{campaign_id}/Events"),
-            object_hook=json_special_hook
+            self._url(f"/{campaign_id}/Events"), object_hook=json_special_hook
         )
 
         response_out = [
-            _dict_rename(event_item, response_map)
-            for event_item in response
+            _dict_rename(event_item, response_map) for event_item in response
         ]
         return response_out
 
@@ -339,13 +334,11 @@ class CampaignsAPI:
         }
 
         response = self._get_payload(
-            self._url(f"/{campaign_id}/Sensors"),
-            object_hook=json_special_hook
+            self._url(f"/{campaign_id}/Sensors"), object_hook=json_special_hook
         )
 
         response_out = [
-            _dict_rename(sensor_item, response_map)
-            for sensor_item in response
+            _dict_rename(sensor_item, response_map) for sensor_item in response
         ]
         return response_out
 
@@ -374,12 +367,11 @@ class CampaignsAPI:
 
         response = self._get_payload(
             self._url(f"/{campaign_id}/Sensors/{sensor_id}/channels"),
-            object_hook=json_special_hook
+            object_hook=json_special_hook,
         )
 
         response_out = [
-            _dict_rename(channel_item, response_map)
-            for channel_item in response
+            _dict_rename(channel_item, response_map) for channel_item in response
         ]
         return response_out
 
@@ -432,12 +424,10 @@ class CampaignsAPI:
         # change to v1.1 when available
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}/LowerStack", api_version="v1.0"),
-            object_hook=json_special_hook
+            object_hook=json_special_hook,
         )
 
-        response_out = _dict_rename(
-            response, response_map
-        )
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_swimops_campaign(self, campaign_id):
@@ -473,13 +463,10 @@ class CampaignsAPI:
         }
 
         response = self._get_payload(
-            self._url(f"/{campaign_id}/Swimops"),
-            object_hook=json_special_hook
+            self._url(f"/{campaign_id}/Swimops"), object_hook=json_special_hook
         )
 
-        response_out = _dict_rename(
-            response[0], response_map
-        )
+        response_out = _dict_rename(response[0], response_map)
         return response_out
 
     def get_swimops(self):
@@ -509,10 +496,11 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._get_payload(self._url("/Swimops"), object_hook=json_special_hook)
+        response = self._get_payload(
+            self._url("/Swimops"), object_hook=json_special_hook
+        )
         response_out = [
-            _dict_rename(swim_ops_item, response_map)
-            for swim_ops_item in response
+            _dict_rename(swim_ops_item, response_map) for swim_ops_item in response
         ]
         return response_out
 
@@ -533,6 +521,6 @@ class CampaignsAPI:
         # change to v1.1 when available
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
-            object_hook=json_special_hook
+            object_hook=json_special_hook,
         )
         return response["campaignType"].lower()

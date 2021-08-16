@@ -1,170 +1,170 @@
 CAMPAIGNS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "modified": "2021-08-12T11:38:16.509Z",
-      "campaignName": "string",
-      "campaignType": "string",
-      "poNumber": "string",
-      "projectNumber": "string",
-      "client": "string",
-      "vessel": "string",
-      "vesselContractor": "string",
-      "wellName": "string",
-      "wellId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "waterDepth": 0,
-      "location": "1.3#2.4",
-      "mainDataProvider": "string",
-      "startDate": "2021-08-12T11:38:16.509Z",
-      "endDate": "2021-08-12T11:38:16.509Z",
-      "geoPositionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "geoLocation": "3.2#4.5",
-      "geoTitle": "string",
-      "hsTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "tpTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "wdTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
-  "@odata.nextLink": "campaigns next link"
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "modified": "2021-08-12T11:38:16.509Z",
+            "campaignName": "string",
+            "campaignType": "string",
+            "poNumber": "string",
+            "projectNumber": "string",
+            "client": "string",
+            "vessel": "string",
+            "vesselContractor": "string",
+            "wellName": "string",
+            "wellId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "waterDepth": 0,
+            "location": "1.3#2.4",
+            "mainDataProvider": "string",
+            "startDate": "2021-08-12T11:38:16.509Z",
+            "endDate": "2021-08-12T11:38:16.509Z",
+            "geoPositionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "geoLocation": "3.2#4.5",
+            "geoTitle": "string",
+            "hsTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "tpTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "wdTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        }
+    ],
+    "@odata.nextLink": "campaigns next link",
 }
 
 CAMPAIGNS_NEXT_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "modified": "2021-08-12T11:38:16.509Z",
-      "campaignName": "string",
-      "campaignType": "string",
-      "poNumber": "string",
-      "projectNumber": "string",
-      "client": "string",
-      "vessel": "string",
-      "vesselContractor": "string",
-      "wellName": "string",
-      "wellId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "waterDepth": 0,
-      "location": "1.3#2.4",
-      "mainDataProvider": "string",
-      "startDate": "2021-08-12T11:38:16.509Z",
-      "endDate": "2021-08-12T11:38:16.509Z",
-      "geoPositionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "geoLocation": "3.2#4.5",
-      "geoTitle": "string",
-      "hsTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "tpTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "wdTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "modified": "2021-08-12T11:38:16.509Z",
+            "campaignName": "string",
+            "campaignType": "string",
+            "poNumber": "string",
+            "projectNumber": "string",
+            "client": "string",
+            "vessel": "string",
+            "vesselContractor": "string",
+            "wellName": "string",
+            "wellId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "waterDepth": 0,
+            "location": "1.3#2.4",
+            "mainDataProvider": "string",
+            "startDate": "2021-08-12T11:38:16.509Z",
+            "endDate": "2021-08-12T11:38:16.509Z",
+            "geoPositionId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "geoLocation": "3.2#4.5",
+            "geoTitle": "string",
+            "hsTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "tpTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "wdTimeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        }
+    ],
+    "@odata.nextLink": None,
 }
 
 EVENTS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "start": "2021-08-12T11:49:38.286Z",
-      "stop": "2021-08-12T11:49:38.286Z",
-      "eventType": "string",
-      "comment": "string",
-      "created": "2021-08-12T11:49:38.286Z",
-      "modified": "2021-08-12T11:49:38.286Z"
-    },
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "start": "2021-08-12T11:49:38.286Z",
-      "stop": None,
-      "eventType": "WLR connected",
-      "comment": None,
-      "created": "2021-08-12T11:49:38.286Z",
-      "modified": "2021-08-12T11:49:38.286Z"
-    },
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "start": None,
-      "stop": None,
-      "eventType": "Artifact",
-      "comment": None,
-      "created": "2021-08-12T11:49:38.286Z",
-      "modified": "2021-08-12T11:49:38.286Z"
-    },
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "start": "2021-08-12T11:49:38.286Z",
-      "stop": None,
-      "eventType": "Connect-Disconnect",
-      "comment": None,
-      "created": "2021-08-12T11:49:38.286Z",
-      "modified": "2021-08-12T11:49:38.286Z"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "start": "2021-08-12T11:49:38.286Z",
+            "stop": "2021-08-12T11:49:38.286Z",
+            "eventType": "string",
+            "comment": "string",
+            "created": "2021-08-12T11:49:38.286Z",
+            "modified": "2021-08-12T11:49:38.286Z",
+        },
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "start": "2021-08-12T11:49:38.286Z",
+            "stop": None,
+            "eventType": "WLR connected",
+            "comment": None,
+            "created": "2021-08-12T11:49:38.286Z",
+            "modified": "2021-08-12T11:49:38.286Z",
+        },
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "start": None,
+            "stop": None,
+            "eventType": "Artifact",
+            "comment": None,
+            "created": "2021-08-12T11:49:38.286Z",
+            "modified": "2021-08-12T11:49:38.286Z",
+        },
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "start": "2021-08-12T11:49:38.286Z",
+            "stop": None,
+            "eventType": "Connect-Disconnect",
+            "comment": None,
+            "created": "2021-08-12T11:49:38.286Z",
+            "modified": "2021-08-12T11:49:38.286Z",
+        },
+    ],
+    "@odata.nextLink": None,
 }
 
 SENSORS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created": "2021-08-12T11:51:19.667Z",
-      "modified": "2021-08-12T11:51:19.667Z",
-      "name": "string",
-      "position": "string",
-      "distanceFromWH": 0,
-      "directionXAxis": "string",
-      "directionZAxis": "string",
-      "samplingRate": 0,
-      "sensorVendor": "string",
-      "attached": "2021-08-12T11:51:19.667Z",
-      "detached": "2021-08-12T11:51:19.667Z"
-    },
-    {
-      "id": "<wh sensor id>",
-      "campaignId": "1123456789",
-      "created": "2021-08-12T11:51:19.667Z",
-      "modified": "2021-08-12T11:51:19.667Z",
-      "name": "SN1234",
-      "position": "WH",
-      "distanceFromWH": 0,
-      "directionXAxis": "string",
-      "directionZAxis": "string",
-      "samplingRate": 0,
-      "sensorVendor": "string",
-      "attached": None,
-      "detached": None
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "created": "2021-08-12T11:51:19.667Z",
+            "modified": "2021-08-12T11:51:19.667Z",
+            "name": "string",
+            "position": "string",
+            "distanceFromWH": 0,
+            "directionXAxis": "string",
+            "directionZAxis": "string",
+            "samplingRate": 0,
+            "sensorVendor": "string",
+            "attached": "2021-08-12T11:51:19.667Z",
+            "detached": "2021-08-12T11:51:19.667Z",
+        },
+        {
+            "id": "<wh sensor id>",
+            "campaignId": "1123456789",
+            "created": "2021-08-12T11:51:19.667Z",
+            "modified": "2021-08-12T11:51:19.667Z",
+            "name": "SN1234",
+            "position": "WH",
+            "distanceFromWH": 0,
+            "directionXAxis": "string",
+            "directionZAxis": "string",
+            "samplingRate": 0,
+            "sensorVendor": "string",
+            "attached": None,
+            "detached": None,
+        },
+    ],
+    "@odata.nextLink": None,
 }
 
 CHANNELS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created": "2021-08-12T12:00:39.280Z",
-      "modified": "2021-08-12T12:00:39.280Z",
-      "name": "string",
-      "units": "string",
-      "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "streamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "metadataId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "sensorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "created": "2021-08-12T12:00:39.280Z",
+            "modified": "2021-08-12T12:00:39.280Z",
+            "name": "string",
+            "units": "string",
+            "timeseriesId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "streamId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "metadataId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        }
+    ],
+    "@odata.nextLink": None,
 }
 
 LOWERSTACK_DATA = {
@@ -185,59 +185,59 @@ LOWERSTACK_DATA = {
 }
 
 SWIMOPS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "modified": "2021-08-12T11:54:42.513Z",
-      "operationStatus": "string",
-      "dashboardStatus": "string",
-      "slaLevel": "string",
-      "customerContact": "string",
-      "comments": "string",
-      "dashboardCloseDate": "2021-08-12T11:54:42.513Z",
-      "swimInstanceStatus": "string",
-      "reportMade": "string",
-      "reportSent": "string",
-      "dataPackageMade": "string",
-      "dataPackageSent": "string",
-      "experienceLogMade": "string",
-      "wellSpotBendingMomentUploaded": "string",
-      "dashboardClosed": "string",
-      "servicesAvailable": "string"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "modified": "2021-08-12T11:54:42.513Z",
+            "operationStatus": "string",
+            "dashboardStatus": "string",
+            "slaLevel": "string",
+            "customerContact": "string",
+            "comments": "string",
+            "dashboardCloseDate": "2021-08-12T11:54:42.513Z",
+            "swimInstanceStatus": "string",
+            "reportMade": "string",
+            "reportSent": "string",
+            "dataPackageMade": "string",
+            "dataPackageSent": "string",
+            "experienceLogMade": "string",
+            "wellSpotBendingMomentUploaded": "string",
+            "dashboardClosed": "string",
+            "servicesAvailable": "string",
+        }
+    ],
+    "@odata.nextLink": None,
 }
 
 SWIMOPS_CAMPAIGN_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "modified": "2021-08-12T11:56:23.069Z",
-      "operationStatus": "string",
-      "dashboardStatus": "string",
-      "slaLevel": "string",
-      "customerContact": "string",
-      "comments": "string",
-      "dashboardCloseDate": "2021-08-12T11:56:23.069Z",
-      "swimInstanceStatus": "string",
-      "reportMade": "string",
-      "reportSent": "string",
-      "dataPackageMade": "string",
-      "dataPackageSent": "string",
-      "experienceLogMade": "string",
-      "wellSpotBendingMomentUploaded": "string",
-      "dashboardClosed": "string",
-      "servicesAvailable": "string"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "modified": "2021-08-12T11:56:23.069Z",
+            "operationStatus": "string",
+            "dashboardStatus": "string",
+            "slaLevel": "string",
+            "customerContact": "string",
+            "comments": "string",
+            "dashboardCloseDate": "2021-08-12T11:56:23.069Z",
+            "swimInstanceStatus": "string",
+            "reportMade": "string",
+            "reportSent": "string",
+            "dataPackageMade": "string",
+            "dataPackageSent": "string",
+            "experienceLogMade": "string",
+            "wellSpotBendingMomentUploaded": "string",
+            "dashboardClosed": "string",
+            "servicesAvailable": "string",
+        }
+    ],
+    "@odata.nextLink": None,
 }
 
 CAMPAIGN_DATA_SWIM = {
@@ -297,17 +297,17 @@ CAMPAIGN_DATA_GENERIC = {
 }
 
 LOGS_DATA = {
-  "@odata.context": "string",
-  "@odata.count": "string",
-  "value": [
-    {
-      "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "logEntry": "string",
-      "time": "2021-08-12T12:03:05.851Z",
-      "modified": "2021-08-12T12:03:05.851Z",
-      "created": "2021-08-12T12:03:05.851Z"
-    }
-  ],
-  "@odata.nextLink": None
+    "@odata.context": "string",
+    "@odata.count": "string",
+    "value": [
+        {
+            "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "campaignEntityId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "logEntry": "string",
+            "time": "2021-08-12T12:03:05.851Z",
+            "modified": "2021-08-12T12:03:05.851Z",
+            "created": "2021-08-12T12:03:05.851Z",
+        }
+    ],
+    "@odata.nextLink": None,
 }

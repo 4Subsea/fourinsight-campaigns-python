@@ -8,9 +8,6 @@ setup(
     author_email="support@4subsea.com",
     url="https://4insight.io/",
     packages=["fourinsight.campaigns"],
-    install_requires=[
-        "fourinsight-api",
-        "pandas",
-    ],
+    install_requires=["fourinsight-api", "pandas",],
     zip_safe=False,
 )

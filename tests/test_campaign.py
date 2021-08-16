@@ -21,15 +21,14 @@ def assert_list_of_dicts_equal(list1, list2):
     """Check if lists contain the same elements"""
     assert len(list1) == len(list2)
     for list1_i in list1:
-        assert (list1_i in list2)
+        assert list1_i in list2
         list2.pop(list2.index(list1_i))
     assert not list2
 
 
 class Test_GenericCampaign:
     def test_init(
-        self,
-        auth_session,
+        self, auth_session,
     ):
         generic_campaign = GenericCampaign(auth_session, "1234")
 
@@ -60,7 +59,7 @@ class Test_GenericCampaign:
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "Event Type": "string",
-                "Comment": "string"
+                "Comment": "string",
             },
             {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
@@ -68,12 +67,7 @@ class Test_GenericCampaign:
                 "Event Type": "WLR connected",
                 "Comment": None,
             },
-            {
-                "Start": None,
-                "End": None,
-                "Event Type": "Artifact",
-                "Comment": None
-            },
+            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None},
             {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": None,

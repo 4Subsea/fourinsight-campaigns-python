@@ -1,9 +1,8 @@
 import json
+from unittest.mock import call
 
 import pandas as pd
 import pytest
-
-from unittest.mock import call
 
 from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
 
@@ -25,7 +24,10 @@ class Test_CampaignsAPI:
         assert campaigns_api._url("/something") == "/v1.1/Campaigns/something"
 
     def test__url_version(self, campaigns_api):
-        assert campaigns_api._url("", api_version="test_version") == "/test_version/Campaigns"
+        assert (
+            campaigns_api._url("", api_version="test_version")
+            == "/test_version/Campaigns"
+        )
 
     def test_get_geotrack(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_geotrack("1234")
@@ -89,7 +91,7 @@ class Test_CampaignsAPI:
                 "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            }
+            },
         ]
         assert expect == out
 
@@ -130,12 +132,7 @@ class Test_CampaignsAPI:
                 "Event Type": "WLR connected",
                 "Comment": None,
             },
-            {
-                "Start": None,
-                "End": None,
-                "Event Type": "Artifact",
-                "Comment": None,
-            },
+            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None,},
             {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": None,
@@ -149,7 +146,9 @@ class Test_CampaignsAPI:
         out = campaigns_api.get_sensors("1234")
         call_list = [
             call("/v1.1/Campaigns/1234/Sensors"),
-            call("/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels")
+            call(
+                "/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels"
+            ),
         ]
         auth_session.get.assert_has_calls(call_list)
         response.json.assert_called()
@@ -231,7 +230,9 @@ class Test_CampaignsAPI:
 
     def test__get_channels(self, campaigns_api, auth_session, response):
         out = campaigns_api._get_channels("1234", "<wh sensor id>")
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels")
+        auth_session.get.assert_called_once_with(
+            "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels"
+        )
         response.json.assert_called()
         expect = [
             {
@@ -319,10 +320,7 @@ class Test__dict_rename:
             "a": "this",
             "b": {"one": 1, "two": 2},
             "c": "ignore me",
-            "d": [
-                {"tell": "me", "why": "!"},
-                {"tell": "you", "why": "?"},
-            ],
+            "d": [{"tell": "me", "why": "!"}, {"tell": "you", "why": "?"},],
         }
 
         dict_map = {
@@ -334,10 +332,7 @@ class Test__dict_rename:
         dict_expected = {
             "A": "this",
             "b": {"One": 1, "TWO": 2},
-            "D": [
-                {"Tell": "me", "WHY": "!"},
-                {"Tell": "you", "WHY": "?"},
-            ],
+            "D": [{"Tell": "me", "WHY": "!"}, {"Tell": "you", "WHY": "?"},],
         }
 
         dict_out = _dict_rename(dict_org, dict_map)

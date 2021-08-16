@@ -4,19 +4,18 @@ from unittest.mock import Mock
 import pytest
 
 from .testdata.get_data import (
+    CAMPAIGN_DATA_GENERIC,
+    CAMPAIGN_DATA_SWIM,
     CAMPAIGNS_DATA,
     CAMPAIGNS_NEXT_DATA,
-    EVENTS_DATA,
-    SENSORS_DATA,
-    LOWERSTACK_DATA,
-    SWIMOPS_DATA,
-    SWIMOPS_CAMPAIGN_DATA,
-    CAMPAIGN_DATA_SWIM,
-    CAMPAIGN_DATA_GENERIC,
     CHANNELS_DATA,
+    EVENTS_DATA,
     LOGS_DATA,
+    LOWERSTACK_DATA,
+    SENSORS_DATA,
+    SWIMOPS_CAMPAIGN_DATA,
+    SWIMOPS_DATA,
 )
-
 
 DATA_MAP = {
     "/v1.1/campaigns": CAMPAIGNS_DATA,
@@ -33,6 +32,7 @@ DATA_MAP = {
     "/v1.0/campaigns/test_generic_id": CAMPAIGN_DATA_GENERIC,
     "/v1.0/campaigns/test_swim_id": CAMPAIGN_DATA_SWIM,
 }
+
 
 @pytest.fixture
 def response():
