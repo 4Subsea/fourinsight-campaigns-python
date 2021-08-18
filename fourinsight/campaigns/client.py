@@ -20,7 +20,7 @@ class Client:
 
     def __init__(self, session):
         self._session = session
-        self._campaigns_api = CampaignsAPI(self._session, api_version="v1.0")
+        self._campaigns_api = CampaignsAPI(self._session)
 
     def overview(self):
         """
@@ -37,9 +37,6 @@ class Client:
         ----------
         campaign_id : str
             The id of the campaign (GUID).
-        campaign_type : str, deprecated.
-            Deprecated, but left for backwards compatibility. Type is automatically
-            inferred.
 
         Returns
         -------

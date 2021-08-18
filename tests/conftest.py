@@ -6,13 +6,32 @@ import pytest
 from .testdata.get_data import (
     CAMPAIGN_DATA_GENERIC,
     CAMPAIGN_DATA_SWIM,
-    CAMPAIGNS_DATA_LIST,
+    CAMPAIGNS_DATA,
+    CAMPAIGNS_NEXT_DATA,
+    CHANNELS_DATA,
     EVENTS_DATA,
+    LOGS_DATA,
     LOWERSTACK_DATA,
-    SENSOR_DATA,
+    SENSORS_DATA,
+    SWIMOPS_CAMPAIGN_DATA,
     SWIMOPS_DATA,
-    SWIMOPS_DATA_LIST,
 )
+
+DATA_MAP = {
+    "/v1.1/campaigns": CAMPAIGNS_DATA,
+    "campaigns next link": CAMPAIGNS_NEXT_DATA,
+    "/v1.1/campaigns/1234/events": EVENTS_DATA,
+    "/v1.1/campaigns/1234/sensors": SENSORS_DATA,
+    "/v1.0/campaigns/1234/lowerstack": LOWERSTACK_DATA,
+    "/v1.1/campaigns/swimops": SWIMOPS_DATA,
+    "/v1.1/campaigns/1234/swimops": SWIMOPS_CAMPAIGN_DATA,
+    "/v1.1/campaigns/1234/logs": LOGS_DATA,
+    "/v1.1/campaigns/1234/sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels": CHANNELS_DATA,
+    "/v1.1/campaigns/1234/sensors/<wh sensor id>/channels": CHANNELS_DATA,
+    "/v1.0/campaigns/1234": CAMPAIGN_DATA_SWIM,
+    "/v1.0/campaigns/test_generic_id": CAMPAIGN_DATA_GENERIC,
+    "/v1.0/campaigns/test_swim_id": CAMPAIGN_DATA_SWIM,
+}
 
 
 @pytest.fixture
@@ -24,28 +43,8 @@ def response():
         url = response._get_called_with_url
         if not url:
             return
-        elif url.endswith("Campaigns"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Campaigns/Type/SWIM Campaign"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Campaigns/Type/Campaign"):
-            return json.loads(json.dumps(CAMPAIGNS_DATA_LIST), **kwargs)
-        elif url.endswith("Events"):
-            return json.loads(json.dumps(EVENTS_DATA), **kwargs)
-        elif url.endswith("Sensors"):
-            return json.loads(json.dumps(SENSOR_DATA), **kwargs)
-        elif url.endswith("LowerStack"):
-            return json.loads(json.dumps(LOWERSTACK_DATA), **kwargs)
-        elif url.endswith("/Campaigns/Swimops"):
-            return json.loads(json.dumps(SWIMOPS_DATA_LIST), **kwargs)
-        elif url.endswith("Swimops") and not url.endswith("/Campaigns/Swimops"):
-            return json.loads(json.dumps(SWIMOPS_DATA), **kwargs)
-        elif url.endswith("Campaigns/test_swim_id"):
-            return json.loads(json.dumps(CAMPAIGN_DATA_SWIM), **kwargs)
-        elif url.endswith("Campaigns/test_generic_id"):
-            return json.loads(json.dumps(CAMPAIGN_DATA_GENERIC), **kwargs)
-        elif url.endswith("Campaigns/1234"):
-            return json.loads(json.dumps(CAMPAIGN_DATA_SWIM), **kwargs)
+
+        return json.loads(json.dumps(DATA_MAP[url.lower()]), **kwargs)
 
     response.json.side_effect = json_side_effect
     return response
@@ -54,7 +53,7 @@ def response():
 @pytest.fixture
 def auth_session(response):
     auth_session = Mock()
-    auth_session._api_base_url = "test_url"
+    auth_session._api_base_url = "test/api/base/url"
 
     def get_side_effect(url, *args, **kwargs):
         response._get_called_with_url = url

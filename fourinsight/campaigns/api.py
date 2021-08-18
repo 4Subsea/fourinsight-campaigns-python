@@ -96,11 +96,15 @@ class JSONSpecialParse:
 
 json_special_hook = JSONSpecialParse(
     datetime_keys=(
+        "start",
+        "stop",
         "startDate",
         "endDate",
         "stopDate",
-        "attachedTime",
-        "detachedTime",
+        # "attachedTime",
+        # "detachedTime",
+        "attached",
+        "detached",
         "dashboardCloseDate",
     ),
     location_keys=("location", "geoLocation"),
@@ -129,17 +133,35 @@ class CampaignsAPI:
         ``fourinsight.api.ClientSession``.
     """
 
-    def __init__(self, session, api_version="v1.0"):
-        self._session = session
-        self._api_version = api_version
+    _API_VERSION = "v1.1"
 
-    def _url(self, relative_url):
-        url = f"/{self._api_version}/Campaigns"
+    def __init__(self, session):
+        self._session = session
+
+    def _url(self, relative_url, api_version=None):
+        if api_version is None:
+            api_version = self._API_VERSION
+
+        url = f"/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
 
-    def get_campaigns(self, campaign_type=None):
+    def _get_payload(self, url, *args, **kwargs):
+        next_link = url
+        payload = []
+        while next_link:
+            json_response = self._session.get(next_link).json(*args, **kwargs)
+            payload.extend(json_response["value"])
+            next_link = json_response["@odata.nextLink"]
+        return payload
+
+    def _get_payload_legacy(
+        self, url, *args, **kwargs
+    ):  # remove when v1.1 has all endpoints
+        return self._session.get(url).json(*args, **kwargs)
+
+    def get_campaigns(self):
         """
         Get list of campaigns.
 
@@ -178,12 +200,12 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
-        response = self._session.get(self._url(""))
+        response = self._get_payload(self._url(""), object_hook=json_special_hook)
 
         response_out = [
-            _dict_rename(campaign_item, response_map)
-            for campaign_item in response.json(object_hook=json_special_hook)
+            _dict_rename(campaign_item, response_map) for campaign_item in response
         ]
+
         return response_out
 
     def get_campaign(self, campaign_id):
@@ -215,10 +237,13 @@ class CampaignsAPI:
             ("endDate", "End Date"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}"))
-        response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+        # change to v1.1 when available
+        response = self._get_payload_legacy(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook,
         )
+
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_geotrack(self, campaign_id):
@@ -242,10 +267,13 @@ class CampaignsAPI:
             ("wdTimeseriesId", "Wd Timeseries Id"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}"))
-        response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+        # change to v1.1 when available
+        response = self._get_payload_legacy(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook,
         )
+
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_events(self, campaign_id):
@@ -263,16 +291,90 @@ class CampaignsAPI:
             Events dict.
         """
         response_map = {
-            ("startDate", "Start"): None,
-            ("stopDate", "End"): None,
+            ("start", "Start"): None,
+            ("stop", "End"): None,
             ("eventType", "Event Type"): None,
             ("comment", "Comment"): None,
         }
-        response = self._session.get(self._url(f"/{campaign_id}/Events"))
+
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Events"), object_hook=json_special_hook
+        )
+
         response_out = [
-            _dict_rename(event_item, response_map)
-            for event_item in response.json(object_hook=json_special_hook)["events"]
+            _dict_rename(event_item, response_map) for event_item in response
         ]
+        return response_out
+
+    def _get_sensors(self, campaign_id):
+        """
+        Get sensors.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        dict
+            Sensors dict.
+        """
+        response_map = {
+            ("id", "SensorID"): None,
+            ("name", "Name"): None,
+            ("position", "Position"): None,
+            ("distanceFromWH", "Distance From Wellhead"): None,
+            ("directionXAxis", "Direction X Axis"): None,
+            ("directionZAxis", "Direction Z Axis"): None,
+            ("samplingRate", "Sampling Rate"): None,
+            ("sensorVendor", "Sensor Vendor"): None,
+            ("attached", "Attached Time"): None,
+            ("detached", "Detached Time"): None,
+        }
+
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Sensors"), object_hook=json_special_hook
+        )
+
+        response_out = [
+            _dict_rename(sensor_item, response_map) for sensor_item in response
+        ]
+        return response_out
+
+    def _get_channels(self, campaign_id, sensor_id):
+        """
+        Get sensors channels.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+        sensor_id : str
+            Sensor ID
+
+        Returns
+        -------
+        list
+            Channel list.
+        """
+        response_map = {
+            ("name", "Channel"): None,
+            ("units", "Units"): None,
+            ("timeseriesId", "Timeseries id"): None,
+            ("streamId", "Stream id"): None,
+        }
+
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Sensors/{sensor_id}/channels"),
+            object_hook=json_special_hook,
+        )
+
+        response_out = [
+            _dict_rename(channel_item, response_map) for channel_item in response
+        ]
+        return response_out
+
         return response_out
 
     def get_sensors(self, campaign_id):
@@ -289,31 +391,10 @@ class CampaignsAPI:
         dict
             Sensors dict.
         """
-        response_map = {
-            ("sensorId", "SensorID"): None,
-            ("sensorName", "Name"): None,
-            ("position", "Position"): None,
-            ("distanceFromWellhead", "Distance From Wellhead"): None,
-            ("directionXAxis", "Direction X Axis"): None,
-            ("directionZAxis", "Direction Z Axis"): None,
-            ("samplingRate", "Sampling Rate"): None,
-            ("sensorVendor", "Sensor Vendor"): None,
-            ("attachedTime", "Attached Time"): None,
-            ("detachedTime", "Detached Time"): None,
-            ("channels", "Channels"): {
-                ("channelName", "Channel"): None,
-                ("units", "Units"): None,
-                ("timeseriesId", "Timeseries id"): None,
-                ("positionStreamId", "Stream id"): None,
-            },
-        }
-
-        response = self._session.get(self._url(f"/{campaign_id}/Sensors"))
-        response_out = [
-            _dict_rename(sensor_item, response_map)
-            for sensor_item in response.json(object_hook=json_special_hook)["sensors"]
-        ]
-        return response_out
+        sensors = self._get_sensors(campaign_id)
+        for sensor in sensors:
+            sensor["Channels"] = self._get_channels(campaign_id, sensor["SensorID"])
+        return sensors
 
     def get_lowerstack(self, campaign_id):
         """
@@ -339,10 +420,14 @@ class CampaignsAPI:
                 ("addedMassCoefficient", "Added Mass Coefficient"): None,
             },
         }
-        response = self._session.get(self._url(f"/{campaign_id}/LowerStack"))
-        response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+
+        # change to v1.1 when available
+        response = self._get_payload_legacy(
+            self._url(f"/{campaign_id}/LowerStack", api_version="v1.0"),
+            object_hook=json_special_hook,
         )
+
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_swimops_campaign(self, campaign_id):
@@ -377,10 +462,11 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._session.get(self._url(f"/{campaign_id}/Swimops"))
-        response_out = _dict_rename(
-            response.json(object_hook=json_special_hook), response_map
+        response = self._get_payload(
+            self._url(f"/{campaign_id}/Swimops"), object_hook=json_special_hook
         )
+
+        response_out = _dict_rename(response[0], response_map)
         return response_out
 
     def get_swimops(self):
@@ -410,10 +496,11 @@ class CampaignsAPI:
             ("servicesAvailable", "Services Available"): None,
         }
 
-        response = self._session.get(self._url(f"/Swimops"))
+        response = self._get_payload(
+            self._url("/Swimops"), object_hook=json_special_hook
+        )
         response_out = [
-            _dict_rename(swim_ops_item, response_map)
-            for swim_ops_item in response.json(object_hook=json_special_hook)
+            _dict_rename(swim_ops_item, response_map) for swim_ops_item in response
         ]
         return response_out
 
@@ -431,5 +518,9 @@ class CampaignsAPI:
         str
             Campaign type.
         """
-        response = self._session.get(self._url(f"/{campaign_id}"))
-        return response.json(object_hook=json_special_hook)["campaignType"].lower()
+        # change to v1.1 when available
+        response = self._get_payload_legacy(
+            self._url(f"/{campaign_id}", api_version="v1.0"),
+            object_hook=json_special_hook,
+        )
+        return response["campaignType"].lower()
