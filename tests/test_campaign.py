@@ -28,7 +28,8 @@ def assert_list_of_dicts_equal(list1, list2):
 
 class Test_GenericCampaign:
     def test_init(
-        self, auth_session,
+        self,
+        auth_session,
     ):
         generic_campaign = GenericCampaign(auth_session, "1234")
 

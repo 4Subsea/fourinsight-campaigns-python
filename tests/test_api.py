@@ -132,7 +132,12 @@ class Test_CampaignsAPI:
                 "Event Type": "WLR connected",
                 "Comment": None,
             },
-            {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None,},
+            {
+                "Start": None,
+                "End": None,
+                "Event Type": "Artifact",
+                "Comment": None,
+            },
             {
                 "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
                 "End": None,
@@ -320,7 +325,10 @@ class Test__dict_rename:
             "a": "this",
             "b": {"one": 1, "two": 2},
             "c": "ignore me",
-            "d": [{"tell": "me", "why": "!"}, {"tell": "you", "why": "?"},],
+            "d": [
+                {"tell": "me", "why": "!"},
+                {"tell": "you", "why": "?"},
+            ],
         }
 
         dict_map = {
@@ -332,7 +340,10 @@ class Test__dict_rename:
         dict_expected = {
             "A": "this",
             "b": {"One": 1, "TWO": 2},
-            "D": [{"Tell": "me", "WHY": "!"}, {"Tell": "you", "WHY": "?"},],
+            "D": [
+                {"Tell": "me", "WHY": "!"},
+                {"Tell": "you", "WHY": "?"},
+            ],
         }
 
         dict_out = _dict_rename(dict_org, dict_map)
