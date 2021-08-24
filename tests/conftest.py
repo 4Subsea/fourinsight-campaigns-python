@@ -2,7 +2,6 @@ import json
 from unittest.mock import Mock
 
 import pytest
-
 from testdata.get_data import (
     CAMPAIGN_DATA_GENERIC,
     CAMPAIGN_DATA_SWIM,
