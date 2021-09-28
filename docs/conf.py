@@ -26,7 +26,7 @@ copyright = f"{date.today().year}, 4Subsea"
 author = "4Subsea"
 
 # The full version, including alpha/beta/rc tags
-version = metadata.version("fourinsight-campaigns")
+version = metadata.version(project)
 # version = "0.0.1"
 release = version
 
