@@ -1,14 +1,12 @@
 .. include:: ../README.rst
 
-Contents
-========
+.. _4Insight.io: https://4insight.io
 
 .. toctree::
-   :glob:
-   :titlesonly:
-   :maxdepth: 2
+   :hidden:
 
    getting_started
-   basic_usage
-   api
+   user_guide/index
+   api_ref/index
+   release_notes
    support

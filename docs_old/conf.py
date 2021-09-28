@@ -19,15 +19,13 @@ sys.path.insert(0, os.path.abspath("../"))
 
 
 # -- Project information -----------------------------------------------------
-_TEMPLATE_VERSION = "1.0.0"
 
 project = "fourinsight-campaigns"
 copyright = f"{date.today().year}, 4Subsea"
 author = "4Subsea"
 
 # The full version, including alpha/beta/rc tags
-version = metadata.version("fourinsight-campaigns")
-# version = "0.0.1"
+version = metadata.version(project)
 release = version
 
 
@@ -52,7 +50,7 @@ intersphinx_mapping = {
 }
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ["_templates"]
+templates_path = []
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -70,23 +68,4 @@ html_theme = "pydata_sphinx_theme"
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
-html_css_files = ['css/custom.css']
-html_logo = "_static/4insight-logo.svg" # "_static/Logo 4Subsea horisontal negative.png"
-html_theme_options = {
-    "external_links": [
-        {"name": "4Insight.io", "url": "https://4insight.io"},
-    ],
-    "icon_links": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/4subsea/fourinsight-campaigns-python",
-            "icon": "fab fa-github",
-        },
-        {
-            "name": "PyPI",
-            "url": "https://pypi.org/project/fourinsight-campaigns",
-            "icon": "fas fa-box",
-        }
-    ]
-}
+html_static_path = []
