@@ -29,3 +29,4 @@ list is provided by :py:mod:`fourinsight.campaigns.channels`:
     from fourinsight.campaigns import channels
 
     campaign.get_sensor_data(drio_client, lmrp_sensor, filter_=channels.AG)
+
