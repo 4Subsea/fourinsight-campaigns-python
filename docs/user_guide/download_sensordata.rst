@@ -1,8 +1,10 @@
-Get sensor data
-===============
+.. py:currentmodule:: fourinsight.campaigns
 
-To be able to download timeseries data from the DataReservoir, a ``datareservoir.Client``
-must be instanciated:
+Download sensor data
+====================
+
+To be able to download timeseries data from the DataReservoir, a :class:`datareservoirio.Client`
+must be instantiated:
 
 .. code-block:: python
 
@@ -11,7 +13,7 @@ must be instanciated:
     drio_auth = drio.Authenticator()
     drio_client = drio.Client(drio_auth)
 
-Sensor data can be downloaded using the ``client.download_sensor_data`` method:
+Sensor data can be downloaded using the :meth:`~GenericCampaign.get_sensor_data` method:
 
 .. code-block:: python
 
@@ -22,7 +24,7 @@ Sensor data can be downloaded using the ``client.download_sensor_data`` method:
     campaign.get_sensor_data(drio_client, sensor, filter_=["Ax", "Ay"])
 
 The ``filter_`` keyword argument can be used to filter which channels to download. A built-in channel
-list is provided by :py:mod:`fourinsight.campaigns.channels`:
+list is provided by :mod:`~fourinsight.campaigns.channels` module:
 
 .. code-block:: python
 

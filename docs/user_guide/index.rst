@@ -2,7 +2,7 @@ User Guide
 ==========
 
 :py:mod:`fourinsight.campaigns` is an easy-to-use Python interface for
-accessing Campaigns in `4insight.io`_ and retrieve information about different campaigns.
+accessing **Campaigns** in `4insight.io`_ and retrieve information about different campaigns.
 It also facilitates for downloading timeseries data related to a campaign from `DataReservoir.io`_.
 
 .. _4Insight.io: https://4insight.io
@@ -12,6 +12,5 @@ It also facilitates for downloading timeseries data related to a campaign from `
    :maxdepth: 2
    :hidden:
 
-   get_campaigndata
-   get_sensordata
-   
+   access_campaigns
+   download_sensordata
