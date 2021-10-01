@@ -12,8 +12,8 @@ class GenericCampaign:
     ----------
     session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls. Use ``fourinsight.api.UserSession`` or
-        ``fourinsight.api.ClientSession``.
+        HTTP calls. Use :class:`fourinsight.api.UserSession` or
+        :class:`fourinsight.api.ClientSession`.
     campaign_id : str
         The id of the campaign (GUID).
     """
@@ -156,9 +156,9 @@ class GenericCampaign:
 
         Note
         ----
-        You can supply pre-defiend lists from fourinsight.campaigns.channels.
-        E.g. self.get_sensor_data(drio_client, lmrp_sensor,
-        filter_=fourinsight.campaigns.channels.AG) to include all acceleration
+        You can supply pre-defiend lists from :mod:`fourinsight.campaigns.channels`.
+        E.g. ``my_campaign.get_sensor_data(drio_client, lmrp_sensor,
+        filter_=fourinsight.campaigns.channels.AG)`` to include all acceleration
         and gyro data.
         """
         if not filter_:
@@ -198,15 +198,16 @@ class SwimCampaign(GenericCampaign):
 
     Parameters
     ----------
-    auth_session : subclass of ``requests.session``
+    session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls.
+        HTTP calls. Use :class:`fourinsight.api.UserSession` or
+        :class:`fourinsight.api.ClientSession`.
     campaign_id : str
         The id of the campaign (GUID).
     """
 
-    def __init__(self, auth_session, campaign_id):
-        super().__init__(auth_session, campaign_id)
+    def __init__(self, session, campaign_id):
+        super().__init__(session, campaign_id)
         self._swim_operations = None
         self._lowerstack = None
 

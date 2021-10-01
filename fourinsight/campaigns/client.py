@@ -14,8 +14,8 @@ class Client:
     ----------
     session : authorized session
         Authorized session instance which appends a valid bearer token to all
-        HTTP calls. Use ``fourinsight.api.UserSession`` or
-        ``fourinsight.api.ClientSession``.
+        HTTP calls. Use :class:`fourinsight.api.UserSession` or
+        :class:`fourinsight.api.ClientSession`.
     """
 
     def __init__(self, session):

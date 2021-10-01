@@ -1,21 +1,37 @@
 Getting Started
-###############
+===============
 
-How to install
-**************
+New to Python?
+--------------
+You need to have Python installed on your system before you can use this package.
+Head over to `Python.org`_ for instructions.
 
-:py:mod:`fourinsight.campaigns` is written in pure Python and supports Windows,
-Linux, and MacOS. Python >=3.6 is officially supported.
+Python version support
+----------------------
+Officially Python 3.7, 3.8, and 3.9. We aim to support the three most
+recent major versions.
 
-.. _install-upgrade:
+OS support
+----------
+This package is tested with the latest Windows, MacOS, and Ubuntu (Linux) versions.
 
-To install from `pip`_::
+Install
+-------
+``fourinsight.campaigns`` can be installed via pip from `PyPI`_.
+
+.. code-block:: shell
 
    pip install fourinsight-campaigns
 
-And to upgrade to the latest version::
+.. _upgrade:
+
+Upgrade
+-------
+``fourinsight.campaigns`` can be upgraded via pip from `PyPI`_.
+
+.. code-block:: shell
 
    pip install --upgrade fourinsight-campaigns
 
-
-.. _pip: https://pypi.org/project/fourinsight-campaigns/
+.. _Python.org: https://python.org
+.. _PyPI: https://pypi.org/
