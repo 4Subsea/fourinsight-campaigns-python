@@ -441,6 +441,36 @@ class Test_JSONSpecialParse:
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
 
+    def test_location_invalid(self):
+        json_str = """{
+            "a_location": "1.23::4.56",
+            "b_other": "something",
+            "nested": [
+                {
+                    "nested_location_1": "7.89#10.11a#eight",
+                    "nested_location_2": "twelve#14.15"
+                }
+            ]
+        }"""
+
+        dict_expected = {
+            "a_location": "1.23::4.56",
+            "b_other": "something",
+            "nested": [
+                {
+                    "nested_location_1": (7.89, "10.11a#eight"),
+                    "nested_location_2": ("twelve", 14.15),
+                }
+            ],
+        }
+
+        json_special_hook = JSONSpecialParse(
+            location_keys=("a_location", "nested_location_1", "nested_location_2")
+        )
+
+        dict_out = json.loads(json_str, object_hook=json_special_hook)
+        assert dict_expected == dict_out
+
     def test_numbers(self):
         """Deprecate when REST API endpoint starts returning native values"""
         json_str = """{
@@ -497,3 +527,14 @@ class Test_JSONSpecialParse:
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)
         assert dict_expected == dict_out
+
+    def test__float_valid(self):
+        assert JSONSpecialParse._float(12.0) == 12.0
+        assert JSONSpecialParse._float(12) == 12.0
+        assert JSONSpecialParse._float("12") == 12.0
+
+    def test__float_null(self):
+        assert JSONSpecialParse._float("null") is None
+
+    def test__float_invalid(self):
+        assert JSONSpecialParse._float("12a") == "12a"

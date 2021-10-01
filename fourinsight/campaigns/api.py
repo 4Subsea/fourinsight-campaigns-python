@@ -67,14 +67,11 @@ class JSONSpecialParse:
         for key, value in dct.items():
             if key in self._location_keys:
                 try:
-                    val1, val2 = value.split("#")
+                    val1, val2 = value.split("#", 1)
                 except (AttributeError, ValueError):
                     dct_update[key] = value
                 else:
-                    dct_update[key] = (
-                        None if val1 == "null" else float(val1),
-                        None if val2 == "null" else float(val2),
-                    )
+                    dct_update[key] = (self._float(val1), self._float(val2))
         dct.update(dct_update)
 
         # Remove when endpoints start returning native values
@@ -92,6 +89,18 @@ class JSONSpecialParse:
         }
         dct.update(dct_update)
         return dct
+
+    @staticmethod
+    def _float(value):
+        """
+        Attempt to cast "location" string to float. Also converts "null" to ``None``.
+        """
+        try:
+            value = float(value)
+        except (TypeError, ValueError):
+            value = None if value == "null" else value
+        finally:
+            return value
 
 
 json_special_hook = JSONSpecialParse(
