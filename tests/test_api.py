@@ -529,7 +529,7 @@ class Test_JSONSpecialParse:
         assert dict_expected == dict_out
 
     def test__float_valid(self):
-        assert JSONSpecialParse._float(12.) == 12.0
+        assert JSONSpecialParse._float(12.0) == 12.0
         assert JSONSpecialParse._float(12) == 12.0
         assert JSONSpecialParse._float("12") == 12.0
 
