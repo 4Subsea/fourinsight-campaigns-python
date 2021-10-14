@@ -171,6 +171,7 @@ class CampaignsAPI:
         self, url, *args, **kwargs
     ):  # remove when v1.1 has all endpoints
         response = self._session.get(url)
+        response.raise_for_status()
         return response.json(*args, **kwargs)
 
     def get_campaigns(self):
