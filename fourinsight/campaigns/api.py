@@ -160,7 +160,9 @@ class CampaignsAPI:
         next_link = url
         payload = []
         while next_link:
-            json_response = self._session.get(next_link).json(*args, **kwargs)
+            response = self._session.get(next_link)
+            response.raise_for_status()
+            json_response = response.json(*args, **kwargs)
             payload.extend(json_response["value"])
             next_link = json_response["@odata.nextLink"]
         return payload
@@ -168,7 +170,9 @@ class CampaignsAPI:
     def _get_payload_legacy(
         self, url, *args, **kwargs
     ):  # remove when v1.1 has all endpoints
-        return self._session.get(url).json(*args, **kwargs)
+        response = self._session.get(url)
+        response.raise_for_status()
+        return response.json(*args, **kwargs)
 
     def get_campaigns(self):
         """
