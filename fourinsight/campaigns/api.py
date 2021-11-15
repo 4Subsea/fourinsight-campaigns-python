@@ -122,13 +122,9 @@ json_special_hook = JSONSpecialParse(
         "detached",
         "Detached",
         "dashboardCloseDate",
-        "DashboardCloseDate"
+        "DashboardCloseDate",
     ),
-    location_keys=(
-        "location",
-        "Location",
-        "geoLocation",
-        "GeoLocation"),
+    location_keys=("location", "Location", "geoLocation", "GeoLocation"),
     float_keys=(
         "distanceFromWellhead",
         "DistanceFromWellhead",

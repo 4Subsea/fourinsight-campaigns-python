@@ -46,7 +46,9 @@ class Test_CampaignsAPI:
         }
         assert expect == out
 
-    def test_get_geotrack_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_geotrack_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_geotrack("1234")
         auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234")
         response_camelcase.raise_for_status.assert_called()
@@ -114,7 +116,9 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_campaigns_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_campaigns_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_campaigns()
         call_list = [call("/v1.1/Campaigns"), call("campaigns next link")]
         auth_session_camelcase.get.assert_has_calls(call_list)
@@ -191,7 +195,9 @@ class Test_CampaignsAPI:
         }
         assert expect == out
 
-    def test_get_campaign_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_campaign_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_campaign("1234")
         auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234")
         response_camelcase.raise_for_status.assert_called()
@@ -245,9 +251,13 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_events_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_events_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_events("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/1234/Events")
+        auth_session_camelcase.get.assert_called_once_with(
+            "/v1.1/Campaigns/1234/Events"
+        )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = [
@@ -333,7 +343,9 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_sensors_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_sensors_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_sensors("1234")
         call_list = [
             call("/v1.1/Campaigns/1234/Sensors"),
@@ -421,9 +433,13 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test__get_sensors_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test__get_sensors_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase._get_sensors("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors")
+        auth_session_camelcase.get.assert_called_once_with(
+            "/v1.1/Campaigns/1234/Sensors"
+        )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = [
@@ -471,7 +487,9 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test__get_channels_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test__get_channels_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase._get_channels("1234", "<wh sensor id>")
         auth_session_camelcase.get.assert_called_once_with(
             "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels"
@@ -507,9 +525,13 @@ class Test_CampaignsAPI:
         }
         assert expect == out
 
-    def test_get_lowerstack_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_lowerstack_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_lowerstack("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234/LowerStack")
+        auth_session_camelcase.get.assert_called_once_with(
+            "/v1.0/Campaigns/1234/LowerStack"
+        )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = {
@@ -550,9 +572,13 @@ class Test_CampaignsAPI:
         }
         expect == out
 
-    def test_get_swimops_campaign_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_swimops_campaign_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_swimops_campaign("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/1234/Swimops")
+        auth_session_camelcase.get.assert_called_once_with(
+            "/v1.1/Campaigns/1234/Swimops"
+        )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = {
@@ -600,7 +626,9 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_swimops_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_swimops_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         out = campaigns_api_camelcase.get_swimops()
         auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/Swimops")
         response_camelcase.raise_for_status.assert_called()
@@ -629,7 +657,9 @@ class Test_CampaignsAPI:
     def test_get_campaign_type(self, campaigns_api, auth_session, response):
         assert campaigns_api.get_campaign_type("1234") == "swim campaign"
 
-    def test_get_campaign_type_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase):
+    def test_get_campaign_type_camelcase(
+        self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
+    ):
         assert campaigns_api_camelcase.get_campaign_type("1234") == "swim campaign"
 
 
