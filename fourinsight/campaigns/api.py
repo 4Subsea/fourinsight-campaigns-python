@@ -30,6 +30,8 @@ def _dict_rename(dict_org, dict_map):
     """
     dict_new = {}
     for (key_old, key_new), value_map in dict_map.items():
+        # Make renaming UpperCase / camelCase agnostic.
+        key_old = key_old if key_old in dict_org else (key_old[0].lower() + key_old[1:])
         if value_map is None:
             dict_new[key_new] = dict_org[key_old]
         elif isinstance(value_map, dict):
@@ -106,26 +108,44 @@ class JSONSpecialParse:
 json_special_hook = JSONSpecialParse(
     datetime_keys=(
         "start",
+        "Start",
         "stop",
+        "Stop",
         "startDate",
+        "StartDate",
         "endDate",
+        "EndDate",
         "stopDate",
-        # "attachedTime",
-        # "detachedTime",
+        "StopDate",
         "attached",
+        "Attached",
         "detached",
+        "Detached",
         "dashboardCloseDate",
+        "DashboardCloseDate"
     ),
-    location_keys=("location", "geoLocation"),
+    location_keys=(
+        "location",
+        "Location",
+        "geoLocation",
+        "GeoLocation"),
     float_keys=(
         "distanceFromWellhead",
+        "DistanceFromWellhead",
         "samplingRate",
+        "SamplingRate",
         "mass",
+        "Mass",
         "submergedWeight",
+        "SubmergedWeight",
         "height",
+        "Height",
         "addedMassCoefficient",
+        "AddedMassCoefficient",
         "alpha",
+        "Alpha",
         "waterDepth",
+        "WaterDepth",
     ),
 )
 
@@ -190,27 +210,27 @@ class CampaignsAPI:
             A list of campaign dicts.
         """
         response_map = {
-            ("id", "CampaignID"): None,
-            ("campaignName", "Name"): None,
-            ("campaignType", "Type"): None,
-            ("client", "Client"): None,
-            ("poNumber", "PO Number"): None,
-            ("projectNumber", "Project Number"): None,
-            ("vessel", "Vessel"): None,
-            ("vesselContractor", "Vessel Contractor"): None,
-            ("wellName", "Well Name"): None,
-            ("wellId", "Well ID"): None,
-            ("waterDepth", "Water Depth"): None,
-            ("location", "Location"): None,
-            ("mainDataProvider", "Main Data Provider"): None,
-            ("startDate", "Start Date"): None,
-            ("endDate", "End Date"): None,
-            ("geoPositionId", "GeoTrack Position ID"): None,
-            ("geoLocation", "GeoTrack Location"): None,
-            ("geoTitle", "GeoTrack Title"): None,
-            ("hsTimeseriesId", "Hs Timeseries ID"): None,
-            ("tpTimeseriesId", "Tp Timeseries ID"): None,
-            ("wdTimeseriesId", "Wd Timeseries ID"): None,
+            ("Id", "CampaignID"): None,
+            ("CampaignName", "Name"): None,
+            ("CampaignType", "Type"): None,
+            ("Client", "Client"): None,
+            ("PoNumber", "PO Number"): None,
+            ("ProjectNumber", "Project Number"): None,
+            ("Vessel", "Vessel"): None,
+            ("VesselContractor", "Vessel Contractor"): None,
+            ("WellName", "Well Name"): None,
+            ("WellId", "Well ID"): None,
+            ("WaterDepth", "Water Depth"): None,
+            ("Location", "Location"): None,
+            ("MainDataProvider", "Main Data Provider"): None,
+            ("StartDate", "Start Date"): None,
+            ("EndDate", "End Date"): None,
+            ("GeoPositionId", "GeoTrack Position ID"): None,
+            ("GeoLocation", "GeoTrack Location"): None,
+            ("GeoTitle", "GeoTrack Title"): None,
+            ("HsTimeseriesId", "Hs Timeseries ID"): None,
+            ("TpTimeseriesId", "Tp Timeseries ID"): None,
+            ("WdTimeseriesId", "Wd Timeseries ID"): None,
         }
 
         response = self._get_payload(self._url(""), object_hook=json_special_hook)
@@ -236,18 +256,18 @@ class CampaignsAPI:
             Campaign dict.
         """
         response_map = {
-            ("id", "CampaignID"): None,
-            ("projectNumber", "Project Number"): None,
-            ("client", "Client"): None,
-            ("vessel", "Vessel"): None,
-            ("vesselContractor", "Vessel Contractor"): None,
-            ("wellName", "Well Name"): None,
-            ("wellId", "Well ID"): None,
-            ("waterDepth", "Water Depth"): None,
-            ("location", "Location"): None,
-            ("mainDataProvider", "Main Data Provider"): None,
-            ("startDate", "Start Date"): None,
-            ("endDate", "End Date"): None,
+            ("Id", "CampaignID"): None,
+            ("ProjectNumber", "Project Number"): None,
+            ("Client", "Client"): None,
+            ("Vessel", "Vessel"): None,
+            ("VesselContractor", "Vessel Contractor"): None,
+            ("WellName", "Well Name"): None,
+            ("WellId", "Well ID"): None,
+            ("WaterDepth", "Water Depth"): None,
+            ("Location", "Location"): None,
+            ("MainDataProvider", "Main Data Provider"): None,
+            ("StartDate", "Start Date"): None,
+            ("EndDate", "End Date"): None,
         }
 
         # change to v1.1 when available
@@ -275,9 +295,9 @@ class CampaignsAPI:
             Campaign dict.
         """
         response_map = {
-            ("hsTimeseriesId", "HS Timeseries Id"): None,
-            ("tpTimeseriesId", "Tp Timeseries Id"): None,
-            ("wdTimeseriesId", "Wd Timeseries Id"): None,
+            ("HsTimeseriesId", "HS Timeseries Id"): None,
+            ("TpTimeseriesId", "Tp Timeseries Id"): None,
+            ("WdTimeseriesId", "Wd Timeseries Id"): None,
         }
 
         # change to v1.1 when available
@@ -304,10 +324,10 @@ class CampaignsAPI:
             Events dict.
         """
         response_map = {
-            ("start", "Start"): None,
-            ("stop", "End"): None,
-            ("eventType", "Event Type"): None,
-            ("comment", "Comment"): None,
+            ("Start", "Start"): None,
+            ("Stop", "End"): None,
+            ("EventType", "Event Type"): None,
+            ("Comment", "Comment"): None,
         }
 
         response = self._get_payload(
@@ -334,16 +354,16 @@ class CampaignsAPI:
             Sensors dict.
         """
         response_map = {
-            ("id", "SensorID"): None,
-            ("name", "Name"): None,
-            ("position", "Position"): None,
-            ("distanceFromWH", "Distance From Wellhead"): None,
-            ("directionXAxis", "Direction X Axis"): None,
-            ("directionZAxis", "Direction Z Axis"): None,
-            ("samplingRate", "Sampling Rate"): None,
-            ("sensorVendor", "Sensor Vendor"): None,
-            ("attached", "Attached Time"): None,
-            ("detached", "Detached Time"): None,
+            ("Id", "SensorID"): None,
+            ("Name", "Name"): None,
+            ("Position", "Position"): None,
+            ("DistanceFromWH", "Distance From Wellhead"): None,
+            ("DirectionXAxis", "Direction X Axis"): None,
+            ("DirectionZAxis", "Direction Z Axis"): None,
+            ("SamplingRate", "Sampling Rate"): None,
+            ("SensorVendor", "Sensor Vendor"): None,
+            ("Attached", "Attached Time"): None,
+            ("Detached", "Detached Time"): None,
         }
 
         response = self._get_payload(
@@ -372,10 +392,10 @@ class CampaignsAPI:
             Channel list.
         """
         response_map = {
-            ("name", "Channel"): None,
-            ("units", "Units"): None,
-            ("timeseriesId", "Timeseries id"): None,
-            ("streamId", "Stream id"): None,
+            ("Name", "Channel"): None,
+            ("Units", "Units"): None,
+            ("TimeseriesId", "Timeseries id"): None,
+            ("StreamId", "Stream id"): None,
         }
 
         response = self._get_payload(
@@ -424,13 +444,13 @@ class CampaignsAPI:
             Lower stack dict.
         """
         response_map = {
-            ("alpha", "Alpha"): None,
-            ("elements", "Elements"): {
-                ("name", "Name"): None,
-                ("mass", "Mass"): None,
-                ("submergedWeight", "Submerged Weight"): None,
-                ("height", "Height"): None,
-                ("addedMassCoefficient", "Added Mass Coefficient"): None,
+            ("Alpha", "Alpha"): None,
+            ("Elements", "Elements"): {
+                ("Name", "Name"): None,
+                ("Mass", "Mass"): None,
+                ("SubmergedWeight", "Submerged Weight"): None,
+                ("Height", "Height"): None,
+                ("AddedMassCoefficient", "Added Mass Coefficient"): None,
             },
         }
 
@@ -458,21 +478,21 @@ class CampaignsAPI:
             Swim operations dict.
         """
         response_map = {
-            ("operationStatus", "Operation Status"): None,
-            ("dashboardStatus", "Dashboard Status"): None,
-            ("slaLevel", "SLA Level"): None,
-            ("customerContact", "Customer Contact"): None,
-            ("comments", "Comments"): None,
-            ("dashboardCloseDate", "Dashboard Close Date"): None,
-            ("swimInstanceStatus", "SWIM Instance Status"): None,
-            ("reportMade", "Report Made"): None,
-            ("reportSent", "Report Sent"): None,
-            ("dataPackageMade", "Data Package Made"): None,
-            ("dataPackageSent", "Data Package Sent"): None,
-            ("experienceLogMade", "Experience Log Made"): None,
-            ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
-            ("dashboardClosed", "Dashboard Closed"): None,
-            ("servicesAvailable", "Services Available"): None,
+            ("OperationStatus", "Operation Status"): None,
+            ("DashboardStatus", "Dashboard Status"): None,
+            ("SlaLevel", "SLA Level"): None,
+            ("CustomerContact", "Customer Contact"): None,
+            ("Comments", "Comments"): None,
+            ("DashboardCloseDate", "Dashboard Close Date"): None,
+            ("SwimInstanceStatus", "SWIM Instance Status"): None,
+            ("ReportMade", "Report Made"): None,
+            ("ReportSent", "Report Sent"): None,
+            ("DataPackageMade", "Data Package Made"): None,
+            ("DataPackageSent", "Data Package Sent"): None,
+            ("ExperienceLogMade", "Experience Log Made"): None,
+            ("WellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+            ("DashboardClosed", "Dashboard Closed"): None,
+            ("ServicesAvailable", "Services Available"): None,
         }
 
         response = self._get_payload(
@@ -492,21 +512,21 @@ class CampaignsAPI:
             A list of swim operations dicts.
         """
         response_map = {
-            ("operationStatus", "Operation Status"): None,
-            ("dashboardStatus", "Dashboard Status"): None,
-            ("slaLevel", "SLA Level"): None,
-            ("customerContact", "Customer Contact"): None,
-            ("comments", "Comments"): None,
-            ("dashboardCloseDate", "Dashboard Close Date"): None,
-            ("swimInstanceStatus", "SWIM Instance Status"): None,
-            ("reportMade", "Report Made"): None,
-            ("reportSent", "Report Sent"): None,
-            ("dataPackageMade", "Data Package Made"): None,
-            ("dataPackageSent", "Data Package Sent"): None,
-            ("experienceLogMade", "Experience Log Made"): None,
-            ("wellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
-            ("dashboardClosed", "Dashboard Closed"): None,
-            ("servicesAvailable", "Services Available"): None,
+            ("OperationStatus", "Operation Status"): None,
+            ("DashboardStatus", "Dashboard Status"): None,
+            ("SlaLevel", "SLA Level"): None,
+            ("CustomerContact", "Customer Contact"): None,
+            ("Comments", "Comments"): None,
+            ("DashboardCloseDate", "Dashboard Close Date"): None,
+            ("SwimInstanceStatus", "SWIM Instance Status"): None,
+            ("ReportMade", "Report Made"): None,
+            ("ReportSent", "Report Sent"): None,
+            ("DataPackageMade", "Data Package Made"): None,
+            ("DataPackageSent", "Data Package Sent"): None,
+            ("ExperienceLogMade", "Experience Log Made"): None,
+            ("WellSpotBendingMomentUploaded", "WellSpot Bending Moment Uploaded"): None,
+            ("DashboardClosed", "Dashboard Closed"): None,
+            ("ServicesAvailable", "Services Available"): None,
         }
 
         response = self._get_payload(
@@ -531,9 +551,13 @@ class CampaignsAPI:
         str
             Campaign type.
         """
+        response_map = {
+            ("CampaignType", "CampaignType"): None,
+        }
         # change to v1.1 when available
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
             object_hook=json_special_hook,
         )
-        return response["campaignType"].lower()
+        response = _dict_rename(response, response_map)
+        return response["CampaignType"].lower()
