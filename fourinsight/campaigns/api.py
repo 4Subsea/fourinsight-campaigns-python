@@ -31,7 +31,7 @@ def _dict_rename(dict_org, dict_map):
     dict_new = {}
     for (key_old, key_new), value_map in dict_map.items():
         # Make renaming UpperCase / camelCase agnostic.
-        key_old = key_old if key_old in dict_org else (key_old[0].lower() + key_old[1:])
+        key_old = key_old if key_old in dict_org else (key_old[0:1].lower() + key_old[2:])
         if value_map is None:
             dict_new[key_new] = dict_org[key_old]
         elif isinstance(value_map, dict):
