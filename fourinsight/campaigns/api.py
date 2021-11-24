@@ -210,7 +210,7 @@ class CampaignsAPI:
             ("CampaignName", "Name"): None,
             ("CampaignType", "Type"): None,
             ("Client", "Client"): None,
-            ("PoNumber", "PO Number"): None,
+            ("PONumber", "PO Number"): None,
             ("ProjectNumber", "Project Number"): None,
             ("Vessel", "Vessel"): None,
             ("VesselContractor", "Vessel Contractor"): None,
