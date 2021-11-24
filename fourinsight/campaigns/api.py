@@ -180,7 +180,7 @@ class CampaignsAPI:
             response.raise_for_status()
             json_response = response.json(*args, **kwargs)
             payload.extend(json_response["value"])
-            next_link = json_response["@odata.nextLink"]
+            next_link = json_response.get("@odata.nextLink", None)
         return payload
 
     def _get_payload_legacy(
