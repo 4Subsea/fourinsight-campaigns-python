@@ -58,24 +58,24 @@ def _dict_rename(dict_org, dict_map):
 
 class JSONSpecialParse:
     def __init__(self, datetime_keys=(), location_keys=(), float_keys=(), int_keys=()):
-        self._datetime_keys = datetime_keys
-        self._location_keys = location_keys
+        self._datetime_keys = [key.lower() for key in datetime_keys]
+        self._location_keys = [key.lower() for key in location_keys]
 
         # Remove when endpoints start returning native values
-        self._float_keys = float_keys
-        self._int_keys = int_keys
+        self._float_keys = [key.lower() for key in float_keys]
+        self._int_keys = [key.lower() for key in int_keys]
 
     def __call__(self, dct):
         dct_update = {
             key: pd.to_datetime(value)
             for key, value in dct.items()
-            if key in self._datetime_keys
+            if key.lower() in self._datetime_keys
         }
         dct.update(dct_update)
 
         dct_update = {}
         for key, value in dct.items():
-            if key in self._location_keys:
+            if key.lower() in self._location_keys:
                 try:
                     val1, val2 = value.split("#", 1)
                 except (AttributeError, ValueError):
@@ -88,14 +88,14 @@ class JSONSpecialParse:
         dct_update = {
             key: None if value is None else float(value)
             for key, value in dct.items()
-            if key in self._float_keys
+            if key.lower() in self._float_keys
         }
         dct.update(dct_update)
 
         dct_update = {
             key: None if value is None else int(value)
             for key, value in dct.items()
-            if key in self._int_keys
+            if key.lower() in self._int_keys
         }
         dct.update(dct_update)
         return dct
@@ -116,41 +116,25 @@ class JSONSpecialParse:
 json_special_hook = JSONSpecialParse(
     datetime_keys=(
         "start",
-        "Start",
         "stop",
-        "Stop",
-        "startDate",
-        "StartDate",
-        "endDate",
-        "EndDate",
-        "stopDate",
-        "StopDate",
+        "startdate",
+        "enddate",
+        "stopdate",
         "attached",
-        "Attached",
         "detached",
-        "Detached",
-        "dashboardCloseDate",
-        "DashboardCloseDate",
-    ),
-    location_keys=("location", "Location", "geoLocation", "GeoLocation"),
+        "dashboardclosedate",
+        ),
+    location_keys=("location", "geolocation"),
     float_keys=(
-        "distanceFromWellhead",
-        "DistanceFromWellhead",
-        "samplingRate",
-        "SamplingRate",
+        "distancefromwellhead",
+        "samplingrate",
         "mass",
-        "Mass",
-        "submergedWeight",
-        "SubmergedWeight",
+        "submergedweight",
         "height",
-        "Height",
-        "addedMassCoefficient",
-        "AddedMassCoefficient",
+        "addedmasscoefficient",
         "alpha",
-        "Alpha",
-        "waterDepth",
-        "WaterDepth",
-    ),
+        "waterdepth",
+        ),
 )
 
 
