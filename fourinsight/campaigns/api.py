@@ -123,7 +123,7 @@ json_special_hook = JSONSpecialParse(
         "attached",
         "detached",
         "dashboardclosedate",
-        ),
+    ),
     location_keys=("location", "geolocation"),
     float_keys=(
         "distancefromwellhead",
@@ -134,7 +134,7 @@ json_special_hook = JSONSpecialParse(
         "addedmasscoefficient",
         "alpha",
         "waterdepth",
-        ),
+    ),
 )
 
 
