@@ -22,7 +22,7 @@ starting a "User Session"::
 
 Now we are ready to proceed.
 
-Retrieve campaign data
+Retrieve Campaign Data
 ----------------------
 
 To initiate a client:

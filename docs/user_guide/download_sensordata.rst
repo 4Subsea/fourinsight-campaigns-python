@@ -1,6 +1,6 @@
 .. py:currentmodule:: fourinsight.campaigns
 
-Download sensor data
+Download Sensor Data
 ====================
 
 To be able to download timeseries data from the DataReservoir, a :class:`datareservoirio.Client`
