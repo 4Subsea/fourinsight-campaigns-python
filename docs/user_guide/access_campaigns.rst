@@ -1,4 +1,4 @@
-Accessing Campaigns
+Accessing campaigns
 ===================
 
 Authenticate
@@ -22,7 +22,7 @@ starting a "User Session"::
 
 Now we are ready to proceed.
 
-Retrieve Campaign Data
+Retrieve campaign data
 ----------------------
 
 To initiate a client:
