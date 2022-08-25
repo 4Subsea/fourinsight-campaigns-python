@@ -1,4 +1,4 @@
-Accessing Campaigns
+Accessing campaigns
 ===================
 
 Authenticate
