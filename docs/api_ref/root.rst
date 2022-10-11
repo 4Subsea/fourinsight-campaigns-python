@@ -1,17 +1,15 @@
+=====================
 fourinsight.campaigns
 =====================
 
-.. autoclass:: fourinsight.campaigns.Client
-   :members:
-   :undoc-members:
-   :inherited-members:
 
-.. autoclass:: fourinsight.campaigns.GenericCampaign
-   :members:
-   :undoc-members:
-   :inherited-members:
+.. currentmodule:: fourinsight.campaigns
 
-.. autoclass:: fourinsight.campaigns.SwimCampaign
-   :members:
-   :undoc-members:
-   :inherited-members:
+.. autosummary::
+    :toctree:
+    :template: class.rst
+
+    GenericCampaign
+    SwimCampaign
+    Client
+    
