@@ -6,16 +6,16 @@
 
 # -- Path setup --------------------------------------------------------------
 
+import inspect
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
 import sys
-import inspect
 from datetime import date
 from importlib import metadata
-
 
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../src/"))
@@ -44,9 +44,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.linkcode"
+    "sphinx.ext.linkcode",
 ]
 autosummary_generate = True
+
 
 def linkcode_resolve(domain, info):
 
@@ -65,7 +66,6 @@ def linkcode_resolve(domain, info):
     # Inspect cannot find source file for properties
     if isinstance(obj, (property, frozenset)):
         return None
-    
 
     path = os.path.relpath(inspect.getfile(obj))
     src, lineno = inspect.getsourcelines(obj)
@@ -73,6 +73,7 @@ def linkcode_resolve(domain, info):
     path = f"{github_repo}blob/main/{path}#L{lineno}-L{lineno + len(src) - 1}"
 
     return path
+
 
 # Napoleon settings
 napoleon_google_docstring = False
