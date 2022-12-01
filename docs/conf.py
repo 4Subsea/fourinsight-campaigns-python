@@ -12,8 +12,10 @@
 #
 import os
 import sys
+import inspect
 from datetime import date
 from importlib import metadata
+
 
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../src/"))
@@ -25,10 +27,10 @@ _TEMPLATE_VERSION = "2.0.0"
 project = "fourinsight-campaigns"
 copyright = f"{date.today().year}, 4Subsea"
 author = "4Subsea"
+github_repo = "https://github.com/4Subsea/fourinsight-campaigns-python/"
 
 # The full version, including alpha/beta/rc tags
 version = metadata.version(project)
-# version = "0.0.1"
 release = version
 
 
@@ -42,8 +44,35 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.linkcode"
 ]
 autosummary_generate = True
+
+def linkcode_resolve(domain, info):
+
+    if domain != "py":
+        return None
+    if not info["module"]:
+        return None
+
+    obj = sys.modules[info["module"]]
+
+    for part in info["fullname"].split("."):
+        obj = getattr(obj, part)
+
+    obj = inspect.unwrap(obj)
+
+    # Inspect cannot find source file for properties
+    if isinstance(obj, (property, frozenset)):
+        return None
+    
+
+    path = os.path.relpath(inspect.getfile(obj))
+    src, lineno = inspect.getsourcelines(obj)
+
+    path = f"{github_repo}blob/main/{path}#L{lineno}-L{lineno + len(src) - 1}"
+
+    return path
 
 # Napoleon settings
 napoleon_google_docstring = False
@@ -88,7 +117,7 @@ html_theme_options = {
     "icon_links": [
         {
             "name": "GitHub",
-            "url": "https://github.com/4Subsea/fourinsight-campaigns-python",
+            "url": github_repo,
             "icon": "fab fa-github",
         },
         {
