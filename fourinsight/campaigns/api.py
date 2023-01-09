@@ -156,7 +156,7 @@ class CampaignsAPI:
 
     def __init__(self, session):
         self._session = session
-        self._headers_custom = {"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
+        self._headers = {"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
 
     def _url(self, relative_url, api_version=None):
         if api_version is None:
@@ -171,7 +171,7 @@ class CampaignsAPI:
         next_link = url
         payload = []
         while next_link:
-            response = self._session.get(next_link, headers=self._headers_custom)
+            response = self._session.get(next_link, headers=self._headers)
             response.raise_for_status()
             json_response = response.json(*args, **kwargs)
             payload.extend(json_response["value"])
@@ -181,7 +181,7 @@ class CampaignsAPI:
     def _get_payload_legacy(
         self, url, *args, **kwargs
     ):  # remove when v1.1 has all endpoints
-        response = self._session.get(url, headers=self._headers_custom)
+        response = self._session.get(url, headers=self._headers)
         response.raise_for_status()
         return response.json(*args, **kwargs)
 
