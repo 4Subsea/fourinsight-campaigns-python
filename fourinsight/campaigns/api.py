@@ -156,7 +156,7 @@ class CampaignsAPI:
 
     def __init__(self, session):
         self._session = session
-        self._headers_custom = {"user-agent": "python-fourinsight-campaigns/{fc.__version__}"}
+        self._headers_custom = {"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
 
     def _url(self, relative_url, api_version=None):
         if api_version is None:

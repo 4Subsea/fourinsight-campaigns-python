@@ -4,6 +4,7 @@ from unittest.mock import call
 import pandas as pd
 import pytest
 
+import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
 
 
@@ -36,7 +37,7 @@ class Test_CampaignsAPI:
 
     def test_get_geotrack(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_geotrack("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234")
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = {
@@ -50,7 +51,7 @@ class Test_CampaignsAPI:
         self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
     ):
         out = campaigns_api_camelcase.get_geotrack("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234")
+        auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = {
@@ -62,7 +63,7 @@ class Test_CampaignsAPI:
 
     def test_get_campaigns(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_campaigns()
-        call_list = [call("/v1.1/Campaigns"), call("campaigns next link")]
+        call_list = [call("/v1.1/Campaigns", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}), call("campaigns next link", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})]
         auth_session.get.assert_has_calls(call_list)
         response.raise_for_status.assert_called()
         response.json.assert_called()
@@ -120,7 +121,7 @@ class Test_CampaignsAPI:
         self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
     ):
         out = campaigns_api_camelcase.get_campaigns()
-        call_list = [call("/v1.1/Campaigns"), call("campaigns next link")]
+        call_list = [call("/v1.1/Campaigns", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}), call("campaigns next link", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})]
         auth_session_camelcase.get.assert_has_calls(call_list)
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -176,7 +177,7 @@ class Test_CampaignsAPI:
 
     def test_get_campaign(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_campaign("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234")
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = {
@@ -199,7 +200,7 @@ class Test_CampaignsAPI:
         self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
     ):
         out = campaigns_api_camelcase.get_campaign("1234")
-        auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234")
+        auth_session_camelcase.get.assert_called_once_with("/v1.0/Campaigns/1234", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = {
@@ -220,7 +221,7 @@ class Test_CampaignsAPI:
 
     def test_get_events(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_events("1234")
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Events")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Events", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = [
@@ -256,7 +257,7 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase.get_events("1234")
         auth_session_camelcase.get.assert_called_once_with(
-            "/v1.1/Campaigns/1234/Events"
+            "/v1.1/Campaigns/1234/Events", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -291,9 +292,9 @@ class Test_CampaignsAPI:
     def test_get_sensors(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_sensors("1234")
         call_list = [
-            call("/v1.1/Campaigns/1234/Sensors"),
+            call("/v1.1/Campaigns/1234/Sensors", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}),
             call(
-                "/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels"
+                "/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
             ),
         ]
         auth_session.get.assert_has_calls(call_list)
@@ -348,9 +349,9 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase.get_sensors("1234")
         call_list = [
-            call("/v1.1/Campaigns/1234/Sensors"),
+            call("/v1.1/Campaigns/1234/Sensors", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}),
             call(
-                "/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels"
+                "/v1.1/Campaigns/1234/Sensors/3fa85f64-5717-4562-b3fc-2c963f66afa6/channels", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
             ),
         ]
         auth_session_camelcase.get.assert_has_calls(call_list)
@@ -402,7 +403,7 @@ class Test_CampaignsAPI:
 
     def test__get_sensors(self, campaigns_api, auth_session, response):
         out = campaigns_api._get_sensors("1234")
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Sensors", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = [
@@ -438,7 +439,7 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase._get_sensors("1234")
         auth_session_camelcase.get.assert_called_once_with(
-            "/v1.1/Campaigns/1234/Sensors"
+            "/v1.1/Campaigns/1234/Sensors", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -473,7 +474,7 @@ class Test_CampaignsAPI:
     def test__get_channels(self, campaigns_api, auth_session, response):
         out = campaigns_api._get_channels("1234", "<wh sensor id>")
         auth_session.get.assert_called_once_with(
-            "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels"
+            "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response.raise_for_status.assert_called()
         response.json.assert_called()
@@ -492,7 +493,7 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase._get_channels("1234", "<wh sensor id>")
         auth_session_camelcase.get.assert_called_once_with(
-            "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels"
+            "/v1.1/Campaigns/1234/Sensors/<wh sensor id>/channels", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -508,7 +509,7 @@ class Test_CampaignsAPI:
 
     def test_get_lowerstack(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_lowerstack("1234")
-        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/LowerStack")
+        auth_session.get.assert_called_once_with("/v1.0/Campaigns/1234/LowerStack", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = {
@@ -530,7 +531,7 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase.get_lowerstack("1234")
         auth_session_camelcase.get.assert_called_once_with(
-            "/v1.0/Campaigns/1234/LowerStack"
+            "/v1.0/Campaigns/1234/LowerStack", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -550,7 +551,7 @@ class Test_CampaignsAPI:
 
     def test_get_swimops_campaign(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_swimops_campaign("1234")
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Swimops")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/1234/Swimops", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = {
@@ -577,7 +578,7 @@ class Test_CampaignsAPI:
     ):
         out = campaigns_api_camelcase.get_swimops_campaign("1234")
         auth_session_camelcase.get.assert_called_once_with(
-            "/v1.1/Campaigns/1234/Swimops"
+            "/v1.1/Campaigns/1234/Swimops", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"}
         )
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
@@ -602,7 +603,7 @@ class Test_CampaignsAPI:
 
     def test_get_swimops(self, campaigns_api, auth_session, response):
         out = campaigns_api.get_swimops()
-        auth_session.get.assert_called_once_with("/v1.1/Campaigns/Swimops")
+        auth_session.get.assert_called_once_with("/v1.1/Campaigns/Swimops", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response.raise_for_status.assert_called()
         response.json.assert_called()
         expect = [
@@ -630,7 +631,7 @@ class Test_CampaignsAPI:
         self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase
     ):
         out = campaigns_api_camelcase.get_swimops()
-        auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/Swimops")
+        auth_session_camelcase.get.assert_called_once_with("/v1.1/Campaigns/Swimops", headers={"user-agent": f"python-fourinsight-campaigns/{fc.__version__}"})
         response_camelcase.raise_for_status.assert_called()
         response_camelcase.json.assert_called()
         expect = [
