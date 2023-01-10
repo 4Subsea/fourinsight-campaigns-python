@@ -22,7 +22,7 @@ def campaigns_api_camelcase(auth_session_camelcase):
 def headers_expect(auth_session):
     headers_expect = {
         "user-agent": auth_session.headers["user-agent"]
-        + f"+python-fourinsight-campaigns/{fc.__version__}"
+        + f" python-fourinsight-campaigns/{fc.__version__}"
     }
     return headers_expect
 
