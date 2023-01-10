@@ -93,9 +93,15 @@ def response_camelcase():
 
 
 @pytest.fixture
-def auth_session(response):
+def session_headers():
+    return {"user-agent": "python-fourinsight-api/v0.0.1"}
+
+
+@pytest.fixture
+def auth_session(response, session_headers):
     auth_session = Mock()
     auth_session._api_base_url = "test/api/base/url"
+    auth_session.headers = session_headers
 
     def get_side_effect(url, *args, **kwargs):
         response._get_called_with_url = url
@@ -106,9 +112,10 @@ def auth_session(response):
 
 
 @pytest.fixture
-def auth_session_camelcase(response_camelcase):
+def auth_session_camelcase(response_camelcase, session_headers):
     auth_session = Mock()
     auth_session._api_base_url = "test/api/base/url"
+    auth_session.headers = session_headers
 
     def get_side_effect(url, *args, **kwargs):
         response_camelcase._get_called_with_url = url
