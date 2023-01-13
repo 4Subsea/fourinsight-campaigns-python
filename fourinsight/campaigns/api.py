@@ -142,7 +142,7 @@ json_special_hook = JSONSpecialParse(
 
 class CampaignsAPI:
     """
-    Python wrapper (convinience) for 4Insight Public API - Campaigns.
+    Python wrapper (convenience) for 4Insight Public API - Campaigns.
 
     Parameters
     ----------
@@ -275,7 +275,7 @@ class CampaignsAPI:
     def get_geotrack(self, campaign_id):
         """
         Get GeoTrack information. (There is no corresponding API endpoint.
-        Introduced for consistency and convinience downstream.)
+        Introduced for consistency and convenience downstream.)
 
         Parameters
         ----------

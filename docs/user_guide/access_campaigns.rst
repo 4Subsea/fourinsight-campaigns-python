@@ -34,8 +34,13 @@ To initiate a client:
     client = Client(session)
 
 The client object can be used to get a list of available campaigns in 4insight
-using the :meth:`~fourinsight.campaigns.Client.overview()` method, or to retrieve data for a particular campaign
-using the :meth:`~fourinsight.campaigns.Client.get()` method::
+using the :meth:`~fourinsight.campaigns.Client.overview()` method::
+    
+    campaigns = client.overview()
+
+the :meth:`~fourinsight.campaigns.Client.overview()` method returns a dataframe containing all available campaigns and relevant metadata for each, for example campaignID, start time, end time and so on. 
+    
+To retrieve data for a particular campaign, use the :meth:`~fourinsight.campaigns.Client.get()` method::
 
     campaign = client.get('campaign_guid')
 
