@@ -339,16 +339,16 @@ CHANNELS_DATA = {
 LOWERSTACK_DATA_CAMELCASE = {
     "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "anyFetchFailure": False,
-    "alpha": "0.1",
+    "alpha": 0.1,
     "elements": [
         {
             "campaignId": "string",
             "name": "string",
             "elementId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "mass": "100.0",
-            "submergedWeight": "1000.0",
-            "height": "10.0",
-            "addedMassCoefficient": "2.0",
+            "mass": 100.0,
+            "submergedWeight": 1000.0,
+            "height": 10.0,
+            "addedMassCoefficient": 2.0,
         }
     ],
 }
@@ -356,16 +356,16 @@ LOWERSTACK_DATA_CAMELCASE = {
 LOWERSTACK_DATA = {
     "CampaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "AnyFetchFailure": False,
-    "Alpha": "0.1",
+    "Alpha": 0.1,
     "Elements": [
         {
             "CampaignId": "string",
             "Name": "string",
             "ElementId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "Mass": "100.0",
-            "SubmergedWeight": "1000.0",
-            "Height": "10.0",
-            "AddedMassCoefficient": "2.0",
+            "Mass": 100.0,
+            "SubmergedWeight": 1000.0,
+            "Height": 10.0,
+            "AddedMassCoefficient": 2.0,
         }
     ],
 }
@@ -496,7 +496,7 @@ CAMPAIGN_DATA_SWIM_CAMELCASE = {
     "wellName": "string",
     "wellId": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
     "fieldTitle": "Janice",
-    "waterDepth": "100.0",
+    "waterDepth": 100.0,
     "location": None,
     "mainDataProvider": "4Subsea",
     "startDate": "2017-04-08T00:00:00+00:00",
@@ -524,7 +524,7 @@ CAMPAIGN_DATA_SWIM = {
     "WellName": "string",
     "WellId": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
     "FieldTitle": "Janice",
-    "WaterDepth": "100.0",
+    "WaterDepth": 100.0,
     "Location": None,
     "MainDataProvider": "4Subsea",
     "StartDate": "2017-04-08T00:00:00+00:00",
@@ -552,7 +552,7 @@ CAMPAIGN_DATA_GENERIC_CAMELCASE = {
     "wellName": "string",
     "wellId": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
     "fieldTitle": "Janice",
-    "waterDepth": "100.0",
+    "waterDepth": 100.0,
     "location": None,
     "mainDataProvider": "4Subsea",
     "startDate": "2017-04-08T00:00:00+00:00",
@@ -580,7 +580,7 @@ CAMPAIGN_DATA_GENERIC = {
     "WellName": "string",
     "WellId": "2f9356d1-e32c-4916-8f80-bbf8dfaef1e8",
     "FieldTitle": "Janice",
-    "WaterDepth": "100.0",
+    "WaterDepth": 100.0,
     "Location": None,
     "MainDataProvider": "4Subsea",
     "StartDate": "2017-04-08T00:00:00+00:00",

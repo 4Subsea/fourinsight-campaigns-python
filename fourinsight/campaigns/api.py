@@ -64,8 +64,8 @@ class JSONSpecialParse:
         self._location_keys = [key.lower() for key in location_keys]
 
         # Remove when endpoints start returning native values
-        self._float_keys = [key.lower() for key in float_keys]
-        self._int_keys = [key.lower() for key in int_keys]
+        # self._float_keys = [key.lower() for key in float_keys]
+        # self._int_keys = [key.lower() for key in int_keys]
 
     def __call__(self, dct):
         dct_update = {
@@ -87,19 +87,19 @@ class JSONSpecialParse:
         dct.update(dct_update)
 
         # Remove when endpoints start returning native values
-        dct_update = {
-            key: None if value is None else float(value)
-            for key, value in dct.items()
-            if key.lower() in self._float_keys
-        }
-        dct.update(dct_update)
+        # dct_update = {
+        #     key: None if value is None else float(value)
+        #     for key, value in dct.items()
+        #     if key.lower() in self._float_keys
+        # }
+        # dct.update(dct_update)
 
-        dct_update = {
-            key: None if value is None else int(value)
-            for key, value in dct.items()
-            if key.lower() in self._int_keys
-        }
-        dct.update(dct_update)
+        # dct_update = {
+        #     key: None if value is None else int(value)
+        #     for key, value in dct.items()
+        #     if key.lower() in self._int_keys
+        # }
+        # dct.update(dct_update)
         return dct
 
     @staticmethod
@@ -231,7 +231,6 @@ class CampaignsAPI:
         response_out = [
             _dict_rename(campaign_item, response_map) for campaign_item in response
         ]
-
         return response_out
 
     def get_campaign(self, campaign_id):

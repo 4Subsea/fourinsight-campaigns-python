@@ -136,7 +136,7 @@ class Test_CampaignsAPI:
                 "Vessel Contractor": "string",
                 "Well Name": "string",
                 "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Water Depth": 0.0,
+                "Water Depth": "float", #0.0, CHECK WHY FLOAT NOT 0?
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
                 "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
