@@ -34,10 +34,15 @@ class Test_CampaignsAPI:
     def test__url_bare(self, campaigns_api):
         assert campaigns_api._url("") == "https://api.4insight.io/v1.1/Campaigns"
 
-
     def test__url_something(self, campaigns_api):
-        assert campaigns_api._url("something") == "https://api.4insight.io/v1.1/Campaigns/something"
-        assert campaigns_api._url("/something") == "https://api.4insight.io/v1.1/Campaigns/something"
+        assert (
+            campaigns_api._url("something")
+            == "https://api.4insight.io/v1.1/Campaigns/something"
+        )
+        assert (
+            campaigns_api._url("/something")
+            == "https://api.4insight.io/v1.1/Campaigns/something"
+        )
 
     def test__url_version(self, campaigns_api):
         assert (
