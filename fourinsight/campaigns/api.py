@@ -68,12 +68,12 @@ class JSONSpecialParse:
         # self._int_keys = [key.lower() for key in int_keys]
 
     def __call__(self, dct):
-        dct_update = {
-            key: pd.to_datetime(value)
-            for key, value in dct.items()
-            if key.lower() in self._datetime_keys
-        }
-        dct.update(dct_update)
+        # dct_update = {
+        #     key: pd.to_datetime(value)
+        #     for key, value in dct.items()
+        #     if key.lower() in self._datetime_keys
+        # }
+        # dct.update(dct_update)
 
         dct_update = {}
         for key, value in dct.items():

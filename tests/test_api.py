@@ -116,8 +116,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -136,11 +136,11 @@ class Test_CampaignsAPI:
                 "Vessel Contractor": "string",
                 "Well Name": "string",
                 "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Water Depth": "float", #0.0, CHECK WHY FLOAT NOT 0?
+                "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -187,8 +187,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -210,8 +210,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -241,8 +241,8 @@ class Test_CampaignsAPI:
             "Water Depth": 100.0,
             "Location": None,
             "Main Data Provider": "4Subsea",
-            "Start Date": pd.to_datetime("2017-04-08T00:00:00+00:00"),
-            "End Date": pd.to_datetime("2017-05-13T00:00:00+00:00"),
+            "Start Date": "2017-04-08T00:00:00+00:00",
+            "End Date": "2017-05-13T00:00:00+00:00",
         }
         assert expect == out
 
@@ -271,8 +271,8 @@ class Test_CampaignsAPI:
             "Water Depth": 100.0,
             "Location": None,
             "Main Data Provider": "4Subsea",
-            "Start Date": pd.to_datetime("2017-04-08T00:00:00+00:00"),
-            "End Date": pd.to_datetime("2017-05-13T00:00:00+00:00"),
+            "Start Date": "2017-04-08T00:00:00+00:00",
+            "End Date": "2017-05-13T00:00:00+00:00",
         }
         assert expect == out
 
@@ -286,13 +286,13 @@ class Test_CampaignsAPI:
         response.json.assert_called()
         expect = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
-                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
+                "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
@@ -304,7 +304,7 @@ class Test_CampaignsAPI:
                 "Comment": None,
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -328,13 +328,13 @@ class Test_CampaignsAPI:
         response_camelcase.json.assert_called()
         expect = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
-                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
+                "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
@@ -346,7 +346,7 @@ class Test_CampaignsAPI:
                 "Comment": None,
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -379,8 +379,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -444,8 +444,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -496,8 +496,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
             },
             {
                 "SensorID": "<wh sensor id>",
@@ -538,8 +538,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
             },
             {
                 "SensorID": "<wh sensor id>",
@@ -666,7 +666,7 @@ class Test_CampaignsAPI:
             "SLA Level": "string",
             "Customer Contact": "string",
             "Comments": "string",
-            "Dashboard Close Date": pd.to_datetime("2021-08-12T11:56:23.069Z"),
+            "Dashboard Close Date": "2021-08-12T11:56:23.069Z",
             "SWIM Instance Status": "string",
             "Report Made": "string",
             "Report Sent": "string",
@@ -699,7 +699,7 @@ class Test_CampaignsAPI:
             "SLA Level": "string",
             "Customer Contact": "string",
             "Comments": "string",
-            "Dashboard Close Date": pd.to_datetime("2021-08-12T11:56:23.069Z"),
+            "Dashboard Close Date": "2021-08-12T11:56:23.069Z",
             "SWIM Instance Status": "string",
             "Report Made": "string",
             "Report Sent": "string",
@@ -727,7 +727,7 @@ class Test_CampaignsAPI:
                 "SLA Level": "string",
                 "Customer Contact": "string",
                 "Comments": "string",
-                "Dashboard Close Date": pd.to_datetime("2021-08-12T11:54:42.513Z"),
+                "Dashboard Close Date": "2021-08-12T11:54:42.513Z",
                 "SWIM Instance Status": "string",
                 "Report Made": "string",
                 "Report Sent": "string",
@@ -762,7 +762,7 @@ class Test_CampaignsAPI:
                 "SLA Level": "string",
                 "Customer Contact": "string",
                 "Comments": "string",
-                "Dashboard Close Date": pd.to_datetime("2021-08-12T11:54:42.513Z"),
+                "Dashboard Close Date": "2021-08-12T11:54:42.513Z",
                 "SWIM Instance Status": "string",
                 "Report Made": "string",
                 "Report Sent": "string",
