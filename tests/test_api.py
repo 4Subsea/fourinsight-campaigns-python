@@ -817,36 +817,6 @@ class Test__dict_rename:
 
 
 class Test_JSONSpecialParse:
-    def test_datetime(self):
-        json_str = """{
-            "a_datetime": "2020-01-01 00:01:00Z",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_datetime_1": "2020-01-01 00:02:00Z",
-                    "nested_datetime_2": "2020-01-01 00:03:00Z"
-                }
-            ]
-        }"""
-
-        dict_expected = {
-            "a_datetime": "2020-01-01 00:01:00Z",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_datetime_1": "2020-01-01 00:02:00Z",
-                    "nested_datetime_2": "2020-01-01 00:03:00Z",
-                }
-            ],
-        }
-
-        json_special_hook = JSONSpecialParse(
-            datetime_keys=("a_datetime", "nested_datetime_1", "nested_datetime_2")
-        )
-
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
-
     def test_location(self):
         json_str = """{
             "a_location": "1.23#4.56",
@@ -962,7 +932,6 @@ class Test_JSONSpecialParse:
 
         json_special_hook = JSONSpecialParse(
             location_keys=("a_location", "nested_location_1"),
-            datetime_keys=("nested_datetime_2",),
         )
 
         dict_out = json.loads(json_str, object_hook=json_special_hook)

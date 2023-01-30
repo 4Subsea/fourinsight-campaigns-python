@@ -59,22 +59,11 @@ def _dict_rename(dict_org, dict_map):
 
 
 class JSONSpecialParse:
-    def __init__(self, datetime_keys=(), location_keys=(), float_keys=(), int_keys=()):
-        self._datetime_keys = [key.lower() for key in datetime_keys]
+    def __init__(self, location_keys=()):
         self._location_keys = [key.lower() for key in location_keys]
 
-        # Remove when endpoints start returning native values
-        # self._float_keys = [key.lower() for key in float_keys]
-        # self._int_keys = [key.lower() for key in int_keys]
 
     def __call__(self, dct):
-        # dct_update = {
-        #     key: pd.to_datetime(value)
-        #     for key, value in dct.items()
-        #     if key.lower() in self._datetime_keys
-        # }
-        # dct.update(dct_update)
-
         dct_update = {}
         for key, value in dct.items():
             if key.lower() in self._location_keys:
@@ -85,21 +74,6 @@ class JSONSpecialParse:
                 else:
                     dct_update[key] = (self._float(val1), self._float(val2))
         dct.update(dct_update)
-
-        # Remove when endpoints start returning native values
-        # dct_update = {
-        #     key: None if value is None else float(value)
-        #     for key, value in dct.items()
-        #     if key.lower() in self._float_keys
-        # }
-        # dct.update(dct_update)
-
-        # dct_update = {
-        #     key: None if value is None else int(value)
-        #     for key, value in dct.items()
-        #     if key.lower() in self._int_keys
-        # }
-        # dct.update(dct_update)
         return dct
 
     @staticmethod
@@ -114,31 +88,7 @@ class JSONSpecialParse:
         finally:
             return value
 
-
-json_special_hook = JSONSpecialParse(
-    datetime_keys=(
-        "start",
-        "stop",
-        "startdate",
-        "enddate",
-        "stopdate",
-        "attached",
-        "detached",
-        "dashboardclosedate",
-    ),
-    location_keys=("location", "geolocation"),
-    float_keys=(
-        "distancefromwellhead",
-        "samplingrate",
-        "mass",
-        "submergedweight",
-        "height",
-        "addedmasscoefficient",
-        "alpha",
-        "waterdepth",
-    ),
-)
-
+json_special_hook = JSONSpecialParse(location_keys=("location", "geolocation"))
 
 class CampaignsAPI:
     """
