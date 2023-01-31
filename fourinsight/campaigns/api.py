@@ -164,7 +164,7 @@ class CampaignsAPI:
         if api_version is None:
             api_version = self._API_VERSION
 
-        url = f"/{api_version}/Campaigns"
+        url = f"https://api.4insight.io/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
