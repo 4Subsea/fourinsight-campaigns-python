@@ -70,10 +70,16 @@ def loc2float(value):
         return value
 
 
-def location_parser(dct):
-    location_keys = ("location", "geolocation", "geotrack location")
+def location_parser(dct, location_keys=("location", "geolocation")):
     dct_update = {}
+    print ("first time:", location_keys)
+    print("type first", type(location_keys))
+    # location_keys = tuple([key.lower() for key in location_keys])
+    # print ("second time:", location_keys)
+    # print("type second", type(location_keys))
     for key, value in dct.items():
+        print("keys are", key)
+        print("values are", value)
         if key.lower() in location_keys:
             try:
                 val1, val2 = value.split("#", 1)
