@@ -5,7 +5,9 @@ import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
-from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
+# from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
+from fourinsight.campaigns.api import CampaignsAPI, _dict_rename, location_parser
+
 
 
 @pytest.fixture
@@ -25,6 +27,59 @@ def headers_expect(auth_session):
         + f" python-fourinsight-campaigns/{fc.__version__}"
     }
     return headers_expect
+
+def test_location_parser():
+    pass
+    dct_in =  {
+                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "string",
+                "Type": "string",
+                "Client": "string",
+                "PO Number": "string",
+                "Project Number": "string",
+                "Vessel": "string",
+                "Vessel Contractor": "string",
+                "Well Name": "string",
+                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Water Depth": 0.0,
+                "Location":  "1.3#2.4",
+                "Main Data Provider": "string",
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
+                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "GeoTrack Location": "3.2#4.5",
+                "GeoTrack Title": "string",
+                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            }
+
+    dct_expect =  {
+                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Name": "string",
+                "Type": "string",
+                "Client": "string",
+                "PO Number": "string",
+                "Project Number": "string",
+                "Vessel": "string",
+                "Vessel Contractor": "string",
+                "Well Name": "string",
+                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Water Depth": 0.0,
+                "Location": (1.3, 2.4),
+                "Main Data Provider": "string",
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
+                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "GeoTrack Location": (3.2, 4.5),
+                "GeoTrack Title": "string",
+                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            }
+
+    dct_out = location_parser(dct_in)
+    assert dct_out == dct_expect
 
 
 class Test_CampaignsAPI:
