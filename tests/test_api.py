@@ -5,8 +5,12 @@ import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
-from fourinsight.campaigns.api import CampaignsAPI, _dict_rename, location_parser, loc2float
-
+from fourinsight.campaigns.api import (
+    CampaignsAPI,
+    _dict_rename,
+    loc2float,
+    location_parser,
+)
 
 
 @pytest.fixture
@@ -26,6 +30,8 @@ def headers_expect(auth_session):
         + f" python-fourinsight-campaigns/{fc.__version__}"
     }
     return headers_expect
+
+
 class Test_CampaignsAPI:
     def test_init(self, campaigns_api, auth_session):
         assert campaigns_api._session == auth_session
@@ -814,192 +820,192 @@ class Test__dict_rename:
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
 
+
 def test_location_parser():
-    dict_in =  {
-                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "string",
-                "Type": "string",
-                "Client": "string",
-                "PO Number": "string",
-                "Project Number": "string",
-                "Vessel": "string",
-                "Vessel Contractor": "string",
-                "Well Name": "string",
-                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Water Depth": 0.0,
-                "Location":  "1.3#2.4",
-                "Main Data Provider": "string",
-                "Start Date": "2021-08-12T11:38:16.509Z",
-                "End Date": "2021-08-12T11:38:16.509Z",
-                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "GeoTrack Location": "3.2#4.5",
-                "GeoTrack Title": "string",
-                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            }
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": "1.3#2.4",
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": "3.2#4.5",
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-    dict_expect =  {
-                "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Name": "string",
-                "Type": "string",
-                "Client": "string",
-                "PO Number": "string",
-                "Project Number": "string",
-                "Vessel": "string",
-                "Vessel Contractor": "string",
-                "Well Name": "string",
-                "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Water Depth": 0.0,
-                "Location": (1.3, 2.4),
-                "Main Data Provider": "string",
-                "Start Date": "2021-08-12T11:38:16.509Z",
-                "End Date": "2021-08-12T11:38:16.509Z",
-                "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "GeoTrack Location": (3.2, 4.5),
-                "GeoTrack Title": "string",
-                "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            }
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": (1.3, 2.4),
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": (3.2, 4.5),
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-    dict_out = location_parser(dict_in, location_keys = ("location", "geotrack location"))
+    dict_out = location_parser(dict_in, location_keys=("location", "geotrack location"))
     assert dict_out == dict_expect
 
+
 def test_location_parser_nested():
-        dict_in = {
-            "a_location": "1.23#4.56",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": "7.89#10.11",
-                    "nested_location_2": "12.13#14.15",
-                    "nested_location_3": "1.23#4.56",
-                }
-            ]
-        }
+    dict_in = {
+        "a_location": "1.23#4.56",
+        "b_other": "something",
+        "nested": [
+            {
+                "nested_location_1": "7.89#10.11",
+                "nested_location_2": "12.13#14.15",
+                "nested_location_3": "1.23#4.56",
+            }
+        ],
+    }
 
-        dict_expect = {
-            "a_location": (1.23, 4.56),
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": (7.89, 10.11),
-                    "nested_location_2": (12.13, 14.15),
-                    "nested_location_3": (1.23, 4.56),
-                }
-            ],
-        }
+    dict_expect = {
+        "a_location": (1.23, 4.56),
+        "b_other": "something",
+        "nested": [
+            {
+                "nested_location_1": (7.89, 10.11),
+                "nested_location_2": (12.13, 14.15),
+                "nested_location_3": (1.23, 4.56),
+            }
+        ],
+    }
 
-        dict_out = location_parser(dict_in, location_keys=("a_location", "nested_location_1", "nested_location_2"))
-        assert dict_out == dict_expect
+    dict_out = location_parser(
+        dict_in, location_keys=("a_location", "nested_location_1", "nested_location_2")
+    )
+    assert dict_out == dict_expect
 
-    # def test_location_null(self):
-    #     json_str = """{
-    #         "a_location": "null#null",
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": "null#10.11",
-    #                 "nested_location_2": "12.13#null"
-    #             }
-    #         ]
-    #     }"""
 
-    #     dict_expected = {
-    #         "a_location": (None, None),
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": (None, 10.11),
-    #                 "nested_location_2": (12.13, None),
-    #             }
-    #         ],
-    #     }
+# def test_location_null(self):
+#     json_str = """{
+#         "a_location": "null#null",
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": "null#10.11",
+#                 "nested_location_2": "12.13#null"
+#             }
+#         ]
+#     }"""
 
-    #     json_special_hook = JSONSpecialParse(
-    #         location_keys=("a_location", "nested_location_1", "nested_location_2")
-    #     )
+#     dict_expected = {
+#         "a_location": (None, None),
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": (None, 10.11),
+#                 "nested_location_2": (12.13, None),
+#             }
+#         ],
+#     }
 
-    #     dict_out = json.loads(json_str, object_hook=json_special_hook)
-    #     assert dict_expected == dict_out
+#     json_special_hook = JSONSpecialParse(
+#         location_keys=("a_location", "nested_location_1", "nested_location_2")
+#     )
 
-    # def test_location_invalid(self):
-    #     json_str = """{
-    #         "a_location": "1.23::4.56",
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": "7.89#10.11a#eight",
-    #                 "nested_location_2": "twelve#14.15"
-    #             }
-    #         ]
-    #     }"""
+#     dict_out = json.loads(json_str, object_hook=json_special_hook)
+#     assert dict_expected == dict_out
 
-    #     dict_expected = {
-    #         "a_location": "1.23::4.56",
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": (7.89, "10.11a#eight"),
-    #                 "nested_location_2": ("twelve", 14.15),
-    #             }
-    #         ],
-    #     }
+# def test_location_invalid(self):
+#     json_str = """{
+#         "a_location": "1.23::4.56",
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": "7.89#10.11a#eight",
+#                 "nested_location_2": "twelve#14.15"
+#             }
+#         ]
+#     }"""
 
-    #     json_special_hook = JSONSpecialParse(
-    #         location_keys=("a_location", "nested_location_1", "nested_location_2")
-    #     )
+#     dict_expected = {
+#         "a_location": "1.23::4.56",
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": (7.89, "10.11a#eight"),
+#                 "nested_location_2": ("twelve", 14.15),
+#             }
+#         ],
+#     }
 
-    #     dict_out = json.loads(json_str, object_hook=json_special_hook)
-    #     assert dict_expected == dict_out
+#     json_special_hook = JSONSpecialParse(
+#         location_keys=("a_location", "nested_location_1", "nested_location_2")
+#     )
 
-    # def test_mixed(self):
-    #     json_str = """{
-    #         "a_location": "1.23#4.56",
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": "7.89#10.11",
-    #                 "nested_datetime_2": "2020-01-01 04:00:12Z"
-    #             }
-    #         ]
-    #     }"""
+#     dict_out = json.loads(json_str, object_hook=json_special_hook)
+#     assert dict_expected == dict_out
 
-    #     dict_expected = {
-    #         "a_location": (1.23, 4.56),
-    #         "b_other": "something",
-    #         "nested": [
-    #             {
-    #                 "nested_location_1": (7.89, 10.11),
-    #                 "nested_datetime_2": "2020-01-01 04:00:12Z",
-    #             }
-    #         ],
-    #     }
+# def test_mixed(self):
+#     json_str = """{
+#         "a_location": "1.23#4.56",
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": "7.89#10.11",
+#                 "nested_datetime_2": "2020-01-01 04:00:12Z"
+#             }
+#         ]
+#     }"""
 
-    #     json_special_hook = JSONSpecialParse(
-    #         location_keys=("a_location", "nested_location_1"),
-    #     )
+#     dict_expected = {
+#         "a_location": (1.23, 4.56),
+#         "b_other": "something",
+#         "nested": [
+#             {
+#                 "nested_location_1": (7.89, 10.11),
+#                 "nested_datetime_2": "2020-01-01 04:00:12Z",
+#             }
+#         ],
+#     }
 
-    #     dict_out = json.loads(json_str, object_hook=json_special_hook)
-    #     assert dict_expected == dict_out
+#     json_special_hook = JSONSpecialParse(
+#         location_keys=("a_location", "nested_location_1"),
+#     )
 
-    # def test__float_valid(self):
-    #     assert JSONSpecialParse._float(12.0) == 12.0
-    #     assert JSONSpecialParse._float(12) == 12.0
-    #     assert JSONSpecialParse._float("12") == 12.0
+#     dict_out = json.loads(json_str, object_hook=json_special_hook)
+#     assert dict_expected == dict_out
 
-    # def test__float_null(self):
-    #     assert JSONSpecialParse._float("null") is None
+# def test__float_valid(self):
+#     assert JSONSpecialParse._float(12.0) == 12.0
+#     assert JSONSpecialParse._float(12) == 12.0
+#     assert JSONSpecialParse._float("12") == 12.0
 
-    # def test__float_invalid(self):
-    #     assert JSONSpecialParse._float("12a") == "12a"
+# def test__float_null(self):
+#     assert JSONSpecialParse._float("null") is None
 
-def test_loc2float():
-    value_in = 5
-    value_out = 5
+# def test__float_invalid(self):
+#     assert JSONSpecialParse._float("12a") == "12a"
 
-    assert value_in == value_out
 
 def test_loc2float():
     value_in = 5
@@ -1008,12 +1014,14 @@ def test_loc2float():
 
     assert value_out == value_expected
 
+
 def test_loc2float_more_digits():
     value_in = 5.12345678900
     value_out = loc2float(value_in)
     value_expected = 5.123456789
 
     assert value_out == value_expected
+
 
 def test_loc2float_string():
     value_in = "5.678900000"

@@ -88,6 +88,7 @@ def location_parser(dct, location_keys=("location", "geolocation")):
     dct.update(dct_update)
     return dct
 
+
 # class JSONSpecialParse:
 #     def __init__(self, location_keys=()):
 #         self._location_keys = [key.lower() for key in location_keys]
@@ -308,9 +309,7 @@ class CampaignsAPI:
             ("comment", "Comment"): None,
         }
 
-        response = self._get_payload(
-            self._url(f"/{campaign_id}/Events")
-            )
+        response = self._get_payload(self._url(f"/{campaign_id}/Events"))
 
         response_location_updated = [
             location_parser(event_item) for event_item in response
@@ -348,15 +347,14 @@ class CampaignsAPI:
             ("detached", "Detached Time"): None,
         }
 
-        response = self._get_payload(
-            self._url(f"/{campaign_id}/Sensors")
-        )
+        response = self._get_payload(self._url(f"/{campaign_id}/Sensors"))
 
         response_location_updated = [
             location_parser(sensor_item) for sensor_item in response
         ]
         response_out = [
-            _dict_rename(sensor_item, response_map) for sensor_item in response_location_updated
+            _dict_rename(sensor_item, response_map)
+            for sensor_item in response_location_updated
         ]
         return response_out
 
@@ -391,7 +389,8 @@ class CampaignsAPI:
             location_parser(channel_item) for channel_item in response
         ]
         response_out = [
-            _dict_rename(channel_item, response_map) for channel_item in response_location_updated
+            _dict_rename(channel_item, response_map)
+            for channel_item in response_location_updated
         ]
         return response_out
 
@@ -482,9 +481,7 @@ class CampaignsAPI:
             ("servicesavailable", "Services Available"): None,
         }
 
-        response = self._get_payload(
-            self._url(f"/{campaign_id}/Swimops")
-        )
+        response = self._get_payload(self._url(f"/{campaign_id}/Swimops"))
 
         response_out = _dict_rename(response[0], response_map)
         return response_out
@@ -516,9 +513,7 @@ class CampaignsAPI:
             ("servicesavailable", "Services Available"): None,
         }
 
-        response = self._get_payload(
-            self._url("/Swimops")
-        )
+        response = self._get_payload(self._url("/Swimops"))
         response_out = [
             _dict_rename(swim_ops_item, response_map) for swim_ops_item in response
         ]
@@ -543,6 +538,7 @@ class CampaignsAPI:
         }
         # change to v1.1 when available
         response = self._get_payload_legacy(
-            self._url(f"/{campaign_id}", api_version="v1.0"))
+            self._url(f"/{campaign_id}", api_version="v1.0")
+        )
         response = _dict_rename(response, response_map)
         return response["CampaignType"].lower()
