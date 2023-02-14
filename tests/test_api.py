@@ -5,7 +5,7 @@ import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
-from fourinsight.campaigns.api import CampaignsAPI, _dict_rename, location_parser
+from fourinsight.campaigns.api import CampaignsAPI, _dict_rename, location_parser, loc2float
 
 
 
@@ -994,3 +994,30 @@ def test_location_parser_nested():
 
     # def test__float_invalid(self):
     #     assert JSONSpecialParse._float("12a") == "12a"
+
+def test_loc2float():
+    value_in = 5
+    value_out = 5
+
+    assert value_in == value_out
+
+def test_loc2float():
+    value_in = 5
+    value_out = loc2float(value_in)
+    value_expected = 5
+
+    assert value_out == value_expected
+
+def test_loc2float_more_digits():
+    value_in = 5.12345678900
+    value_out = loc2float(value_in)
+    value_expected = 5.123456789
+
+    assert value_out == value_expected
+
+def test_loc2float_string():
+    value_in = "5.678900000"
+    value_out = loc2float(value_in)
+    value_expected = 5.6789
+
+    assert value_out == value_expected
