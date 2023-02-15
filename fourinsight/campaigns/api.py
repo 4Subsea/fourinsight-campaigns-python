@@ -33,7 +33,6 @@ def _dict_rename(dict_org, dict_map):
     dict_new = {}
 
     for key_org, value_org in dict_org.items():
-
         label_mapper = dict(dict_map.keys())
         try:
             key_new = label_mapper[key_org.lower()]
