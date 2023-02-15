@@ -10,7 +10,6 @@ from fourinsight.campaigns.api import (
     _dict_rename,
     loc_to_float,
     location_convert,
-    location_parser,
 )
 
 
@@ -890,88 +889,57 @@ def test_location_convert_none():
     dict_in["Location"] = location_convert(dict_in["Location"])
     assert dict_in == dict_expect
 
-def test_location_parser():
-    dict_in = {
-        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Name": "string",
-        "Type": "string",
-        "Client": "string",
-        "PO Number": "string",
-        "Project Number": "string",
-        "Vessel": "string",
-        "Vessel Contractor": "string",
-        "Well Name": "string",
-        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Water Depth": 0.0,
-        "Location": "1.3#2.4",
-        "Main Data Provider": "string",
-        "Start Date": "2021-08-12T11:38:16.509Z",
-        "End Date": "2021-08-12T11:38:16.509Z",
-        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "GeoTrack Location": "3.2#4.5",
-        "GeoTrack Title": "string",
-        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    }
+# def test_location_parser():
+#     dict_in = {
+#         "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Name": "string",
+#         "Type": "string",
+#         "Client": "string",
+#         "PO Number": "string",
+#         "Project Number": "string",
+#         "Vessel": "string",
+#         "Vessel Contractor": "string",
+#         "Well Name": "string",
+#         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Water Depth": 0.0,
+#         "Location": "1.3#2.4",
+#         "Main Data Provider": "string",
+#         "Start Date": "2021-08-12T11:38:16.509Z",
+#         "End Date": "2021-08-12T11:38:16.509Z",
+#         "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "GeoTrack Location": "3.2#4.5",
+#         "GeoTrack Title": "string",
+#         "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#     }
 
-    dict_expect = {
-        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Name": "string",
-        "Type": "string",
-        "Client": "string",
-        "PO Number": "string",
-        "Project Number": "string",
-        "Vessel": "string",
-        "Vessel Contractor": "string",
-        "Well Name": "string",
-        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Water Depth": 0.0,
-        "Location": (1.3, 2.4),
-        "Main Data Provider": "string",
-        "Start Date": "2021-08-12T11:38:16.509Z",
-        "End Date": "2021-08-12T11:38:16.509Z",
-        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "GeoTrack Location": (3.2, 4.5),
-        "GeoTrack Title": "string",
-        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    }
+#     dict_expect = {
+#         "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Name": "string",
+#         "Type": "string",
+#         "Client": "string",
+#         "PO Number": "string",
+#         "Project Number": "string",
+#         "Vessel": "string",
+#         "Vessel Contractor": "string",
+#         "Well Name": "string",
+#         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Water Depth": 0.0,
+#         "Location": (1.3, 2.4),
+#         "Main Data Provider": "string",
+#         "Start Date": "2021-08-12T11:38:16.509Z",
+#         "End Date": "2021-08-12T11:38:16.509Z",
+#         "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "GeoTrack Location": (3.2, 4.5),
+#         "GeoTrack Title": "string",
+#         "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#     }
 
-    dict_out = location_parser(dict_in, location_keys=("location", "geotrack location"))
-    assert dict_out == dict_expect
-
-
-def test_location_parser_nested():
-    dict_in = {
-        "a_location": "1.23#4.56",
-        "b_other": "something",
-        "nested": [
-            {
-                "nested_location_1": "7.89#10.11",
-                "nested_location_2": "12.13#14.15",
-                "nested_location_3": "1.23#4.56",
-            }
-        ],
-    }
-
-    dict_expect = {
-        "a_location": (1.23, 4.56),
-        "b_other": "something",
-        "nested": [
-            {
-                "nested_location_1": (7.89, 10.11),
-                "nested_location_2": (12.13, 14.15),
-                "nested_location_3": (1.23, 4.56),
-            }
-        ],
-    }
-
-    dict_out = location_parser(
-        dict_in, location_keys=("a_location", "nested_location_1", "nested_location_2")
-    )
-    assert dict_out == dict_expect
+#     dict_out = location_parser(dict_in, location_keys=("location", "geotrack location"))
+#     assert dict_out == dict_expect
 
 
 # def test_location_null(self):

@@ -70,23 +70,18 @@ def loc_to_float(value):
         return value
 
 
-def location_parser(dct, location_keys=("location", "geolocation")):
-    dct_update = {}
-    # print ("location keys are:", location_keys)
-    # print("type of location keys: ", type(location_keys))
-    # location_keys = tuple([key.lower() for key in location_keys])
-    for key, value in dct.items():
-        # print("keys: ", key)
-        # print("values: ", value)
-        if key.lower() in location_keys:
-            try:
-                val1, val2 = value.split("#", 1)
-            except (AttributeError, ValueError):
-                dct_update[key] = value
-            else:
-                dct_update[key] = (loc_to_float(val1), loc_to_float(val2))
-    dct.update(dct_update)
-    return dct
+# def location_parser(dct, location_keys=("location", "geolocation")):
+#     dct_update = {}
+#     for key, value in dct.items():
+#         if key.lower() in location_keys:
+#             try:
+#                 val1, val2 = value.split("#", 1)
+#             except (AttributeError, ValueError):
+#                 dct_update[key] = value
+#             else:
+#                 dct_update[key] = (loc_to_float(val1), loc_to_float(val2))
+#     dct.update(dct_update)
+#     return dct
 
 def location_convert(value):
     try:
@@ -97,39 +92,6 @@ def location_convert(value):
         converted_value = (loc_to_float(val1), loc_to_float(val2))
     
     return converted_value
-
-# class JSONSpecialParse:
-#     def __init__(self, location_keys=()):
-#         self._location_keys = [key.lower() for key in location_keys]
-
-#     def __call__(self, dct):
-#         dct_update = {}
-#         for key, value in dct.items():
-#             if key.lower() in self._location_keys:
-#                 try:
-#                     val1, val2 = value.split("#", 1)
-#                 except (AttributeError, ValueError):
-#                     dct_update[key] = value
-#                 else:
-#                     dct_update[key] = (self._float(val1), self._float(val2))
-#         dct.update(dct_update)
-#         return dct
-
-#     @staticmethod
-#     def _float(value):
-#         """
-#         Attempt to cast "location" string to float. Also converts "null" to ``None``.
-#         """
-#         try:
-#             value = float(value)
-#         except (TypeError, ValueError):
-#             value = None if value == "null" else value
-#         finally:
-#             return value
-
-
-# json_special_hook = JSONSpecialParse(location_keys=("location", "geolocation"))
-
 
 class CampaignsAPI:
     """
@@ -219,18 +181,11 @@ class CampaignsAPI:
 
         response = self._get_payload(self._url(""))
 
+        location_keys = ["location", "geolocation"]
         for campaign_item in response:
-            if "geolocation" in campaign_item:
-                campaign_item["geolocation"] = location_convert(campaign_item["geolocation"])
-            if "GeoTrack Location" in campaign_item:
-                campaign_item["GeoTrack Location"] = location_convert(campaign_item["GeoTrack Location"])
-            if "location" in campaign_item:
-                campaign_item["location"] = location_convert(campaign_item["location"])
-            if "Location" in campaign_item:
-                campaign_item["Location"] = location_convert(campaign_item["Location"])
-
-        
-        # print("response after converison is", response)
+            for key in campaign_item.keys():
+                if key.lower() in location_keys:
+                    campaign_item[key] = location_convert(campaign_item[key])
 
         response_out = [
             _dict_rename(campaign_item, response_map)
@@ -272,8 +227,12 @@ class CampaignsAPI:
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
         )
-        if "location" in response:
-            response["location"] = location_convert(response["location"])
+        # if "location" in response:
+        #     response["location"] = location_convert(response["location"])
+        for key in response.keys():
+            if key.lower() in "location":
+                response[key] = location_convert(response[key])
+
         response_out = _dict_rename(response, response_map)
         return response_out
 
