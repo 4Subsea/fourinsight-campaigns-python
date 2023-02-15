@@ -93,7 +93,6 @@ class Test_CampaignsAPI:
 
     def test_get_campaigns(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api.get_campaigns()
-        # print("out is", out)
         call_list = [
             call(
                 "https://api.4insight.io/v1.1/Campaigns",
@@ -821,6 +820,31 @@ class Test__dict_rename:
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
 
+
+def test_loc_to_float_string():
+    value_in = "5.678900000"
+    value_out = loc_to_float(value_in)
+    value_expected = 5.6789
+
+    assert value_out == value_expected
+
+
+def test_loc_to_float_digits():
+    value_in = 5.123456789000000
+    value_out = loc_to_float(value_in)
+    value_expected = 5.123456789
+
+    assert value_out == value_expected
+
+
+def test_loc_to_float_null():
+    value_in = "null"
+    value_out = loc_to_float(value_in)
+    value_expected = None
+
+    assert value_out == value_expected
+
+
 def test_location_convert():
     dict_in = {
         "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -851,9 +875,10 @@ def test_location_convert():
         "Water Depth": 0.0,
         "Location": (1.3, 2.4),
     }
-    
+
     dict_in["Location"] = location_convert(dict_in["Location"])
     assert dict_in == dict_expect
+
 
 def test_location_convert_none():
     dict_in = {
@@ -869,6 +894,15 @@ def test_location_convert_none():
         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "Water Depth": 0.0,
         "Location": None,
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": "3.2#4.5",
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     }
 
     dict_expect = {
@@ -884,185 +918,73 @@ def test_location_convert_none():
         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
         "Water Depth": 0.0,
         "Location": None,
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": (3.2, 4.5),
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     }
-    
+
     dict_in["Location"] = location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = location_convert(dict_in["GeoTrack Location"])
+
     assert dict_in == dict_expect
 
-# def test_location_parser():
-#     dict_in = {
-#         "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Name": "string",
-#         "Type": "string",
-#         "Client": "string",
-#         "PO Number": "string",
-#         "Project Number": "string",
-#         "Vessel": "string",
-#         "Vessel Contractor": "string",
-#         "Well Name": "string",
-#         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Water Depth": 0.0,
-#         "Location": "1.3#2.4",
-#         "Main Data Provider": "string",
-#         "Start Date": "2021-08-12T11:38:16.509Z",
-#         "End Date": "2021-08-12T11:38:16.509Z",
-#         "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "GeoTrack Location": "3.2#4.5",
-#         "GeoTrack Title": "string",
-#         "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#     }
 
-#     dict_expect = {
-#         "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Name": "string",
-#         "Type": "string",
-#         "Client": "string",
-#         "PO Number": "string",
-#         "Project Number": "string",
-#         "Vessel": "string",
-#         "Vessel Contractor": "string",
-#         "Well Name": "string",
-#         "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Water Depth": 0.0,
-#         "Location": (1.3, 2.4),
-#         "Main Data Provider": "string",
-#         "Start Date": "2021-08-12T11:38:16.509Z",
-#         "End Date": "2021-08-12T11:38:16.509Z",
-#         "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "GeoTrack Location": (3.2, 4.5),
-#         "GeoTrack Title": "string",
-#         "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-#     }
+def test_location_convert_null():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": "null#10.11",
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": "12.13#null",
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-#     dict_out = location_parser(dict_in, location_keys=("location", "geotrack location"))
-#     assert dict_out == dict_expect
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": (None, 10.11),
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": (12.13, None),
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
+    dict_in["Location"] = location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = location_convert(dict_in["GeoTrack Location"])
 
-# def test_location_null(self):
-#     json_str = """{
-#         "a_location": "null#null",
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": "null#10.11",
-#                 "nested_location_2": "12.13#null"
-#             }
-#         ]
-#     }"""
-
-#     dict_expected = {
-#         "a_location": (None, None),
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": (None, 10.11),
-#                 "nested_location_2": (12.13, None),
-#             }
-#         ],
-#     }
-
-#     json_special_hook = JSONSpecialParse(
-#         location_keys=("a_location", "nested_location_1", "nested_location_2")
-#     )
-
-#     dict_out = json.loads(json_str, object_hook=json_special_hook)
-#     assert dict_expected == dict_out
-
-# def test_location_invalid(self):
-#     json_str = """{
-#         "a_location": "1.23::4.56",
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": "7.89#10.11a#eight",
-#                 "nested_location_2": "twelve#14.15"
-#             }
-#         ]
-#     }"""
-
-#     dict_expected = {
-#         "a_location": "1.23::4.56",
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": (7.89, "10.11a#eight"),
-#                 "nested_location_2": ("twelve", 14.15),
-#             }
-#         ],
-#     }
-
-#     json_special_hook = JSONSpecialParse(
-#         location_keys=("a_location", "nested_location_1", "nested_location_2")
-#     )
-
-#     dict_out = json.loads(json_str, object_hook=json_special_hook)
-#     assert dict_expected == dict_out
-
-# def test_mixed(self):
-#     json_str = """{
-#         "a_location": "1.23#4.56",
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": "7.89#10.11",
-#                 "nested_datetime_2": "2020-01-01 04:00:12Z"
-#             }
-#         ]
-#     }"""
-
-#     dict_expected = {
-#         "a_location": (1.23, 4.56),
-#         "b_other": "something",
-#         "nested": [
-#             {
-#                 "nested_location_1": (7.89, 10.11),
-#                 "nested_datetime_2": "2020-01-01 04:00:12Z",
-#             }
-#         ],
-#     }
-
-#     json_special_hook = JSONSpecialParse(
-#         location_keys=("a_location", "nested_location_1"),
-#     )
-
-#     dict_out = json.loads(json_str, object_hook=json_special_hook)
-#     assert dict_expected == dict_out
-
-# def test__float_valid(self):
-#     assert JSONSpecialParse._float(12.0) == 12.0
-#     assert JSONSpecialParse._float(12) == 12.0
-#     assert JSONSpecialParse._float("12") == 12.0
-
-# def test__float_null(self):
-#     assert JSONSpecialParse._float("null") is None
-
-# def test__float_invalid(self):
-#     assert JSONSpecialParse._float("12a") == "12a"
-
-
-def test_loc_to_float():
-    value_in = 5
-    value_out = loc_to_float(value_in)
-    value_expected = 5
-
-    assert value_out == value_expected
-
-
-def test_loc_to_float_more_digits():
-    value_in = 5.12345678900
-    value_out = loc_to_float(value_in)
-    value_expected = 5.123456789
-
-    assert value_out == value_expected
-
-
-def test_loc_to_float_string():
-    value_in = "5.678900000"
-    value_out = loc_to_float(value_in)
-    value_expected = 5.6789
-
-    assert value_out == value_expected
+    assert dict_in == dict_expect

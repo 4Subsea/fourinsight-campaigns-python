@@ -70,19 +70,6 @@ def loc_to_float(value):
         return value
 
 
-# def location_parser(dct, location_keys=("location", "geolocation")):
-#     dct_update = {}
-#     for key, value in dct.items():
-#         if key.lower() in location_keys:
-#             try:
-#                 val1, val2 = value.split("#", 1)
-#             except (AttributeError, ValueError):
-#                 dct_update[key] = value
-#             else:
-#                 dct_update[key] = (loc_to_float(val1), loc_to_float(val2))
-#     dct.update(dct_update)
-#     return dct
-
 def location_convert(value):
     try:
         val1, val2 = value.split("#", 1)
@@ -90,8 +77,9 @@ def location_convert(value):
         converted_value = value
     else:
         converted_value = (loc_to_float(val1), loc_to_float(val2))
-    
+
     return converted_value
+
 
 class CampaignsAPI:
     """
@@ -188,8 +176,7 @@ class CampaignsAPI:
                     campaign_item[key] = location_convert(campaign_item[key])
 
         response_out = [
-            _dict_rename(campaign_item, response_map)
-            for campaign_item in response
+            _dict_rename(campaign_item, response_map) for campaign_item in response
         ]
 
         return response_out
@@ -227,8 +214,7 @@ class CampaignsAPI:
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
         )
-        # if "location" in response:
-        #     response["location"] = location_convert(response["location"])
+
         for key in response.keys():
             if key.lower() in "location":
                 response[key] = location_convert(response[key])
@@ -289,8 +275,7 @@ class CampaignsAPI:
         response = self._get_payload(self._url(f"/{campaign_id}/Events"))
 
         response_out = [
-            _dict_rename(event_item, response_map)
-            for event_item in response
+            _dict_rename(event_item, response_map) for event_item in response
         ]
         return response_out
 
@@ -324,8 +309,7 @@ class CampaignsAPI:
         response = self._get_payload(self._url(f"/{campaign_id}/Sensors"))
 
         response_out = [
-            _dict_rename(sensor_item, response_map)
-            for sensor_item in response
+            _dict_rename(sensor_item, response_map) for sensor_item in response
         ]
         return response_out
 
@@ -357,8 +341,7 @@ class CampaignsAPI:
         )
 
         response_out = [
-            _dict_rename(channel_item, response_map)
-            for channel_item in response
+            _dict_rename(channel_item, response_map) for channel_item in response
         ]
         return response_out
 
