@@ -8,7 +8,8 @@ import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import (
     CampaignsAPI,
     _dict_rename,
-    loc2float,
+    loc_to_float,
+    location_convert,
     location_parser,
 )
 
@@ -93,6 +94,7 @@ class Test_CampaignsAPI:
 
     def test_get_campaigns(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api.get_campaigns()
+        # print("out is", out)
         call_list = [
             call(
                 "https://api.4insight.io/v1.1/Campaigns",
@@ -820,6 +822,73 @@ class Test__dict_rename:
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
 
+def test_location_convert():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": "1.3#2.4",
+    }
+
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": (1.3, 2.4),
+    }
+    
+    dict_in["Location"] = location_convert(dict_in["Location"])
+    assert dict_in == dict_expect
+
+def test_location_convert_none():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": None,
+    }
+
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": None,
+    }
+    
+    dict_in["Location"] = location_convert(dict_in["Location"])
+    assert dict_in == dict_expect
 
 def test_location_parser():
     dict_in = {
@@ -1007,25 +1076,25 @@ def test_location_parser_nested():
 #     assert JSONSpecialParse._float("12a") == "12a"
 
 
-def test_loc2float():
+def test_loc_to_float():
     value_in = 5
-    value_out = loc2float(value_in)
+    value_out = loc_to_float(value_in)
     value_expected = 5
 
     assert value_out == value_expected
 
 
-def test_loc2float_more_digits():
+def test_loc_to_float_more_digits():
     value_in = 5.12345678900
-    value_out = loc2float(value_in)
+    value_out = loc_to_float(value_in)
     value_expected = 5.123456789
 
     assert value_out == value_expected
 
 
-def test_loc2float_string():
+def test_loc_to_float_string():
     value_in = "5.678900000"
-    value_out = loc2float(value_in)
+    value_out = loc_to_float(value_in)
     value_expected = 5.6789
 
     assert value_out == value_expected

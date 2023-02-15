@@ -58,7 +58,7 @@ def _dict_rename(dict_org, dict_map):
     return dict_new
 
 
-def loc2float(value):
+def loc_to_float(value):
     """
     Attempt to cast "location" string to float. Also converts "null" to ``None``.
     """
@@ -84,10 +84,19 @@ def location_parser(dct, location_keys=("location", "geolocation")):
             except (AttributeError, ValueError):
                 dct_update[key] = value
             else:
-                dct_update[key] = (loc2float(val1), loc2float(val2))
+                dct_update[key] = (loc_to_float(val1), loc_to_float(val2))
     dct.update(dct_update)
     return dct
 
+def location_convert(value):
+    try:
+        val1, val2 = value.split("#", 1)
+    except (AttributeError, ValueError):
+        converted_value = value
+    else:
+        converted_value = (loc_to_float(val1), loc_to_float(val2))
+    
+    return converted_value
 
 # class JSONSpecialParse:
 #     def __init__(self, location_keys=()):
@@ -210,12 +219,22 @@ class CampaignsAPI:
 
         response = self._get_payload(self._url(""))
 
-        response_location_updated = [
-            location_parser(campaign_item) for campaign_item in response
-        ]
+        for campaign_item in response:
+            if "geolocation" in campaign_item:
+                campaign_item["geolocation"] = location_convert(campaign_item["geolocation"])
+            if "GeoTrack Location" in campaign_item:
+                campaign_item["GeoTrack Location"] = location_convert(campaign_item["GeoTrack Location"])
+            if "location" in campaign_item:
+                campaign_item["location"] = location_convert(campaign_item["location"])
+            if "Location" in campaign_item:
+                campaign_item["Location"] = location_convert(campaign_item["Location"])
+
+        
+        # print("response after converison is", response)
+
         response_out = [
             _dict_rename(campaign_item, response_map)
-            for campaign_item in response_location_updated
+            for campaign_item in response
         ]
 
         return response_out
@@ -253,9 +272,9 @@ class CampaignsAPI:
         response = self._get_payload_legacy(
             self._url(f"/{campaign_id}", api_version="v1.0"),
         )
-
-        response_location_updated = location_parser(response)
-        response_out = _dict_rename(response_location_updated, response_map)
+        if "location" in response:
+            response["location"] = location_convert(response["location"])
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_geotrack(self, campaign_id):
@@ -284,8 +303,7 @@ class CampaignsAPI:
             self._url(f"/{campaign_id}", api_version="v1.0")
         )
 
-        response_location_updated = location_parser(response)
-        response_out = _dict_rename(response_location_updated, response_map)
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_events(self, campaign_id):
@@ -311,12 +329,9 @@ class CampaignsAPI:
 
         response = self._get_payload(self._url(f"/{campaign_id}/Events"))
 
-        response_location_updated = [
-            location_parser(event_item) for event_item in response
-        ]
         response_out = [
             _dict_rename(event_item, response_map)
-            for event_item in response_location_updated
+            for event_item in response
         ]
         return response_out
 
@@ -349,12 +364,9 @@ class CampaignsAPI:
 
         response = self._get_payload(self._url(f"/{campaign_id}/Sensors"))
 
-        response_location_updated = [
-            location_parser(sensor_item) for sensor_item in response
-        ]
         response_out = [
             _dict_rename(sensor_item, response_map)
-            for sensor_item in response_location_updated
+            for sensor_item in response
         ]
         return response_out
 
@@ -385,12 +397,9 @@ class CampaignsAPI:
             self._url(f"/{campaign_id}/Sensors/{sensor_id}/channels")
         )
 
-        response_location_updated = [
-            location_parser(channel_item) for channel_item in response
-        ]
         response_out = [
             _dict_rename(channel_item, response_map)
-            for channel_item in response_location_updated
+            for channel_item in response
         ]
         return response_out
 
@@ -445,8 +454,7 @@ class CampaignsAPI:
             self._url(f"/{campaign_id}/LowerStack", api_version="v1.0")
         )
 
-        response_location_updated = location_parser(response)
-        response_out = _dict_rename(response_location_updated, response_map)
+        response_out = _dict_rename(response, response_map)
         return response_out
 
     def get_swimops_campaign(self, campaign_id):
