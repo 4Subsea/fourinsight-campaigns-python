@@ -57,7 +57,7 @@ def _dict_rename(dict_org, dict_map):
     return dict_new
 
 
-def loc_to_float(value):
+def _loc_to_float(value):
     """
     Attempt to cast "location" string to float. Also converts "null" to ``None``.
     """
@@ -69,13 +69,13 @@ def loc_to_float(value):
         return value
 
 
-def location_convert(value):
+def _location_convert(value):
     try:
         val1, val2 = value.split("#", 1)
     except (AttributeError, ValueError):
         converted_value = value
     else:
-        converted_value = (loc_to_float(val1), loc_to_float(val2))
+        converted_value = (_loc_to_float(val1), _loc_to_float(val2))
 
     return converted_value
 
@@ -172,7 +172,7 @@ class CampaignsAPI:
         for campaign_item in response:
             for key in campaign_item.keys():
                 if key.lower() in location_keys:
-                    campaign_item[key] = location_convert(campaign_item[key])
+                    campaign_item[key] = _location_convert(campaign_item[key])
 
         response_out = [
             _dict_rename(campaign_item, response_map) for campaign_item in response
@@ -216,7 +216,7 @@ class CampaignsAPI:
 
         for key in response.keys():
             if key.lower() in "location":
-                response[key] = location_convert(response[key])
+                response[key] = _location_convert(response[key])
 
         response_out = _dict_rename(response, response_map)
         return response_out

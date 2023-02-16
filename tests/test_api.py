@@ -8,8 +8,8 @@ import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import (
     CampaignsAPI,
     _dict_rename,
-    loc_to_float,
-    location_convert,
+    _loc_to_float,
+    _location_convert,
 )
 
 
@@ -823,7 +823,7 @@ class Test__dict_rename:
 
 def test_loc_to_float_string():
     value_in = "5.678900000"
-    value_out = loc_to_float(value_in)
+    value_out = _loc_to_float(value_in)
     value_expected = 5.6789
 
     assert value_out == value_expected
@@ -831,7 +831,7 @@ def test_loc_to_float_string():
 
 def test_loc_to_float_digits():
     value_in = 5.123456789000000
-    value_out = loc_to_float(value_in)
+    value_out = _loc_to_float(value_in)
     value_expected = 5.123456789
 
     assert value_out == value_expected
@@ -839,7 +839,7 @@ def test_loc_to_float_digits():
 
 def test_loc_to_float_null():
     value_in = "null"
-    value_out = loc_to_float(value_in)
+    value_out = _loc_to_float(value_in)
     value_expected = None
 
     assert value_out == value_expected
@@ -876,7 +876,7 @@ def test_location_convert():
         "Location": (1.3, 2.4),
     }
 
-    dict_in["Location"] = location_convert(dict_in["Location"])
+    dict_in["Location"] = _location_convert(dict_in["Location"])
     assert dict_in == dict_expect
 
 
@@ -929,8 +929,8 @@ def test_location_convert_none():
         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     }
 
-    dict_in["Location"] = location_convert(dict_in["Location"])
-    dict_in["GeoTrack Location"] = location_convert(dict_in["GeoTrack Location"])
+    dict_in["Location"] = _location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = _location_convert(dict_in["GeoTrack Location"])
 
     assert dict_in == dict_expect
 
@@ -984,7 +984,7 @@ def test_location_convert_null():
         "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     }
 
-    dict_in["Location"] = location_convert(dict_in["Location"])
-    dict_in["GeoTrack Location"] = location_convert(dict_in["GeoTrack Location"])
+    dict_in["Location"] = _location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = _location_convert(dict_in["GeoTrack Location"])
 
     assert dict_in == dict_expect
