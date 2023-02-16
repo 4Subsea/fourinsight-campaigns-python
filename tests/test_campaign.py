@@ -57,20 +57,20 @@ class Test_GenericCampaign:
         events_out = generic_campaign.events()
         events_expected = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
-                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
+                "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
             },
             {"Start": None, "End": None, "Event Type": "Artifact", "Comment": None},
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -84,7 +84,7 @@ class Test_GenericCampaign:
         )
         events_expected = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -103,7 +103,7 @@ class Test_GenericCampaign:
         events_out = generic_campaign.events(value="WLR connected", by="Event Type")
         events_expected = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,

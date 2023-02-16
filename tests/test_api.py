@@ -5,7 +5,12 @@ import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
-from fourinsight.campaigns.api import CampaignsAPI, JSONSpecialParse, _dict_rename
+from fourinsight.campaigns.api import (
+    CampaignsAPI,
+    _dict_rename,
+    _loc_to_float,
+    _location_convert,
+)
 
 
 @pytest.fixture
@@ -116,8 +121,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -139,8 +144,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -187,8 +192,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -210,8 +215,8 @@ class Test_CampaignsAPI:
                 "Water Depth": 0.0,
                 "Location": (1.3, 2.4),
                 "Main Data Provider": "string",
-                "Start Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
-                "End Date": pd.to_datetime("2021-08-12T11:38:16.509Z"),
+                "Start Date": "2021-08-12T11:38:16.509Z",
+                "End Date": "2021-08-12T11:38:16.509Z",
                 "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "GeoTrack Location": (3.2, 4.5),
                 "GeoTrack Title": "string",
@@ -241,8 +246,8 @@ class Test_CampaignsAPI:
             "Water Depth": 100.0,
             "Location": None,
             "Main Data Provider": "4Subsea",
-            "Start Date": pd.to_datetime("2017-04-08T00:00:00+00:00"),
-            "End Date": pd.to_datetime("2017-05-13T00:00:00+00:00"),
+            "Start Date": "2017-04-08T00:00:00+00:00",
+            "End Date": "2017-05-13T00:00:00+00:00",
         }
         assert expect == out
 
@@ -271,8 +276,8 @@ class Test_CampaignsAPI:
             "Water Depth": 100.0,
             "Location": None,
             "Main Data Provider": "4Subsea",
-            "Start Date": pd.to_datetime("2017-04-08T00:00:00+00:00"),
-            "End Date": pd.to_datetime("2017-05-13T00:00:00+00:00"),
+            "Start Date": "2017-04-08T00:00:00+00:00",
+            "End Date": "2017-05-13T00:00:00+00:00",
         }
         assert expect == out
 
@@ -286,13 +291,13 @@ class Test_CampaignsAPI:
         response.json.assert_called()
         expect = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
-                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
+                "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
@@ -304,7 +309,7 @@ class Test_CampaignsAPI:
                 "Comment": None,
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -328,13 +333,13 @@ class Test_CampaignsAPI:
         response_camelcase.json.assert_called()
         expect = [
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
-                "End": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
+                "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "WLR connected",
                 "Comment": None,
@@ -346,7 +351,7 @@ class Test_CampaignsAPI:
                 "Comment": None,
             },
             {
-                "Start": pd.to_datetime("2021-08-12T11:49:38.286Z"),
+                "Start": "2021-08-12T11:49:38.286Z",
                 "End": None,
                 "Event Type": "Connect-Disconnect",
                 "Comment": None,
@@ -379,8 +384,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -444,8 +449,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -496,8 +501,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
             },
             {
                 "SensorID": "<wh sensor id>",
@@ -538,8 +543,8 @@ class Test_CampaignsAPI:
                 "Direction Z Axis": "string",
                 "Sampling Rate": 0.0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
             },
             {
                 "SensorID": "<wh sensor id>",
@@ -666,7 +671,7 @@ class Test_CampaignsAPI:
             "SLA Level": "string",
             "Customer Contact": "string",
             "Comments": "string",
-            "Dashboard Close Date": pd.to_datetime("2021-08-12T11:56:23.069Z"),
+            "Dashboard Close Date": "2021-08-12T11:56:23.069Z",
             "SWIM Instance Status": "string",
             "Report Made": "string",
             "Report Sent": "string",
@@ -699,7 +704,7 @@ class Test_CampaignsAPI:
             "SLA Level": "string",
             "Customer Contact": "string",
             "Comments": "string",
-            "Dashboard Close Date": pd.to_datetime("2021-08-12T11:56:23.069Z"),
+            "Dashboard Close Date": "2021-08-12T11:56:23.069Z",
             "SWIM Instance Status": "string",
             "Report Made": "string",
             "Report Sent": "string",
@@ -727,7 +732,7 @@ class Test_CampaignsAPI:
                 "SLA Level": "string",
                 "Customer Contact": "string",
                 "Comments": "string",
-                "Dashboard Close Date": pd.to_datetime("2021-08-12T11:54:42.513Z"),
+                "Dashboard Close Date": "2021-08-12T11:54:42.513Z",
                 "SWIM Instance Status": "string",
                 "Report Made": "string",
                 "Report Sent": "string",
@@ -762,7 +767,7 @@ class Test_CampaignsAPI:
                 "SLA Level": "string",
                 "Customer Contact": "string",
                 "Comments": "string",
-                "Dashboard Close Date": pd.to_datetime("2021-08-12T11:54:42.513Z"),
+                "Dashboard Close Date": "2021-08-12T11:54:42.513Z",
                 "SWIM Instance Status": "string",
                 "Report Made": "string",
                 "Report Sent": "string",
@@ -816,191 +821,170 @@ class Test__dict_rename:
         assert dict_expected == dict_out
 
 
-class Test_JSONSpecialParse:
-    def test_datetime(self):
-        json_str = """{
-            "a_datetime": "2020-01-01 00:01:00Z",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_datetime_1": "2020-01-01 00:02:00Z",
-                    "nested_datetime_2": "2020-01-01 00:03:00Z"
-                }
-            ]
-        }"""
+def test_loc_to_float_string():
+    value_in = "5.678900000"
+    value_out = _loc_to_float(value_in)
+    value_expected = 5.6789
 
-        dict_expected = {
-            "a_datetime": pd.to_datetime("2020-01-01 00:01:00Z"),
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_datetime_1": pd.to_datetime("2020-01-01 00:02:00Z"),
-                    "nested_datetime_2": pd.to_datetime("2020-01-01 00:03:00Z"),
-                }
-            ],
-        }
+    assert value_out == value_expected
 
-        json_special_hook = JSONSpecialParse(
-            datetime_keys=("a_datetime", "nested_datetime_1", "nested_datetime_2")
-        )
 
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
+def test_loc_to_float_digits():
+    value_in = 5.123456789000000
+    value_out = _loc_to_float(value_in)
+    value_expected = 5.123456789
 
-    def test_location(self):
-        json_str = """{
-            "a_location": "1.23#4.56",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": "7.89#10.11",
-                    "nested_location_2": "12.13#14.15"
-                }
-            ]
-        }"""
+    assert value_out == value_expected
 
-        dict_expected = {
-            "a_location": (1.23, 4.56),
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": (7.89, 10.11),
-                    "nested_location_2": (12.13, 14.15),
-                }
-            ],
-        }
 
-        json_special_hook = JSONSpecialParse(
-            location_keys=("a_location", "nested_location_1", "nested_location_2")
-        )
+def test_loc_to_float_null():
+    value_in = "null"
+    value_out = _loc_to_float(value_in)
+    value_expected = None
 
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
+    assert value_out == value_expected
 
-    def test_location_null(self):
-        json_str = """{
-            "a_location": "null#null",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": "null#10.11",
-                    "nested_location_2": "12.13#null"
-                }
-            ]
-        }"""
 
-        dict_expected = {
-            "a_location": (None, None),
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": (None, 10.11),
-                    "nested_location_2": (12.13, None),
-                }
-            ],
-        }
+def test_location_convert():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": "1.3#2.4",
+    }
 
-        json_special_hook = JSONSpecialParse(
-            location_keys=("a_location", "nested_location_1", "nested_location_2")
-        )
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": (1.3, 2.4),
+    }
 
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
+    dict_in["Location"] = _location_convert(dict_in["Location"])
+    assert dict_in == dict_expect
 
-    def test_location_invalid(self):
-        json_str = """{
-            "a_location": "1.23::4.56",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": "7.89#10.11a#eight",
-                    "nested_location_2": "twelve#14.15"
-                }
-            ]
-        }"""
 
-        dict_expected = {
-            "a_location": "1.23::4.56",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": (7.89, "10.11a#eight"),
-                    "nested_location_2": ("twelve", 14.15),
-                }
-            ],
-        }
+def test_location_convert_none():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": None,
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": "3.2#4.5",
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-        json_special_hook = JSONSpecialParse(
-            location_keys=("a_location", "nested_location_1", "nested_location_2")
-        )
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": None,
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": (3.2, 4.5),
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
+    dict_in["Location"] = _location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = _location_convert(dict_in["GeoTrack Location"])
 
-    def test_numbers(self):
-        """Deprecate when REST API endpoint starts returning native values"""
-        json_str = """{
-            "a_float": "1.23",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_float_1": "7.89",
-                    "nested_int_2": "12"
-                }
-            ]
-        }"""
+    assert dict_in == dict_expect
 
-        dict_expected = {
-            "a_float": 1.23,
-            "b_other": "something",
-            "nested": [{"nested_float_1": 7.89, "nested_int_2": 12}],
-        }
 
-        json_special_hook = JSONSpecialParse(
-            float_keys=("a_float", "nested_float_1"), int_keys=("nested_int_2",)
-        )
+def test_location_convert_null():
+    dict_in = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": "null#10.11",
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": "12.13#null",
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
+    dict_expect = {
+        "CampaignID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Name": "string",
+        "Type": "string",
+        "Client": "string",
+        "PO Number": "string",
+        "Project Number": "string",
+        "Vessel": "string",
+        "Vessel Contractor": "string",
+        "Well Name": "string",
+        "Well ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Water Depth": 0.0,
+        "Location": (None, 10.11),
+        "Main Data Provider": "string",
+        "Start Date": "2021-08-12T11:38:16.509Z",
+        "End Date": "2021-08-12T11:38:16.509Z",
+        "GeoTrack Position ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "GeoTrack Location": (12.13, None),
+        "GeoTrack Title": "string",
+        "Hs Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Tp Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "Wd Timeseries ID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    }
 
-    def test_mixed(self):
-        json_str = """{
-            "a_location": "1.23#4.56",
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": "7.89#10.11",
-                    "nested_datetime_2": "2020-01-01 04:00:12Z"
-                }
-            ]
-        }"""
+    dict_in["Location"] = _location_convert(dict_in["Location"])
+    dict_in["GeoTrack Location"] = _location_convert(dict_in["GeoTrack Location"])
 
-        dict_expected = {
-            "a_location": (1.23, 4.56),
-            "b_other": "something",
-            "nested": [
-                {
-                    "nested_location_1": (7.89, 10.11),
-                    "nested_datetime_2": pd.to_datetime("2020-01-01 04:00:12Z"),
-                }
-            ],
-        }
-
-        json_special_hook = JSONSpecialParse(
-            location_keys=("a_location", "nested_location_1"),
-            datetime_keys=("nested_datetime_2",),
-        )
-
-        dict_out = json.loads(json_str, object_hook=json_special_hook)
-        assert dict_expected == dict_out
-
-    def test__float_valid(self):
-        assert JSONSpecialParse._float(12.0) == 12.0
-        assert JSONSpecialParse._float(12) == 12.0
-        assert JSONSpecialParse._float("12") == 12.0
-
-    def test__float_null(self):
-        assert JSONSpecialParse._float("null") is None
-
-    def test__float_invalid(self):
-        assert JSONSpecialParse._float("12a") == "12a"
+    assert dict_in == dict_expect
