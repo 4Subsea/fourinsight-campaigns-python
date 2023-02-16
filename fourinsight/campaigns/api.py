@@ -1,5 +1,3 @@
-import pandas as pd
-
 import fourinsight.campaigns as fc
 
 
