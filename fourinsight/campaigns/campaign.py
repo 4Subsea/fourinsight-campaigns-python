@@ -184,7 +184,7 @@ class GenericCampaign:
         if end is None:
             # switch to walrus operator when possible
             if not pd.isna(self.general()["End Date"]):
-                end = self.general()["End Date"] + pd.Timedelta("1D")
+                end = self.general()["End Date"]
             else:
                 end = "now"
 
