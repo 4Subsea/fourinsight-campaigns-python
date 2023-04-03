@@ -177,14 +177,12 @@ class GenericCampaign:
             if cond(channel["Channel"])
         }
 
-        # switch to walrus operator when possible
-        if start is None and not pd.isna(self.general()["Start Date"]):
-            start = self.general()["Start Date"]
+        if start is None and not pd.isna(start_general := self.general()["Start Date"]):
+            start = start_general
 
         if end is None:
-            # switch to walrus operator when possible
-            if not pd.isna(self.general()["End Date"]):
-                end = self.general()["End Date"]
+            if not pd.isna(end_general := self.general()["End Date"]):
+                end = end_general
             else:
                 end = "now"
 
