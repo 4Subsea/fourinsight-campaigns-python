@@ -286,7 +286,10 @@ class Test_GenericCampaign:
         campaign.get_sensor_data("dummy_client", {"Channels": channels}, filter_=["c2"])
 
         mock_dl_data.assert_called_once_with(
-            "dummy_client", {"c2": "ts2"}, start="2019-01-01T00:00:00", end="2019-02-01T00:00:00"
+            "dummy_client",
+            {"c2": "ts2"},
+            start="2019-01-01T00:00:00",
+            end="2019-02-01T00:00:00",
         )
 
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
@@ -306,7 +309,10 @@ class Test_GenericCampaign:
         )
 
         mock_dl_data.assert_called_once_with(
-            "dummy_client", {"Gx": "ts2"}, start="2019-01-01T00:00:00", end="2019-02-01T00:00:00"
+            "dummy_client",
+            {"Gx": "ts2"},
+            start="2019-01-01T00:00:00",
+            end="2019-02-01T00:00:00",
         )
 
     @patch("fourinsight.campaigns.campaign.pd.isna", return_value=True)
