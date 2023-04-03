@@ -256,8 +256,8 @@ class Test_GenericCampaign:
     @patch("fourinsight.campaigns.campaign.download_sensor_data", return_value="abc")
     def test_get_sensor_data(self, mock_dl_data, generic_campaign):
         campaign = generic_campaign
-        start = pd.to_datetime("2019-01-01")
-        end = pd.to_datetime("2019-02-01")
+        start = "2019-01-01T00:00:00"
+        end = "2019-02-01T00:00:00"
         campaign._campaign = {"Start Date": start, "End Date": end}
         channels = [
             {"Channel": "c1", "Timeseries id": "ts1"},
@@ -268,16 +268,16 @@ class Test_GenericCampaign:
         mock_dl_data.assert_called_once_with(
             "dummy_client",
             {"c1": "ts1", "c2": "ts2"},
-            start=start,
-            end=end + pd.to_timedelta("1D"),
+            start="2019-01-01T00:00:00",
+            end="2019-02-01T00:00:00",
         )
         assert result == "abc"
 
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
     def test_get_sensor_data_whitelist(self, mock_dl_data, generic_campaign):
         campaign = generic_campaign
-        start = pd.to_datetime("2019-01-01")
-        end = pd.to_datetime("2019-02-01")
+        start = "2019-01-01T00:00:00"
+        end = "2019-02-01T00:00:00"
         campaign._campaign = {"Start Date": start, "End Date": end}
         channels = [
             {"Channel": "c1", "Timeseries id": "ts1"},
@@ -286,7 +286,10 @@ class Test_GenericCampaign:
         campaign.get_sensor_data("dummy_client", {"Channels": channels}, filter_=["c2"])
 
         mock_dl_data.assert_called_once_with(
-            "dummy_client", {"c2": "ts2"}, start=start, end=end + pd.to_timedelta("1D")
+            "dummy_client",
+            {"c2": "ts2"},
+            start="2019-01-01T00:00:00",
+            end="2019-02-01T00:00:00",
         )
 
     @patch("fourinsight.campaigns.campaign.download_sensor_data")
@@ -294,8 +297,8 @@ class Test_GenericCampaign:
         self, mock_dl_data, generic_campaign
     ):
         campaign = generic_campaign
-        start = pd.to_datetime("2019-01-01")
-        end = pd.to_datetime("2019-02-01")
+        start = "2019-01-01T00:00:00"
+        end = "2019-02-01T00:00:00"
         campaign._campaign = {"Start Date": start, "End Date": end}
         channels = [
             {"Channel": "Ax", "Timeseries id": "ts1"},
@@ -306,7 +309,10 @@ class Test_GenericCampaign:
         )
 
         mock_dl_data.assert_called_once_with(
-            "dummy_client", {"Gx": "ts2"}, start=start, end=end + pd.to_timedelta("1D")
+            "dummy_client",
+            {"Gx": "ts2"},
+            start="2019-01-01T00:00:00",
+            end="2019-02-01T00:00:00",
         )
 
     @patch("fourinsight.campaigns.campaign.pd.isna", return_value=True)
