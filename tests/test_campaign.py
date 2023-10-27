@@ -357,6 +357,11 @@ class Test_GenericCampaign:
             end=end_custom,
         )
 
+    def test_sensors_output_include_serial_number(self, generic_campaign):
+        sensors_out = generic_campaign.sensors(value=None)
+        for sensor in sensors_out:
+            assert "Serial Number" in sensor.keys()
+        
 
 class Test_SwimCampaign:
     def test_inherit(self, swim_campaign):
@@ -381,3 +386,5 @@ class Test_SwimCampaign:
 
     def test_lowerstack(self, swim_campaign):
         assert swim_campaign.lowerstack() == swim_campaign._lowerstack
+
+
