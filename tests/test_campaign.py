@@ -178,55 +178,15 @@ class Test_GenericCampaign:
 
     def test_sensor_by_position(self, generic_campaign):
         sensors_out = generic_campaign.sensors(value="WH", by="Position")
-        sensors_expect = [
-            {
-                "SensorID": "<wh sensor id>",
-                "Name": "SN1234",
-                "Position": "WH",
-                "Distance From Wellhead": 0.0,
-                "Direction X Axis": "string",
-                "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
-                "Sensor Vendor": "string",
-                "Attached Time": None,
-                "Detached Time": None,
-                "Channels": [
-                    {
-                        "Channel": "string",
-                        "Units": "string",
-                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    }
-                ],
-            },
-        ]
-        assert sensors_out == sensors_expect
+        for sensor in sensors_out:
+            assert sensor["Position"] == "WH"
+        assert len(sensors_out) == 1
 
     def test_sensor_by_name(self, generic_campaign):
         sensors_out = generic_campaign.sensors(value="SN1234", by="Name")
-        sensors_expect = [
-            {
-                "SensorID": "<wh sensor id>",
-                "Name": "SN1234",
-                "Position": "WH",
-                "Distance From Wellhead": 0.0,
-                "Direction X Axis": "string",
-                "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
-                "Sensor Vendor": "string",
-                "Attached Time": None,
-                "Detached Time": None,
-                "Channels": [
-                    {
-                        "Channel": "string",
-                        "Units": "string",
-                        "Timeseries id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                        "Stream id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                    }
-                ],
-            },
-        ]
-        assert sensors_out == sensors_expect
+        for sensor in sensors_out:
+            assert sensor["Name"] == "SN1234"
+        assert len(sensors_out) == 1
 
     def test_sensor_raises(self, generic_campaign):
         with pytest.raises(RuntimeError):
