@@ -374,12 +374,23 @@ class Test_CampaignsAPI:
         auth_session.get.assert_has_calls(call_list)
         response.raise_for_status.assert_called()
         response.json.assert_called()
-        keys_expected = ["SensorID", "Name", "Position", "Distance From Wellhead", "Direction X Axis", "Direction Z Axis", "Sampling Rate", "Sensor Vendor", "Attached Time", "Detached Time", "Channels"]
+        keys_expected = [
+            "SensorID",
+            "Name",
+            "Position",
+            "Distance From Wellhead",
+            "Direction X Axis",
+            "Direction Z Axis",
+            "Sampling Rate",
+            "Sensor Vendor",
+            "Attached Time",
+            "Detached Time",
+            "Channels",
+        ]
         assert len(out) == 2
-        for sensor in out: 
+        for sensor in out:
             for key in keys_expected:
                 assert key in sensor.keys()
-
 
     def test_get_sensors_camelcase(
         self,
@@ -486,7 +497,6 @@ class Test_CampaignsAPI:
         for i, sensor in enumerate(expect):
             for key in sensor:
                 assert sensor[key] == out[i][key]
-
 
     def test__get_sensors_camelcase(
         self,
