@@ -293,6 +293,7 @@ class CampaignsAPI:
         response_map = {
             ("id", "SensorID"): None,
             ("name", "Name"): None,
+            ("serialnumber", "Serial Number"): None,
             ("position", "Position"): None,
             ("distancefromwh", "Distance From Wellhead"): None,
             ("directionxaxis", "Direction X Axis"): None,
