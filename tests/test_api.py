@@ -256,7 +256,7 @@ class Test_CampaignsAPI:
             "GeoTrack Title": "10 er test 2",
             "Hs Timeseries ID": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
             "Tp Timeseries ID": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
-            "Wd Timeseries ID": "2c6454b8-a274-4845-80e0-cb29c0efc32b" 
+            "Wd Timeseries ID": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
         }
         assert expect == out
 
