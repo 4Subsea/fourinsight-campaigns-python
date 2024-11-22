@@ -5,12 +5,8 @@ import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
-from fourinsight.campaigns.api import (
-    CampaignsAPI,
-    _dict_rename,
-    _loc_to_float,
-    _location_convert,
-)
+from fourinsight.campaigns.api import (CampaignsAPI, _dict_rename,
+                                       _loc_to_float, _location_convert)
 
 
 @pytest.fixture

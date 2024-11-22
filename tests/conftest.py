@@ -2,30 +2,19 @@ import json
 from unittest.mock import Mock
 
 import pytest
-from testdata.get_data import (
-    CAMPAIGN_DATA_GENERIC,
-    CAMPAIGN_DATA_GENERIC_CAMELCASE,
-    CAMPAIGN_DATA_SWIM,
-    CAMPAIGN_DATA_SWIM_CAMELCASE,
-    CAMPAIGNS_DATA,
-    CAMPAIGNS_DATA_CAMELCASE,
-    CAMPAIGNS_NEXT_DATA,
-    CAMPAIGNS_NEXT_DATA_CAMELCASE,
-    CHANNELS_DATA,
-    CHANNELS_DATA_CAMELCASE,
-    EVENTS_DATA,
-    EVENTS_DATA_CAMELCASE,
-    LOGS_DATA,
-    LOGS_DATA_CAMELCASE,
-    LOWERSTACK_DATA,
-    LOWERSTACK_DATA_CAMELCASE,
-    SENSORS_DATA,
-    SENSORS_DATA_CAMELCASE,
-    SWIMOPS_CAMPAIGN_DATA,
-    SWIMOPS_CAMPAIGN_DATA_CAMELCASE,
-    SWIMOPS_DATA,
-    SWIMOPS_DATA_CAMELCASE,
-)
+from testdata.get_data import (CAMPAIGN_DATA_GENERIC,
+                               CAMPAIGN_DATA_GENERIC_CAMELCASE,
+                               CAMPAIGN_DATA_SWIM,
+                               CAMPAIGN_DATA_SWIM_CAMELCASE, CAMPAIGNS_DATA,
+                               CAMPAIGNS_DATA_CAMELCASE, CAMPAIGNS_NEXT_DATA,
+                               CAMPAIGNS_NEXT_DATA_CAMELCASE, CHANNELS_DATA,
+                               CHANNELS_DATA_CAMELCASE, EVENTS_DATA,
+                               EVENTS_DATA_CAMELCASE, LOGS_DATA,
+                               LOGS_DATA_CAMELCASE, LOWERSTACK_DATA,
+                               LOWERSTACK_DATA_CAMELCASE, SENSORS_DATA,
+                               SENSORS_DATA_CAMELCASE, SWIMOPS_CAMPAIGN_DATA,
+                               SWIMOPS_CAMPAIGN_DATA_CAMELCASE, SWIMOPS_DATA,
+                               SWIMOPS_DATA_CAMELCASE)
 
 DATA_MAP = {
     "https://api.4insight.io/v1.1/campaigns": CAMPAIGNS_DATA,
