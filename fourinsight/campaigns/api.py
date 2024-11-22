@@ -352,8 +352,6 @@ class CampaignsAPI:
         ]
         return response_out
 
-        return response_out
-
     def get_sensors(self, campaign_id):
         """
         Get sensors.
