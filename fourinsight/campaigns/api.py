@@ -439,10 +439,8 @@ class CampaignsAPI:
         }
 
         response = self._get_payload(self._url(f"/{campaign_id}/Swimops"))
-
         if not response:
-            return {}
-
+            return
         response_out = _dict_rename(response[0], response_map)
         return response_out
 
