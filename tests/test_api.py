@@ -237,6 +237,9 @@ class Test_CampaignsAPI:
         response.json.assert_called()
         expect = {
             "CampaignID": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+            "Name": "0872 - 30_17a-J4 (P3)",
+            "Type": "SWIM Campaign",
+            "PO Number": None,
             "Project Number": "0872",
             "Client": "Maersk Oil",
             "Vessel": "Ocean Valiant",
@@ -248,6 +251,12 @@ class Test_CampaignsAPI:
             "Main Data Provider": "4Subsea",
             "Start Date": "2017-04-08T00:00:00+00:00",
             "End Date": "2017-05-13T00:00:00+00:00",
+            "GeoTrack Location": "10#21",
+            "GeoTrack Position ID": "c1092920-0434-483a-ac6b-2511715ab84c",
+            "GeoTrack Title": "10 er test 2",
+            "Hs Timeseries ID": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
+            "Tp Timeseries ID": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
+            "Wd Timeseries ID": "2c6454b8-a274-4845-80e0-cb29c0efc32b" 
         }
         assert expect == out
 
@@ -278,6 +287,15 @@ class Test_CampaignsAPI:
             "Main Data Provider": "4Subsea",
             "Start Date": "2017-04-08T00:00:00+00:00",
             "End Date": "2017-05-13T00:00:00+00:00",
+            "GeoTrack Location": "10#21",
+            "GeoTrack Position ID": "c1092920-0434-483a-ac6b-2511715ab84c",
+            "GeoTrack Title": "10 er test 2",
+            "Hs Timeseries ID": "e2ba4833-44ae-4cef-b8a7-18ae82fef327",
+            "Name": "0872 - 30_17a-J4 (P3)",
+            "PO Number": None,
+            "Tp Timeseries ID": "4cfe7e31-f4b5-471f-92c6-b260ee236cff",
+            "Type": "SWIM Campaign",
+            "Wd Timeseries ID": "2c6454b8-a274-4845-80e0-cb29c0efc32b",
         }
         assert expect == out
 
