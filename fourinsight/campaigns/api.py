@@ -194,11 +194,11 @@ class CampaignsAPI:
         """
         response_map = {
             ("id", "CampaignID"): None,
+            ("projectnumber", "Project Number"): None,
             ("campaignname", "Name"): None,
             ("campaigntype", "Type"): None,
             ("client", "Client"): None,
             ("ponumber", "PO Number"): None,
-            ("projectnumber", "Project Number"): None,
             ("vessel", "Vessel"): None,
             ("vesselcontractor", "Vessel Contractor"): None,
             ("wellname", "Well Name"): None,
