@@ -166,16 +166,17 @@ class CampaignsAPI:
 
         response = self._get_payload(self._url(""))
 
-        location_keys = ["location", "geolocation"]
-        for campaign_item in response:
-            for key in campaign_item.keys():
-                if key.lower() in location_keys:
-                    campaign_item[key] = _location_convert(campaign_item[key])
-
         response_out = [
             _dict_rename(campaign_item, response_map) for campaign_item in response
         ]
 
+        for campaign_item in response_out:
+            campaign_item.update(
+                {
+                    key: _location_convert(campaign_item[key])
+                    for key in ["Location", "GeoTrack Location"]
+                }
+            )
         return response_out
 
     def get_campaign(self, campaign_id):
@@ -221,11 +222,8 @@ class CampaignsAPI:
             self._url(f"/{campaign_id}", api_version="v1.0"),
         )
 
-        for key in response.keys():
-            if key.lower() in "location":
-                response[key] = _location_convert(response[key])
-
         response_out = _dict_rename(response, response_map)
+        response_out["Location"] = _location_convert(response_out["Location"])
         return response_out
 
     def get_geotrack(self, campaign_id):
