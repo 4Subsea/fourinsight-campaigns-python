@@ -195,7 +195,10 @@ class CampaignsAPI:
         response_map = {
             ("id", "CampaignID"): None,
             ("projectnumber", "Project Number"): None,
+            ("campaignname", "Name"): None,
+            ("campaigntype", "Type"): None,
             ("client", "Client"): None,
+            ("ponumber", "PO Number"): None,
             ("vessel", "Vessel"): None,
             ("vesselcontractor", "Vessel Contractor"): None,
             ("wellname", "Well Name"): None,
@@ -205,6 +208,12 @@ class CampaignsAPI:
             ("maindataprovider", "Main Data Provider"): None,
             ("startdate", "Start Date"): None,
             ("enddate", "End Date"): None,
+            ("geopositionid", "GeoTrack Position ID"): None,
+            ("geolocation", "GeoTrack Location"): None,
+            ("geotitle", "GeoTrack Title"): None,
+            ("hstimeseriesid", "Hs Timeseries ID"): None,
+            ("tptimeseriesid", "Tp Timeseries ID"): None,
+            ("wdtimeseriesid", "Wd Timeseries ID"): None,
         }
 
         # change to v1.1 when available
@@ -343,8 +352,6 @@ class CampaignsAPI:
         ]
         return response_out
 
-        return response_out
-
     def get_sensors(self, campaign_id):
         """
         Get sensors.
@@ -430,7 +437,8 @@ class CampaignsAPI:
         }
 
         response = self._get_payload(self._url(f"/{campaign_id}/Swimops"))
-
+        if not response or not isinstance(response, list):
+            return
         response_out = _dict_rename(response[0], response_map)
         return response_out
 

@@ -79,9 +79,11 @@ class GenericCampaign:
     def _sort_list_by_start(list_):
         sorted_list = sorted(
             list_,
-            key=lambda x: pd.to_datetime(x["Start"])
-            if x["Start"]
-            else pd.to_datetime(0).tz_localize("UTC"),
+            key=lambda x: (
+                pd.to_datetime(x["Start"])
+                if x["Start"]
+                else pd.to_datetime(0).tz_localize("UTC")
+            ),
         )
         return sorted_list
 
