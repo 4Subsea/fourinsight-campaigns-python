@@ -6,7 +6,7 @@ accessing **Campaigns** in `4insight.io`_ and retrieve information about differe
 It also facilitates downloading timeseries data related to a campaign from `DataReservoir.io`_.
 
 .. _4Insight.io: https://4insight.io
-.. _DataReservoir.io: https://www.4subsea.com/solutions/digitalisation/datareservoir/
+.. _DataReservoir.io: https://4subsea.com/products/4insight-data-analytics/
 
 .. toctree::
    :maxdepth: 2
