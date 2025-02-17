@@ -65,4 +65,4 @@ Some methods also support some filtering. For instance, to filter the list of se
 
 
 .. _4Insight.io: https://4insight.io
-.. _DataReservoir.io: https://www.4subsea.com/solutions/digitalisation/datareservoir/
+.. _DataReservoir.io: https://4subsea.com/products/4insight-data-analytics/
