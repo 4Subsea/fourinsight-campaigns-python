@@ -32,3 +32,17 @@ list is provided by :mod:`~fourinsight.campaigns.channels` module:
 
     campaign.get_sensor_data(drio_client, lmrp_sensor, filter_=channels.AG)
 
+Each sensor has a list of channels which in turn contain Timeseries ids. To access all timeseries that belong to all sensors of a certain campaign (e.g. to put them in a group):
+
+.. code-block:: python
+
+    sensor_list = campaign.sensors()
+    timeseries_ids = []
+
+    for item in sensor_list:
+        channels = item.get("Channels", [])
+        for channel in channels:
+            ts_id = channel.get("Timeseries id")
+            if ts_id:
+                timeseries_ids.append(ts_id)
+
