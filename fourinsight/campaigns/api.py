@@ -393,28 +393,65 @@ class CampaignsAPI:
             TODO.
         """
         response_map = {
-            ("name", "Channel"): None,
-            ("units", "Units"): None,
-            ("timeseriesid", "Timeseries id"): None,
-            ("streamid", "Stream id"): None,
+            ("timeseriesid", "TimeSeriesID"): None,
+            ("alias", "Alias"): None,
+            ("created", "Created"): None,
+            ("createdby", "Created By"): None,
+            ("modified", "Modified"): None,
+            ("modifiedby", "Modified By"): None,
+            ("organization", "Owner"): None,
+            ("uom", "UoM"): None,
+        }
+
+        metadata_response_map = {
+            ("namespace", "Namespace"): None,
+            ("key", "Key"): None,
+        }
+
+        entities_response_map = {
+            ("id", "Id"): None,
+            ("title", "Title"): None,
+            ("type", "Type"): None,
         }
 
         body = {
             "Campaigns": [campaign_id],
-            "pageSize": 1,
+            "pageSize": 50
         }
-        timeseries = []
+        timeseries_list = []
         while True:
-            body["skip"] = len(timeseries)
+            body["skip"] = len(timeseries_list)
             json_response = self._post(
                 f"{self._BASE_URL}/v1.0/timeseries/search",
                 body
             )
-            timeseries.extend(json_response['timeSeries'])
-            if len(timeseries) >= json_response['totalCount']:
+            timeseries_list.extend(json_response['timeSeries'])
+            if len(timeseries_list) >= json_response['totalCount']:
                 break
 
-        return timeseries
+        response_out = []
+        for timeseries in timeseries_list:
+            out_timeseries = _dict_rename(timeseries, response_map)
+
+            out_timeseries['Metadata'] = []
+            for metadata in timeseries['metadata']:
+                out_metadata = _dict_rename(metadata, metadata_response_map)
+                out_metadata['Values'] = metadata['values']
+                out_timeseries['Metadata'].append(out_metadata)
+
+            out_timeseries['Entities'] = self._map_entities_recursive(timeseries['entities'], entities_response_map)
+
+            response_out.append(out_timeseries)
+
+        return response_out
+
+    def _map_entities_recursive(self, entities, entities_response_map):
+        out_entities = []
+        for entity in entities:
+            out_entity = _dict_rename(entity, entities_response_map)
+            out_entity['Children'] = self._map_entities_recursive(entity['children'], entities_response_map)
+            out_entities.append(out_entity)
+        return out_entities
 
     def get_lowerstack(self, campaign_id):
         """
