@@ -389,8 +389,9 @@ class CampaignsAPI:
 
         Returns
         -------
-        list
-            TODO.
+        list[dict]
+            Timeseries list. The list includes timeseries metadata and connected entities hierarchy (campaigns, sensors, weather, etc.).
+            To traverse the hierarchy, use the ``Children`` key in the returned dicts.
         """
         response_map = {
             ("timeseriesid", "TimeSeriesID"): None,

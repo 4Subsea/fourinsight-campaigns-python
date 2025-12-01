@@ -119,12 +119,13 @@ class GenericCampaign:
 
     def timeseries(self):
         """
-        Get all timeseries connected to the campaign, including weather ones
+        Get all timeseries connected to the campaign, including weather ones.
 
         Returns
         -------
-        list of dicts
-            A list containing sensor dicts.
+        list[dict]
+            Timeseries list. The list includes timeseries metadata and connected entities hierarchy (campaigns, sensors, weather, etc.).
+            To traverse the hierarchy, use the ``Children`` key in the returned dicts.
 
         """
         self._lazy_load(
