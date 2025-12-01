@@ -91,8 +91,7 @@ class CampaignsAPI:
     """
 
     _API_VERSION = "v1.1"
-    # _BASE_URL = "https://api.4insight.io"
-    _BASE_URL = "https://4insight-api-test.4subsea.net"
+    _BASE_URL = "https://api.4insight.io"
 
     def __init__(self, session):
         self._session = session
