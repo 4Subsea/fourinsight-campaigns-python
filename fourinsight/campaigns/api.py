@@ -398,15 +398,23 @@ class CampaignsAPI:
             ("timeseriesid", "Timeseries id"): None,
             ("streamid", "Stream id"): None,
         }
-        body = {
-            "Campaigns": [campaign_id]
-        }
-        response = self._post(
-            f"{self._BASE_URL}/v1.0/timeseries/search",
-            body,
-        )
 
-        return response
+        body = {
+            "Campaigns": [campaign_id],
+            "pageSize": 1,
+        }
+        timeseries = []
+        while True:
+            body["skip"] = len(timeseries)
+            json_response = self._post(
+                f"{self._BASE_URL}/v1.0/timeseries/search",
+                body
+            )
+            timeseries.extend(json_response['timeSeries'])
+            if len(timeseries) >= json_response['totalCount']:
+                break
+
+        return timeseries
 
     def get_lowerstack(self, campaign_id):
         """
