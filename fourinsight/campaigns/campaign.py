@@ -25,7 +25,8 @@ class GenericCampaign:
         self._campaign = None
         self._sensors = None
         self._events = None
-        self._geotrack = None
+        self._campaign = None
+        self._timeseries = None
 
     def _lazy_load(self, attr, api_call, args=()):
         if getattr(self, attr) is None:
@@ -115,6 +116,21 @@ class GenericCampaign:
         if len(sensors) == 0:
             raise RuntimeError("No sensors matches the criteria.")
         return sensors
+
+    def timeseries(self):
+        """
+        Get all timeseries connected to the campaign, including weather ones
+
+        Returns
+        -------
+        list of dicts
+            A list containing sensor dicts.
+
+        """
+        self._lazy_load(
+            "_timeseries", self._campaigns_api.get_timeseries, args=(self._campaign_id,)
+        )
+        return self._timeseries
 
     @staticmethod
     def _filter_dict_value_by(dict_, value, by):

@@ -91,6 +91,8 @@ class CampaignsAPI:
     """
 
     _API_VERSION = "v1.1"
+    # _BASE_URL = "https://api.4insight.io"
+    _BASE_URL = "https://4insight-api-test.4subsea.net"
 
     def __init__(self, session):
         self._session = session
@@ -102,7 +104,7 @@ class CampaignsAPI:
         if api_version is None:
             api_version = self._API_VERSION
 
-        url = f"https://api.4insight.io/{api_version}/Campaigns"
+        url = f"{self._BASE_URL}/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
@@ -117,6 +119,11 @@ class CampaignsAPI:
             payload.extend(json_response["value"])
             next_link = json_response.get("@odata.nextLink", None)
         return payload
+
+    def _post(self, url, data):
+        response = self._session.post(url, json=data, headers=self._headers)
+        response.raise_for_status()
+        return response.json()
 
     def _get_payload_legacy(
         self, url, *args, **kwargs
@@ -370,6 +377,36 @@ class CampaignsAPI:
         for sensor in sensors:
             sensor["Channels"] = self._get_channels(campaign_id, sensor["SensorID"])
         return sensors
+
+    def get_timeseries(self, campaign_id):
+        """
+        Get timeseries.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        list
+            TODO.
+        """
+        response_map = {
+            ("name", "Channel"): None,
+            ("units", "Units"): None,
+            ("timeseriesid", "Timeseries id"): None,
+            ("streamid", "Stream id"): None,
+        }
+        body = {
+            "Campaigns": [campaign_id]
+        }
+        response = self._post(
+            f"{self._BASE_URL}/v1.0/timeseries/search",
+            body,
+        )
+
+        return response
 
     def get_lowerstack(self, campaign_id):
         """
