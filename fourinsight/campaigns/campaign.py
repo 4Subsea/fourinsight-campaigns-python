@@ -124,7 +124,9 @@ class GenericCampaign:
         Returns
         -------
         list[dict]
-            Timeseries list. The list includes timeseries metadata and connected entities hierarchy (campaigns, sensors, weather, etc.).
+            Timeseries list.
+            The list is ordered by timeseries created date descending.
+            The list includes timeseries metadata and connected entities hierarchy (campaigns, sensors, weather, etc.).
             To traverse the hierarchy, use the ``Children`` key in the returned dicts.
 
         """
