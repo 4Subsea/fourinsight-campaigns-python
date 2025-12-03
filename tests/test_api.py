@@ -475,6 +475,214 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
+    def test_get_timeseries_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase, headers_expect):
+        out = campaigns_api_camelcase.get_timeseries("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+        auth_session_camelcase.post.assert_called_once_with(
+            "https://api.4insight.io/v1.0/timeseries/search",
+            json={ 'Campaigns': ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], 'pageSize': 50, 'skip': 0 },
+            headers=headers_expect,
+        )
+        response_camelcase.raise_for_status.assert_called()
+        response_camelcase.json.assert_called()
+        expect = [
+            {
+                "TimeSeriesID": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
+                "Alias": None,
+                "Created": "2018-03-12T10:42:06.789+00:00",
+                "Created By": "Swim Worker",
+                "Modified": "2018-03-12T10:42:06.789+00:00",
+                "Modified By": "Swim Worker",
+                "Owner": "4Subsea AS",
+                "UoM": "deg/s",
+                "Metadata": [
+                    {
+                        "Namespace": "system.campaign",
+                        "Key": "channel-data.f31dfb59-2eff-4954-aa1c-91410f2930de",
+                        "Values": {
+                            "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                            "CampaignName": "0872 - 30_17a-J4 (P3)",
+                            "ChannelName": "Gz"
+                        }
+                    }
+                ],
+                "Entities": [
+                    {
+                        "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "Title": "0872 - 30_17a-J4 (P3)",
+                        "Type": "SWIMCampaign",
+                        "Children": [
+                            {
+                                "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
+                                "Title": "SN098",
+                                "Type": "Sensor",
+                                "Children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "TimeSeriesID": "7028e09a-6685-4940-805c-0bf6f890124b",
+                "Alias": "SN099 - Gz LMRP",
+                "Created": "2018-03-12T10:43:01.771+00:00",
+                "Created By": "Swim Worker",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "4Subsea AS",
+                "UoM": "deg/s",
+                "Metadata": [
+                    {
+                        "Namespace": "system.campaign",
+                        "Key": "channel-data.7028e09a-6685-4940-805c-0bf6f890124b",
+                        "Values": {
+                            "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                            "CampaignName": "0872 - 30_17a-J4 (P3)",
+                            "ChannelName": "Gz"
+                        }
+                    },
+                    {
+                        "Namespace": "system.reservoir",
+                        "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
+                        "Values": {
+                            "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
+                        }
+                    }
+                ],
+                "Entities": [
+                    {
+                        "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "Title": "0872 - 30_17a-J4 (P3)",
+                        "Type": "SWIMCampaign",
+                        "Children": [
+                            {
+                                "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
+                                "Title": "SN099",
+                                "Type": "Sensor",
+                                "Children": []
+                            },
+                            {
+                                "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
+                                "Title": "Ocean Valiant",
+                                "Type": "Vessel",
+                                "Children": []
+                            }
+                        ]
+                    },
+                    {
+                        "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
+                        "Title": "SURF",
+                        "Type": "Field",
+                        "Children": []
+                    }
+                ]
+            },
+        ]
+        assert expect == out
+
+    def test_get_timeseries(self, campaigns_api, auth_session, response, headers_expect):
+        out = campaigns_api.get_timeseries("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+        auth_session.post.assert_called_once_with(
+            "https://api.4insight.io/v1.0/timeseries/search",
+            json={ 'Campaigns': ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], 'pageSize': 50, 'skip': 0 },
+            headers=headers_expect,
+        )
+        response.raise_for_status.assert_called()
+        response.json.assert_called()
+        expect = [
+            {
+                "TimeSeriesID": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
+                "Alias": None,
+                "Created": "2018-03-12T10:42:06.789+00:00",
+                "Created By": "Swim Worker",
+                "Modified": "2018-03-12T10:42:06.789+00:00",
+                "Modified By": "Swim Worker",
+                "Owner": "4Subsea AS",
+                "UoM": "deg/s",
+                "Metadata": [
+                    {
+                        "Namespace": "system.campaign",
+                        "Key": "channel-data.f31dfb59-2eff-4954-aa1c-91410f2930de",
+                        "Values": {
+                            "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                            "CampaignName": "0872 - 30_17a-J4 (P3)",
+                            "ChannelName": "Gz"
+                        }
+                    }
+                ],
+                "Entities": [
+                    {
+                        "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "Title": "0872 - 30_17a-J4 (P3)",
+                        "Type": "SWIMCampaign",
+                        "Children": [
+                            {
+                                "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
+                                "Title": "SN098",
+                                "Type": "Sensor",
+                                "Children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "TimeSeriesID": "7028e09a-6685-4940-805c-0bf6f890124b",
+                "Alias": "SN099 - Gz LMRP",
+                "Created": "2018-03-12T10:43:01.771+00:00",
+                "Created By": "Swim Worker",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "4Subsea AS",
+                "UoM": "deg/s",
+                "Metadata": [
+                    {
+                        "Namespace": "system.campaign",
+                        "Key": "channel-data.7028e09a-6685-4940-805c-0bf6f890124b",
+                        "Values": {
+                            "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                            "CampaignName": "0872 - 30_17a-J4 (P3)",
+                            "ChannelName": "Gz"
+                        }
+                    },
+                    {
+                        "Namespace": "system.reservoir",
+                        "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
+                        "Values": {
+                            "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
+                        }
+                    }
+                ],
+                "Entities": [
+                    {
+                        "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "Title": "0872 - 30_17a-J4 (P3)",
+                        "Type": "SWIMCampaign",
+                        "Children": [
+                            {
+                                "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
+                                "Title": "SN099",
+                                "Type": "Sensor",
+                                "Children": []
+                            },
+                            {
+                                "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
+                                "Title": "Ocean Valiant",
+                                "Type": "Vessel",
+                                "Children": []
+                            }
+                        ]
+                    },
+                    {
+                        "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
+                        "Title": "SURF",
+                        "Type": "Field",
+                        "Children": []
+                    }
+                ]
+            },
+        ]
+        assert expect == out
+
     def test__get_sensors(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api._get_sensors("1234")
         auth_session.get.assert_called_once_with(

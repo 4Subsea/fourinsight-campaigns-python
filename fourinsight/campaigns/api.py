@@ -54,6 +54,13 @@ def _dict_rename(dict_org, dict_map):
             dict_new[key_new] = dict_org[key_org]
     return dict_new
 
+def _dict_get_case_insensitive(dict_org, key_lookup, value_default=None):
+    for key, value in dict_org.items():
+        if key_lookup.lower() == key.lower():
+            return value
+    return value_default
+
+
 
 def _loc_to_float(value):
     """
@@ -405,53 +412,60 @@ class CampaignsAPI:
             ("uom", "UoM"): None,
         }
 
+        # do not include the 'value' property here, as it contains a schemaless raw JSON
+        # the property is to be populated separately
         metadata_response_map = {
             ("namespace", "Namespace"): None,
             ("key", "Key"): None,
         }
 
+        # do not include the 'children' property here, as it itself might contain numerous children
+        # the property is to be recursively populated separately
         entities_response_map = {
             ("id", "Id"): None,
             ("title", "Title"): None,
             ("type", "Type"): None,
         }
 
-        body = {
+        search_context = {
             "Campaigns": [campaign_id],
             "pageSize": 50
         }
         timeseries_list = []
         while True:
-            body["skip"] = len(timeseries_list)
+            search_context["skip"] = len(timeseries_list)
             json_response = self._post(
-                f"{self._BASE_URL}/v1.0/timeseries/search",
-                body
+                url=f"{self._BASE_URL}/v1.0/timeseries/search",
+                data=search_context
             )
-            timeseries_list.extend(json_response['timeSeries'])
-            if len(timeseries_list) >= json_response['totalCount']:
+
+            for timeseries_response in _dict_get_case_insensitive(json_response, key_lookup='timeseries', value_default=[]):
+                out_timeseries = _dict_rename(timeseries_response, response_map)
+
+                out_timeseries['Metadata'] = []
+                for metadata_response in _dict_get_case_insensitive(timeseries_response, key_lookup='metadata', value_default=[]):
+                    out_metadata = _dict_rename(metadata_response, metadata_response_map)
+                    # do not map metadata values as it's schemaless JSON, but just assign the raw value
+                    out_metadata['Values'] = _dict_get_case_insensitive(metadata_response, key_lookup='values', value_default={})
+                    out_timeseries['Metadata'].append(out_metadata)
+
+                # populate entities recursively, as each entity might contain numerous children entities
+                entities_response = _dict_get_case_insensitive(timeseries_response, key_lookup='entities', value_default=[])
+                out_timeseries['Entities'] = self._map_entities_recursive(entities_response, entities_response_map)
+
+                timeseries_list.append(out_timeseries)
+
+            if len(timeseries_list) >= _dict_get_case_insensitive(json_response, key_lookup='totalcount', value_default=0):
                 break
 
-        response_out = []
-        for timeseries in timeseries_list:
-            out_timeseries = _dict_rename(timeseries, response_map)
-
-            out_timeseries['Metadata'] = []
-            for metadata in timeseries['metadata']:
-                out_metadata = _dict_rename(metadata, metadata_response_map)
-                out_metadata['Values'] = metadata['values']
-                out_timeseries['Metadata'].append(out_metadata)
-
-            out_timeseries['Entities'] = self._map_entities_recursive(timeseries['entities'], entities_response_map)
-
-            response_out.append(out_timeseries)
-
-        return response_out
+        return timeseries_list
 
     def _map_entities_recursive(self, entities, entities_response_map):
         out_entities = []
         for entity in entities:
             out_entity = _dict_rename(entity, entities_response_map)
-            out_entity['Children'] = self._map_entities_recursive(entity['children'], entities_response_map)
+            children = _dict_get_case_insensitive(entity, key_lookup='children', value_default=[])
+            out_entity['Children'] = self._map_entities_recursive(children, entities_response_map)
             out_entities.append(out_entity)
         return out_entities
 

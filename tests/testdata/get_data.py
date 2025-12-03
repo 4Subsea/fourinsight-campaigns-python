@@ -355,6 +355,200 @@ LOWERSTACK_DATA_CAMELCASE = {
     ],
 }
 
+TIMESERIES_DATA  = {
+    "TimeSeries": [
+        {
+            "TimeSeriesId": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
+            "Alias": None,
+            "Created": "2018-03-12T10:42:06.789+00:00",
+            "CreatedBy": "Swim Worker",
+            "Modified": "2018-03-12T10:42:06.789+00:00",
+            "ModifiedBy": "Swim Worker",
+            "Organization": "4Subsea AS",
+            "UoM": "deg/s",
+            "Metadata": [
+                {
+                    "Namespace": "system.campaign",
+                    "Key": "channel-data.f31dfb59-2eff-4954-aa1c-91410f2930de",
+                    "Values": {
+                        "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "CampaignName": "0872 - 30_17a-J4 (P3)",
+                        "ChannelName": "Gz"
+                    }
+                }
+            ],
+            "Entities": [
+                {
+                    "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                    "Title": "0872 - 30_17a-J4 (P3)",
+                    "Type": "SWIMCampaign",
+                    "Children": [
+                        {
+                            "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
+                            "Title": "SN098",
+                            "Type": "Sensor",
+                            "Children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "TimeSeriesId": "7028e09a-6685-4940-805c-0bf6f890124b",
+            "Alias": "SN099 - Gz LMRP",
+            "Created": "2018-03-12T10:43:01.771+00:00",
+            "CreatedBy": "Swim Worker",
+            "Modified": None,
+            "ModifiedBy": None,
+            "Organization": "4Subsea AS",
+            "UoM": "deg/s",
+            "Metadata": [
+                {
+                    "Namespace": "system.campaign",
+                    "Key": "channel-data.7028e09a-6685-4940-805c-0bf6f890124b",
+                    "Values": {
+                        "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "CampaignName": "0872 - 30_17a-J4 (P3)",
+                        "ChannelName": "Gz"
+                    }
+                },
+                {
+                    "Namespace": "system.reservoir",
+                    "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
+                    "Values": {
+                        "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
+                    }
+                }
+            ],
+            "Entities": [
+                {
+                    "Id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                    "Title": "0872 - 30_17a-J4 (P3)",
+                    "Type": "SWIMCampaign",
+                    "Children": [
+                        {
+                            "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
+                            "Title": "SN099",
+                            "Type": "Sensor",
+                            "Children": []
+                        },
+                        {
+                            "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
+                            "Title": "Ocean Valiant",
+                            "Type": "Vessel",
+                            "Children": []
+                        }
+                    ]
+                },
+                {
+                    "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
+                    "Title": "SURF",
+                    "Type": "Field",
+                    "Children": []
+                }
+            ]
+        },
+    ],
+    "TotalCount": 2
+}
+
+TIMESERIES_DATA_CAMELCASE  = {
+    "timeSeries": [
+        {
+            "timeSeriesId": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
+            "alias": None,
+            "created": "2018-03-12T10:42:06.789+00:00",
+            "createdBy": "Swim Worker",
+            "modified": "2018-03-12T10:42:06.789+00:00",
+            "modifiedBy": "Swim Worker",
+            "organization": "4Subsea AS",
+            "uoM": "deg/s",
+            "metadata": [
+                {
+                    "namespace": "system.campaign",
+                    "key": "channel-data.f31dfb59-2eff-4954-aa1c-91410f2930de",
+                    "values": {
+                        "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "CampaignName": "0872 - 30_17a-J4 (P3)",
+                        "ChannelName": "Gz"
+                    }
+                }
+            ],
+            "entities": [
+                {
+                    "id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                    "title": "0872 - 30_17a-J4 (P3)",
+                    "type": "SWIMCampaign",
+                    "children": [
+                        {
+                            "id": "62c34d37-5c83-4720-93fb-cc34d41df673",
+                            "title": "SN098",
+                            "type": "Sensor",
+                            "children": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "timeSeriesId": "7028e09a-6685-4940-805c-0bf6f890124b",
+            "alias": "SN099 - Gz LMRP",
+            "created": "2018-03-12T10:43:01.771+00:00",
+            "createdBy": "Swim Worker",
+            "modified": None,
+            "modifiedBy": None,
+            "organization": "4Subsea AS",
+            "uoM": "deg/s",
+            "metadata": [
+                {
+                    "namespace": "system.campaign",
+                    "key": "channel-data.7028e09a-6685-4940-805c-0bf6f890124b",
+                    "values": {
+                        "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                        "CampaignName": "0872 - 30_17a-J4 (P3)",
+                        "ChannelName": "Gz"
+                    }
+                },
+                {
+                    "namespace": "system.reservoir",
+                    "key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
+                    "values": {
+                        "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
+                    }
+                }
+            ],
+            "entities": [
+                {
+                    "id": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
+                    "title": "0872 - 30_17a-J4 (P3)",
+                    "type": "SWIMCampaign",
+                    "children": [
+                        {
+                            "id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
+                            "title": "SN099",
+                            "type": "Sensor",
+                            "children": []
+                        },
+                        {
+                            "id": "0d39fc71-01fe-400f-9e93-9606a4443892",
+                            "title": "Ocean Valiant",
+                            "type": "Vessel",
+                            "children": []
+                        }
+                    ]
+                },
+                {
+                    "id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
+                    "title": "SURF",
+                    "type": "Field",
+                    "children": []
+                }
+            ]
+        },
+    ],
+    "totalCount": 2
+}
+
 LOWERSTACK_DATA = {
     "CampaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "AnyFetchFailure": False,
