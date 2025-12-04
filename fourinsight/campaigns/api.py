@@ -55,6 +55,13 @@ def _dict_rename(dict_org, dict_map):
     return dict_new
 
 
+def _dict_get_case_insensitive(dict_org, key_lookup, value_default=None):
+    for key, value in dict_org.items():
+        if key_lookup.lower() == key.lower():
+            return value
+    return value_default
+
+
 def _loc_to_float(value):
     """
     Attempt to cast "location" string to float. Also converts "null" to ``None``.
@@ -91,6 +98,7 @@ class CampaignsAPI:
     """
 
     _API_VERSION = "v1.1"
+    _BASE_URL = "https://api.4insight.io"
 
     def __init__(self, session):
         self._session = session
@@ -102,7 +110,7 @@ class CampaignsAPI:
         if api_version is None:
             api_version = self._API_VERSION
 
-        url = f"https://api.4insight.io/{api_version}/Campaigns"
+        url = f"{self._BASE_URL}/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
@@ -117,6 +125,11 @@ class CampaignsAPI:
             payload.extend(json_response["value"])
             next_link = json_response.get("@odata.nextLink", None)
         return payload
+
+    def _post(self, url, data):
+        response = self._session.post(url, json=data, headers=self._headers)
+        response.raise_for_status()
+        return response.json()
 
     def _get_payload_legacy(
         self, url, *args, **kwargs
@@ -371,6 +384,104 @@ class CampaignsAPI:
             sensor["Channels"] = self._get_channels(campaign_id, sensor["SensorID"])
         return sensors
 
+    def get_timeseries(self, campaign_id):
+        """
+        Get timeseries.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        list[dict]
+            Timeseries list.
+            The list is ordered by timeseries created date descending.
+            The list includes timeseries metadata and connected entities hierarchy (campaigns, sensors, weather, etc.).
+            To traverse the hierarchy, use the ``Children`` key in the returned dicts.
+        """
+        response_map = {
+            ("timeseriesid", "TimeSeriesID"): None,
+            ("alias", "Alias"): None,
+            ("created", "Created"): None,
+            ("createdby", "Created By"): None,
+            ("modified", "Modified"): None,
+            ("modifiedby", "Modified By"): None,
+            ("organization", "Owner"): None,
+            ("uom", "UoM"): None,
+        }
+
+        # do not include the 'value' property here, as it contains a schemaless raw JSON
+        # the property is to be populated separately
+        metadata_response_map = {
+            ("namespace", "Namespace"): None,
+            ("key", "Key"): None,
+        }
+
+        # do not include the 'children' property here, as it itself might contain numerous children
+        # the property is to be recursively populated separately
+        entities_response_map = {
+            ("id", "Id"): None,
+            ("title", "Title"): None,
+            ("type", "Type"): None,
+        }
+
+        search_context = {"Campaigns": [campaign_id], "pageSize": 50}
+        timeseries_list = []
+        while True:
+            search_context["skip"] = len(timeseries_list)
+            json_response = self._post(
+                f"{self._BASE_URL}/v1.0/timeseries/search", search_context
+            )
+
+            timeseries_response = _dict_get_case_insensitive(
+                json_response, "timeseries", []
+            )
+            for in_timeseries in timeseries_response:
+                out_timeseries = _dict_rename(in_timeseries, response_map)
+
+                out_timeseries["Metadata"] = []
+                metadata_response = _dict_get_case_insensitive(
+                    in_timeseries, "metadata", []
+                )
+                for in_metadata in metadata_response:
+                    out_metadata = _dict_rename(in_metadata, metadata_response_map)
+                    # do not map metadata values as it's schemaless JSON, but just assign the raw value
+                    out_metadata["Values"] = _dict_get_case_insensitive(
+                        in_metadata, "values", {}
+                    )
+                    out_timeseries["Metadata"].append(out_metadata)
+
+                # populate entities recursively, as each entity might contain numerous children entities
+                entities_response = _dict_get_case_insensitive(
+                    in_timeseries, "entities", []
+                )
+                out_timeseries["Entities"] = self._map_entities_recursive(
+                    entities_response, entities_response_map
+                )
+
+                timeseries_list.append(out_timeseries)
+
+            total_count = _dict_get_case_insensitive(json_response, "totalcount", 0)
+            if len(timeseries_list) >= total_count:
+                break
+
+        return timeseries_list
+
+    def _map_entities_recursive(self, entities, entities_response_map):
+        out_entities = []
+        for entity in entities:
+            out_entity = _dict_rename(entity, entities_response_map)
+            children = _dict_get_case_insensitive(
+                entity, key_lookup="children", value_default=[]
+            )
+            out_entity["Children"] = self._map_entities_recursive(
+                children, entities_response_map
+            )
+            out_entities.append(out_entity)
+        return out_entities
+
     def get_lowerstack(self, campaign_id):
         """
         Get lower stack.
@@ -430,7 +541,7 @@ class CampaignsAPI:
             ("reportsent", "Report Sent"): None,
             ("datapackagemade", "Data Package Made"): None,
             ("datapackagesent", "Data Package Sent"): None,
-            ("experiencelogMade", "Experience Log Made"): None,
+            ("experiencelogmade", "Experience Log Made"): None,
             ("wellspotbendingmomentuploaded", "WellSpot Bending Moment Uploaded"): None,
             ("dashboardclosed", "Dashboard Closed"): None,
             ("servicesavailable", "Services Available"): None,
