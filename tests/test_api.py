@@ -1,14 +1,12 @@
-import json
 from unittest.mock import call
 
-import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import (
     CampaignsAPI,
-    _dict_rename,
     _dict_get_case_insensitive,
+    _dict_rename,
     _loc_to_float,
     _location_convert,
 )
