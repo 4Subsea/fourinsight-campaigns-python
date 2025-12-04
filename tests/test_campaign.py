@@ -136,14 +136,15 @@ class Test_GenericCampaign:
             {
                 "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Name": "string",
+                "Serial Number": "string",
                 "Position": "string",
-                "Distance From Wellhead": 0.0,
+                "Distance From Wellhead": 0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
+                "Sampling Rate": 0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -156,11 +157,12 @@ class Test_GenericCampaign:
             {
                 "SensorID": "<wh sensor id>",
                 "Name": "SN1234",
+                "Serial Number": "string",
                 "Position": "WH",
-                "Distance From Wellhead": 0.0,
+                "Distance From Wellhead": 0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
+                "Sampling Rate": 0,
                 "Sensor Vendor": "string",
                 "Attached Time": None,
                 "Detached Time": None,
@@ -174,7 +176,7 @@ class Test_GenericCampaign:
                 ],
             },
         ]
-        sensors_out == sensors_expect
+        assert sensors_out == sensors_expect
 
     def test_sensor_by_position(self, generic_campaign):
         sensors_out = generic_campaign.sensors(value="WH", by="Position")
