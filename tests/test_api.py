@@ -8,6 +8,7 @@ import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import (
     CampaignsAPI,
     _dict_rename,
+    _dict_get_case_insensitive,
     _loc_to_float,
     _location_convert,
 )
@@ -995,7 +996,7 @@ class Test_CampaignsAPI:
         assert campaigns_api_camelcase.get_campaign_type("1234") == "swim campaign"
 
 
-class Test__dict_rename:
+class Test_dict:
     def test_rename(self):
         dict_org = {
             "a": "this",
@@ -1025,6 +1026,17 @@ class Test__dict_rename:
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
 
+    @pytest.mark.parametrize("key", ["lowercase", "camelCase", "PascalCase", "UPPERCASE"])
+    def test_get_case_insensitive(self, key):
+        dict_org = { key: "value" }
+        actual = _dict_get_case_insensitive(dict_org, key.upper())
+        assert actual == "value"
+
+    @pytest.mark.parametrize("value_default", [[], {}, 0, "string"])
+    def test_get_case_insensitive_default_vaule(self, value_default):
+        dict_org = { "key": "value" }
+        actual = _dict_get_case_insensitive(dict_org, "not_existing_key", value_default)
+        assert actual == value_default
 
 def test_loc_to_float_string():
     value_in = "5.678900000"
