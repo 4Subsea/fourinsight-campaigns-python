@@ -213,8 +213,8 @@ class Test_GenericCampaign:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     }
                 ],
                 "Entities": [
@@ -227,11 +227,11 @@ class Test_GenericCampaign:
                                 "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
                                 "Title": "SN098",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             }
-                        ]
+                        ],
                     }
-                ]
+                ],
             },
             {
                 "TimeSeriesID": "7028e09a-6685-4940-805c-0bf6f890124b",
@@ -249,16 +249,14 @@ class Test_GenericCampaign:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     },
                     {
                         "Namespace": "system.reservoir",
                         "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
-                        "Values": {
-                            "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
-                        }
-                    }
+                        "Values": {"StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"},
+                    },
                 ],
                 "Entities": [
                     {
@@ -270,23 +268,23 @@ class Test_GenericCampaign:
                                 "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
                                 "Title": "SN099",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             },
                             {
                                 "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
                                 "Title": "Ocean Valiant",
                                 "Type": "Vessel",
-                                "Children": []
-                            }
-                        ]
+                                "Children": [],
+                            },
+                        ],
                     },
                     {
                         "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
                         "Title": "SURF",
                         "Type": "Field",
-                        "Children": []
-                    }
-                ]
+                        "Children": [],
+                    },
+                ],
             },
         ]
         assert out == expect

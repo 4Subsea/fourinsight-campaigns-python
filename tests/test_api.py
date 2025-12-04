@@ -474,11 +474,22 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_timeseries_camelcase(self, campaigns_api_camelcase, auth_session_camelcase, response_camelcase, headers_expect):
-        out = campaigns_api_camelcase.get_timeseries("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+    def test_get_timeseries_camelcase(
+        self,
+        campaigns_api_camelcase,
+        auth_session_camelcase,
+        response_camelcase,
+        headers_expect,
+    ):
+        timeseries_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        out = campaigns_api_camelcase.get_timeseries(timeseries_id)
         auth_session_camelcase.post.assert_called_once_with(
             "https://api.4insight.io/v1.0/timeseries/search",
-            json={ 'Campaigns': ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], 'pageSize': 50, 'skip': 0 },
+            json={
+                "Campaigns": ["3fa85f64-5717-4562-b3fc-2c963f66afa6"],
+                "pageSize": 50,
+                "skip": 0,
+            },
             headers=headers_expect,
         )
         response_camelcase.raise_for_status.assert_called()
@@ -500,8 +511,8 @@ class Test_CampaignsAPI:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     }
                 ],
                 "Entities": [
@@ -514,11 +525,11 @@ class Test_CampaignsAPI:
                                 "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
                                 "Title": "SN098",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             }
-                        ]
+                        ],
                     }
-                ]
+                ],
             },
             {
                 "TimeSeriesID": "7028e09a-6685-4940-805c-0bf6f890124b",
@@ -536,16 +547,14 @@ class Test_CampaignsAPI:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     },
                     {
                         "Namespace": "system.reservoir",
                         "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
-                        "Values": {
-                            "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
-                        }
-                    }
+                        "Values": {"StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"},
+                    },
                 ],
                 "Entities": [
                     {
@@ -557,32 +566,39 @@ class Test_CampaignsAPI:
                                 "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
                                 "Title": "SN099",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             },
                             {
                                 "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
                                 "Title": "Ocean Valiant",
                                 "Type": "Vessel",
-                                "Children": []
-                            }
-                        ]
+                                "Children": [],
+                            },
+                        ],
                     },
                     {
                         "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
                         "Title": "SURF",
                         "Type": "Field",
-                        "Children": []
-                    }
-                ]
+                        "Children": [],
+                    },
+                ],
             },
         ]
         assert expect == out
 
-    def test_get_timeseries(self, campaigns_api, auth_session, response, headers_expect):
-        out = campaigns_api.get_timeseries("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+    def test_get_timeseries(
+        self, campaigns_api, auth_session, response, headers_expect
+    ):
+        timeseries_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        out = campaigns_api.get_timeseries(timeseries_id)
         auth_session.post.assert_called_once_with(
             "https://api.4insight.io/v1.0/timeseries/search",
-            json={ 'Campaigns': ['3fa85f64-5717-4562-b3fc-2c963f66afa6'], 'pageSize': 50, 'skip': 0 },
+            json={
+                "Campaigns": ["3fa85f64-5717-4562-b3fc-2c963f66afa6"],
+                "pageSize": 50,
+                "skip": 0,
+            },
             headers=headers_expect,
         )
         response.raise_for_status.assert_called()
@@ -604,8 +620,8 @@ class Test_CampaignsAPI:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     }
                 ],
                 "Entities": [
@@ -618,11 +634,11 @@ class Test_CampaignsAPI:
                                 "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
                                 "Title": "SN098",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             }
-                        ]
+                        ],
                     }
-                ]
+                ],
             },
             {
                 "TimeSeriesID": "7028e09a-6685-4940-805c-0bf6f890124b",
@@ -640,16 +656,14 @@ class Test_CampaignsAPI:
                         "Values": {
                             "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                             "CampaignName": "0872 - 30_17a-J4 (P3)",
-                            "ChannelName": "Gz"
-                        }
+                            "ChannelName": "Gz",
+                        },
                     },
                     {
                         "Namespace": "system.reservoir",
                         "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
-                        "Values": {
-                            "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
-                        }
-                    }
+                        "Values": {"StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"},
+                    },
                 ],
                 "Entities": [
                     {
@@ -661,23 +675,23 @@ class Test_CampaignsAPI:
                                 "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
                                 "Title": "SN099",
                                 "Type": "Sensor",
-                                "Children": []
+                                "Children": [],
                             },
                             {
                                 "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
                                 "Title": "Ocean Valiant",
                                 "Type": "Vessel",
-                                "Children": []
-                            }
-                        ]
+                                "Children": [],
+                            },
+                        ],
                     },
                     {
                         "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
                         "Title": "SURF",
                         "Type": "Field",
-                        "Children": []
-                    }
-                ]
+                        "Children": [],
+                    },
+                ],
             },
         ]
         assert expect == out
@@ -1024,17 +1038,20 @@ class Test_dict:
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
 
-    @pytest.mark.parametrize("key", ["lowercase", "camelCase", "PascalCase", "UPPERCASE"])
+    @pytest.mark.parametrize(
+        "key", ["lowercase", "camelCase", "PascalCase", "UPPERCASE"]
+    )
     def test_get_case_insensitive(self, key):
-        dict_org = { key: "value" }
+        dict_org = {key: "value"}
         actual = _dict_get_case_insensitive(dict_org, key.upper())
         assert actual == "value"
 
     @pytest.mark.parametrize("value_default", [[], {}, 0, "string"])
     def test_get_case_insensitive_default_vaule(self, value_default):
-        dict_org = { "key": "value" }
+        dict_org = {"key": "value"}
         actual = _dict_get_case_insensitive(dict_org, "not_existing_key", value_default)
         assert actual == value_default
+
 
 def test_loc_to_float_string():
     value_in = "5.678900000"

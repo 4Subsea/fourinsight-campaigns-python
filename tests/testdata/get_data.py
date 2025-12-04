@@ -355,7 +355,7 @@ LOWERSTACK_DATA_CAMELCASE = {
     ],
 }
 
-TIMESERIES_DATA  = {
+TIMESERIES_DATA = {
     "TimeSeries": [
         {
             "TimeSeriesId": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
@@ -373,8 +373,8 @@ TIMESERIES_DATA  = {
                     "Values": {
                         "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                         "CampaignName": "0872 - 30_17a-J4 (P3)",
-                        "ChannelName": "Gz"
-                    }
+                        "ChannelName": "Gz",
+                    },
                 }
             ],
             "Entities": [
@@ -387,11 +387,11 @@ TIMESERIES_DATA  = {
                             "Id": "62c34d37-5c83-4720-93fb-cc34d41df673",
                             "Title": "SN098",
                             "Type": "Sensor",
-                            "Children": []
+                            "Children": [],
                         }
-                    ]
+                    ],
                 }
-            ]
+            ],
         },
         {
             "TimeSeriesId": "7028e09a-6685-4940-805c-0bf6f890124b",
@@ -409,16 +409,14 @@ TIMESERIES_DATA  = {
                     "Values": {
                         "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                         "CampaignName": "0872 - 30_17a-J4 (P3)",
-                        "ChannelName": "Gz"
-                    }
+                        "ChannelName": "Gz",
+                    },
                 },
                 {
                     "Namespace": "system.reservoir",
                     "Key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
-                    "Values": {
-                        "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
-                    }
-                }
+                    "Values": {"StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"},
+                },
             ],
             "Entities": [
                 {
@@ -430,29 +428,29 @@ TIMESERIES_DATA  = {
                             "Id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
                             "Title": "SN099",
                             "Type": "Sensor",
-                            "Children": []
+                            "Children": [],
                         },
                         {
                             "Id": "0d39fc71-01fe-400f-9e93-9606a4443892",
                             "Title": "Ocean Valiant",
                             "Type": "Vessel",
-                            "Children": []
-                        }
-                    ]
+                            "Children": [],
+                        },
+                    ],
                 },
                 {
                     "Id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
                     "Title": "SURF",
                     "Type": "Field",
-                    "Children": []
-                }
-            ]
+                    "Children": [],
+                },
+            ],
         },
     ],
-    "TotalCount": 2
+    "TotalCount": 2,
 }
 
-TIMESERIES_DATA_CAMELCASE  = {
+TIMESERIES_DATA_CAMELCASE = {
     "timeSeries": [
         {
             "timeSeriesId": "04f8d2c9-4e95-4358-94d1-b1db0da06042",
@@ -470,8 +468,8 @@ TIMESERIES_DATA_CAMELCASE  = {
                     "values": {
                         "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                         "CampaignName": "0872 - 30_17a-J4 (P3)",
-                        "ChannelName": "Gz"
-                    }
+                        "ChannelName": "Gz",
+                    },
                 }
             ],
             "entities": [
@@ -484,11 +482,11 @@ TIMESERIES_DATA_CAMELCASE  = {
                             "id": "62c34d37-5c83-4720-93fb-cc34d41df673",
                             "title": "SN098",
                             "type": "Sensor",
-                            "children": []
+                            "children": [],
                         }
-                    ]
+                    ],
                 }
-            ]
+            ],
         },
         {
             "timeSeriesId": "7028e09a-6685-4940-805c-0bf6f890124b",
@@ -506,16 +504,14 @@ TIMESERIES_DATA_CAMELCASE  = {
                     "values": {
                         "CampaignId": "028ff3a8-2e08-463d-a4fe-bc10a53450ea",
                         "CampaignName": "0872 - 30_17a-J4 (P3)",
-                        "ChannelName": "Gz"
-                    }
+                        "ChannelName": "Gz",
+                    },
                 },
                 {
                     "namespace": "system.reservoir",
                     "key": "timeseries-source.7028e09a-6685-4940-805c-0bf6f890124b",
-                    "values": {
-                        "StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"
-                    }
-                }
+                    "values": {"StreamId": "6eccf335-21c8-4ecb-8775-c9e68426ef44"},
+                },
             ],
             "entities": [
                 {
@@ -527,26 +523,26 @@ TIMESERIES_DATA_CAMELCASE  = {
                             "id": "61f130b9-c02a-4120-bfd7-4cb75e569edb",
                             "title": "SN099",
                             "type": "Sensor",
-                            "children": []
+                            "children": [],
                         },
                         {
                             "id": "0d39fc71-01fe-400f-9e93-9606a4443892",
                             "title": "Ocean Valiant",
                             "type": "Vessel",
-                            "children": []
-                        }
-                    ]
+                            "children": [],
+                        },
+                    ],
                 },
                 {
                     "id": "43649d0b-c741-48e5-99ca-8995bcdde66b",
                     "title": "SURF",
                     "type": "Field",
-                    "children": []
-                }
-            ]
+                    "children": [],
+                },
+            ],
         },
     ],
-    "totalCount": 2
+    "totalCount": 2,
 }
 
 LOWERSTACK_DATA = {
