@@ -528,7 +528,7 @@ class CampaignsAPI:
             ("reportsent", "Report Sent"): None,
             ("datapackagemade", "Data Package Made"): None,
             ("datapackagesent", "Data Package Sent"): None,
-            ("experiencelogMade", "Experience Log Made"): None,
+            ("experiencelogmade", "Experience Log Made"): None,
             ("wellspotbendingmomentuploaded", "WellSpot Bending Moment Uploaded"): None,
             ("dashboardclosed", "Dashboard Closed"): None,
             ("servicesavailable", "Services Available"): None,

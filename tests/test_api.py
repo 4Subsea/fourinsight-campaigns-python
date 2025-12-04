@@ -887,7 +887,7 @@ class Test_CampaignsAPI:
             "Dashboard Closed": "string",
             "Services Available": "string",
         }
-        expect == out
+        assert expect == out
 
     def test_get_swimops_campaign_camelcase(
         self,
@@ -920,7 +920,7 @@ class Test_CampaignsAPI:
             "Dashboard Closed": "string",
             "Services Available": "string",
         }
-        expect == out
+        assert expect == out
 
     def test_get_swimops(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api.get_swimops()
