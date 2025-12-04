@@ -25,7 +25,7 @@ class GenericCampaign:
         self._campaign = None
         self._sensors = None
         self._events = None
-        self._campaign = None
+        self._geotrack = None
         self._timeseries = None
 
     def _lazy_load(self, attr, api_call, args=()):
