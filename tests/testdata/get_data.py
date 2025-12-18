@@ -355,6 +355,394 @@ LOWERSTACK_DATA_CAMELCASE = {
     ],
 }
 
+TIMESERIES_DATA = {
+    "TimeSeries": [
+        {
+            "TimeSeriesId": "e0e0fcd8-3904-4fa1-bc3d-f62e0b27243f",
+            "Alias": None,
+            "Created": "2018-03-12T10:42:06.789+00:00",
+            "CreatedBy": "string",
+            "Modified": "2018-03-12T10:42:06.789+00:00",
+            "ModifiedBy": "string",
+            "Organization": "string",
+            "UoM": "string",
+            "Metadata": [
+                {
+                    "Namespace": "string",
+                    "Key": "string",
+                    "Values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                }
+            ],
+            "Entities": [
+                {
+                    "Id": "3306b986-664a-40a7-8495-787850745b03",
+                    "Title": "string",
+                    "Type": "GenericCampaign",
+                    "Children": [
+                        {
+                            "Id": "a732d51a-792e-4eb8-8014-0ff2ec8e4d12",
+                            "Title": "string",
+                            "Type": "Sensor",
+                            "Children": [],
+                        },
+                        {
+                            "Id": "5fdf3c38-80b4-4583-9a89-e589852492bf",
+                            "Title": "string",
+                            "Type": "Vessel",
+                            "Children": [],
+                        },
+                    ],
+                }
+            ],
+        },
+        {
+            "TimeSeriesId": "065fe754-3ccd-4b99-9649-7a86f420cabc",
+            "Alias": "string",
+            "Created": "2018-03-12T10:43:01.771+00:00",
+            "CreatedBy": "string",
+            "Modified": None,
+            "ModifiedBy": None,
+            "Organization": "string",
+            "UoM": "string",
+            "Metadata": [
+                {
+                    "Namespace": "string",
+                    "Key": "string",
+                    "Values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                },
+                {
+                    "Namespace": "string",
+                    "Key": "string",
+                    "Values": {"AdditionalProp1": "string"},
+                },
+            ],
+            "Entities": [
+                {
+                    "Id": "3306b986-664a-40a7-8495-787850745b03",
+                    "Title": "string",
+                    "Type": "GenericCampaign",
+                    "Children": [],
+                },
+                {
+                    "Id": "4f272f8b-b784-4b36-ba19-db892022650a",
+                    "Title": "string",
+                    "Type": "Vessel",
+                    "Children": [
+                        {
+                            "Id": "b927e886-7338-45b1-8d56-69fb6024c058",
+                            "Title": "string",
+                            "Type": "DataSource",
+                            "Children": [],
+                        }
+                    ],
+                },
+                {
+                    "Id": "b927e886-7338-45b1-8d56-69fb6024c058",
+                    "Title": "string",
+                    "Type": "DataSource",
+                    "Children": [],
+                },
+                {
+                    "Id": "5e684419-a4bc-4a1a-8a7d-cf9018ce049f",
+                    "Title": "title",
+                    "Type": "GenericCampaign",
+                    "Children": [],
+                },
+            ],
+        },
+        {
+            "TimeSeriesId": "cfbf5b22-08c0-4332-86ac-cd03f140243e",
+            "Alias": "string",
+            "Created": "2019-04-10T10:27:28.045+00:00",
+            "CreatedBy": "string",
+            "Modified": None,
+            "ModifiedBy": None,
+            "Organization": "string",
+            "UoM": "string",
+            "Metadata": [
+                {
+                    "Namespace": "string",
+                    "Key": "string",
+                    "Values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                },
+            ],
+            "Entities": [
+                {
+                    "Id": "c49a27bc-ceb0-4ead-bf59-32ade67d5dd3",
+                    "Title": "string",
+                    "Type": "Field",
+                    "Children": [
+                        {
+                            "Id": "748d25b5-1c20-4e4a-8dc0-7e6b128ea081",
+                            "Title": "string",
+                            "type": "Riser",
+                            "Children": [
+                                {
+                                    "Id": "48f97444-cf5b-49e8-aa9d-0e7bb00ce1e9",
+                                    "Title": "string",
+                                    "type": "Instrument",
+                                    "Children": [],
+                                }
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "Id": "3306b986-664a-40a7-8495-787850745b03",
+                    "Title": "string",
+                    "type": "GenericCampaign",
+                    "Children": [],
+                },
+            ],
+        },
+        {
+            "TimeSeriesId": "6d9690ba-5a5d-4c3f-a5a7-2ebcb29decd0",
+            "Alias": "string",
+            "Created": "2025-11-13T10:16:56.979+00:00",
+            "CreatedBy": "string",
+            "Modified": None,
+            "ModifiedBy": None,
+            "Organization": "string",
+            "UoM": "string",
+            "Metadata": [
+                {
+                    "Namespace": "string",
+                    "Key": "string",
+                    "Values": {"AdditionalProp1": "string"},
+                }
+            ],
+            "Entities": [
+                {
+                    "Id": "3306b986-664a-40a7-8495-787850745b03",
+                    "Title": "string",
+                    "type": "GenericCampaign",
+                    "Children": [
+                        {
+                            "Id": "c2431c44-7232-4aaa-8a0b-0d8f2af108b4",
+                            "Title": "string",
+                            "type": "Vessel",
+                            "Children": [],
+                        },
+                    ],
+                },
+                {
+                    "Id": "ae029af1-746b-448b-9107-c2996ff78062",
+                    "Title": "string",
+                    "type": "Weather",
+                    "Children": [],
+                },
+            ],
+        },
+    ],
+    "TotalCount": 4,
+}
+
+TIMESERIES_DATA_CAMELCASE = {
+    "timeSeries": [
+        {
+            "timeSeriesId": "e0e0fcd8-3904-4fa1-bc3d-f62e0b27243f",
+            "alias": None,
+            "created": "2018-03-12T10:42:06.789+00:00",
+            "createdBy": "string",
+            "modified": "2018-03-12T10:42:06.789+00:00",
+            "modifiedBy": "string",
+            "organization": "string",
+            "uoM": "string",
+            "metadata": [
+                {
+                    "namespace": "string",
+                    "key": "string",
+                    "values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                }
+            ],
+            "entities": [
+                {
+                    "id": "3306b986-664a-40a7-8495-787850745b03",
+                    "title": "string",
+                    "type": "GenericCampaign",
+                    "children": [
+                        {
+                            "id": "a732d51a-792e-4eb8-8014-0ff2ec8e4d12",
+                            "title": "string",
+                            "type": "Sensor",
+                            "children": [],
+                        },
+                        {
+                            "id": "5fdf3c38-80b4-4583-9a89-e589852492bf",
+                            "title": "string",
+                            "type": "Vessel",
+                            "children": [],
+                        },
+                    ],
+                }
+            ],
+        },
+        {
+            "timeSeriesId": "065fe754-3ccd-4b99-9649-7a86f420cabc",
+            "alias": "string",
+            "created": "2018-03-12T10:43:01.771+00:00",
+            "createdBy": "string",
+            "modified": None,
+            "modifiedBy": None,
+            "organization": "string",
+            "uoM": "string",
+            "metadata": [
+                {
+                    "namespace": "string",
+                    "key": "string",
+                    "values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                },
+                {
+                    "namespace": "string",
+                    "key": "string",
+                    "values": {"AdditionalProp1": "string"},
+                },
+            ],
+            "entities": [
+                {
+                    "id": "3306b986-664a-40a7-8495-787850745b03",
+                    "title": "string",
+                    "type": "GenericCampaign",
+                    "children": [],
+                },
+                {
+                    "id": "4f272f8b-b784-4b36-ba19-db892022650a",
+                    "title": "string",
+                    "type": "Vessel",
+                    "children": [
+                        {
+                            "id": "b927e886-7338-45b1-8d56-69fb6024c058",
+                            "title": "string",
+                            "type": "DataSource",
+                            "children": [],
+                        }
+                    ],
+                },
+                {
+                    "id": "b927e886-7338-45b1-8d56-69fb6024c058",
+                    "title": "string",
+                    "type": "DataSource",
+                    "children": [],
+                },
+                {
+                    "id": "5e684419-a4bc-4a1a-8a7d-cf9018ce049f",
+                    "title": "title",
+                    "type": "GenericCampaign",
+                    "children": [],
+                },
+            ],
+        },
+        {
+            "timeSeriesId": "cfbf5b22-08c0-4332-86ac-cd03f140243e",
+            "alias": "string",
+            "created": "2019-04-10T10:27:28.045+00:00",
+            "createdBy": "string",
+            "modified": None,
+            "modifiedBy": None,
+            "organization": "string",
+            "uoM": "string",
+            "metadata": [
+                {
+                    "namespace": "string",
+                    "key": "string",
+                    "values": {
+                        "AdditionalProp1": "string",
+                        "AdditionalProp2": "string",
+                        "AdditionalProp3": "string",
+                    },
+                },
+            ],
+            "entities": [
+                {
+                    "id": "c49a27bc-ceb0-4ead-bf59-32ade67d5dd3",
+                    "title": "string",
+                    "type": "Field",
+                    "children": [
+                        {
+                            "id": "748d25b5-1c20-4e4a-8dc0-7e6b128ea081",
+                            "title": "string",
+                            "type": "Riser",
+                            "children": [
+                                {
+                                    "id": "48f97444-cf5b-49e8-aa9d-0e7bb00ce1e9",
+                                    "title": "string",
+                                    "type": "Instrument",
+                                    "children": [],
+                                }
+                            ],
+                        },
+                    ],
+                },
+                {
+                    "id": "3306b986-664a-40a7-8495-787850745b03",
+                    "title": "string",
+                    "type": "GenericCampaign",
+                    "children": [],
+                },
+            ],
+        },
+        {
+            "timeSeriesId": "6d9690ba-5a5d-4c3f-a5a7-2ebcb29decd0",
+            "alias": "string",
+            "created": "2025-11-13T10:16:56.979+00:00",
+            "createdBy": "string",
+            "modified": None,
+            "modifiedBy": None,
+            "organization": "string",
+            "uoM": "string",
+            "metadata": [
+                {
+                    "namespace": "string",
+                    "key": "string",
+                    "values": {"AdditionalProp1": "string"},
+                }
+            ],
+            "entities": [
+                {
+                    "id": "3306b986-664a-40a7-8495-787850745b03",
+                    "title": "string",
+                    "type": "GenericCampaign",
+                    "children": [
+                        {
+                            "id": "c2431c44-7232-4aaa-8a0b-0d8f2af108b4",
+                            "title": "string",
+                            "type": "Vessel",
+                            "children": [],
+                        },
+                    ],
+                },
+                {
+                    "id": "ae029af1-746b-448b-9107-c2996ff78062",
+                    "title": "string",
+                    "type": "Weather",
+                    "children": [],
+                },
+            ],
+        },
+    ],
+    "TotalCount": 4,
+}
+
 LOWERSTACK_DATA = {
     "CampaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "AnyFetchFailure": False,

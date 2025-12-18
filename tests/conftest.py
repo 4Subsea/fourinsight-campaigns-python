@@ -25,6 +25,8 @@ from testdata.get_data import (
     SWIMOPS_CAMPAIGN_DATA_CAMELCASE,
     SWIMOPS_DATA,
     SWIMOPS_DATA_CAMELCASE,
+    TIMESERIES_DATA,
+    TIMESERIES_DATA_CAMELCASE,
 )
 
 DATA_MAP = {
@@ -41,6 +43,7 @@ DATA_MAP = {
     "https://api.4insight.io/v1.0/campaigns/1234": CAMPAIGN_DATA_SWIM,
     "https://api.4insight.io/v1.0/campaigns/test_generic_id": CAMPAIGN_DATA_GENERIC,
     "https://api.4insight.io/v1.0/campaigns/test_swim_id": CAMPAIGN_DATA_SWIM,
+    "https://api.4insight.io/v1.0/timeseries/search": TIMESERIES_DATA,
 }
 
 DATA_MAP_CAMELCASE = {
@@ -57,6 +60,7 @@ DATA_MAP_CAMELCASE = {
     "https://api.4insight.io/v1.0/campaigns/1234": CAMPAIGN_DATA_SWIM_CAMELCASE,
     "https://api.4insight.io/v1.0/campaigns/test_generic_id": CAMPAIGN_DATA_GENERIC_CAMELCASE,
     "https://api.4insight.io/v1.0/campaigns/test_swim_id": CAMPAIGN_DATA_SWIM_CAMELCASE,
+    "https://api.4insight.io/v1.0/timeseries/search": TIMESERIES_DATA_CAMELCASE,
 }
 
 
@@ -64,9 +68,10 @@ DATA_MAP_CAMELCASE = {
 def response():
     response = Mock()
     response._get_called_with_url = None
+    response._post_called_with_url = None
 
     def json_side_effect(*args, **kwargs):
-        url = response._get_called_with_url
+        url = response._get_called_with_url or response._post_called_with_url
         if not url:
             return
 
@@ -80,9 +85,10 @@ def response():
 def response_camelcase():
     response = Mock()
     response._get_called_with_url = None
+    response._post_called_with_url = None
 
     def json_side_effect(*args, **kwargs):
-        url = response._get_called_with_url
+        url = response._get_called_with_url or response._post_called_with_url
         if not url:
             return
 
@@ -107,7 +113,12 @@ def auth_session(response, session_headers):
         response._get_called_with_url = url
         return response
 
+    def post_side_effect(url, *args, **kwargs):
+        response._post_called_with_url = url
+        return response
+
     auth_session.get.side_effect = get_side_effect
+    auth_session.post.side_effect = post_side_effect
     return auth_session
 
 
@@ -121,5 +132,10 @@ def auth_session_camelcase(response_camelcase, session_headers):
         response_camelcase._get_called_with_url = url
         return response_camelcase
 
+    def post_side_effect(url, *args, **kwargs):
+        response_camelcase._post_called_with_url = url
+        return response_camelcase
+
     auth_session.get.side_effect = get_side_effect
+    auth_session.post.side_effect = post_side_effect
     return auth_session

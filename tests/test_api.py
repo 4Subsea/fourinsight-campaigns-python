@@ -1,12 +1,11 @@
-import json
 from unittest.mock import call
 
-import pandas as pd
 import pytest
 
 import fourinsight.campaigns as fc
 from fourinsight.campaigns.api import (
     CampaignsAPI,
+    _dict_get_ignoring_case,
     _dict_rename,
     _loc_to_float,
     _location_convert,
@@ -475,6 +474,308 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
+    def test_get_timeseries_camelcase(
+        self,
+        campaigns_api_camelcase,
+        auth_session_camelcase,
+        response_camelcase,
+        headers_expect,
+    ):
+        campaign_id = "3306b986-664a-40a7-8495-787850745b03"
+        out = campaigns_api_camelcase.get_timeseries(campaign_id)
+        auth_session_camelcase.post.assert_called_once_with(
+            "https://api.4insight.io/v1.0/timeseries/search",
+            json={
+                "Campaigns": ["3306b986-664a-40a7-8495-787850745b03"],
+                "pageSize": 50,
+                "skip": 0,
+            },
+            headers=headers_expect,
+        )
+        response_camelcase.raise_for_status.assert_called()
+        response_camelcase.json.assert_called()
+        expect = [
+            {
+                "TimeSeriesID": "e0e0fcd8-3904-4fa1-bc3d-f62e0b27243f",
+                "Alias": None,
+                "Created": "2018-03-12T10:42:06.789+00:00",
+                "Created By": "string",
+                "Modified": "2018-03-12T10:42:06.789+00:00",
+                "Modified By": "string",
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": ["string"],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "065fe754-3ccd-4b99-9649-7a86f420cabc",
+                "Alias": "string",
+                "Created": "2018-03-12T10:43:01.771+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": ["string"],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string", "title"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "cfbf5b22-08c0-4332-86ac-cd03f140243e",
+                "Alias": "string",
+                "Created": "2019-04-10T10:27:28.045+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": [],
+                    "Fields": ["string"],
+                    "Wells": [],
+                    "Lines": ["string"],
+                    "DataSources": [],
+                    "Instruments": ["string"],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "6d9690ba-5a5d-4c3f-a5a7-2ebcb29decd0",
+                "Alias": "string",
+                "Created": "2025-11-13T10:16:56.979+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": ["string"],
+                },
+            },
+        ]
+        assert expect == out
+
+    def test_get_timeseries(
+        self, campaigns_api, auth_session, response, headers_expect
+    ):
+        campaign_id = "3306b986-664a-40a7-8495-787850745b03"
+        out = campaigns_api.get_timeseries(campaign_id)
+        auth_session.post.assert_called_once_with(
+            "https://api.4insight.io/v1.0/timeseries/search",
+            json={
+                "Campaigns": ["3306b986-664a-40a7-8495-787850745b03"],
+                "pageSize": 50,
+                "skip": 0,
+            },
+            headers=headers_expect,
+        )
+        response.raise_for_status.assert_called()
+        response.json.assert_called()
+        expect = [
+            {
+                "TimeSeriesID": "e0e0fcd8-3904-4fa1-bc3d-f62e0b27243f",
+                "Alias": None,
+                "Created": "2018-03-12T10:42:06.789+00:00",
+                "Created By": "string",
+                "Modified": "2018-03-12T10:42:06.789+00:00",
+                "Modified By": "string",
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": ["string"],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "065fe754-3ccd-4b99-9649-7a86f420cabc",
+                "Alias": "string",
+                "Created": "2018-03-12T10:43:01.771+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": ["string"],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string", "title"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "cfbf5b22-08c0-4332-86ac-cd03f140243e",
+                "Alias": "string",
+                "Created": "2019-04-10T10:27:28.045+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": [],
+                    "Fields": ["string"],
+                    "Wells": [],
+                    "Lines": ["string"],
+                    "DataSources": [],
+                    "Instruments": ["string"],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "6d9690ba-5a5d-4c3f-a5a7-2ebcb29decd0",
+                "Alias": "string",
+                "Created": "2025-11-13T10:16:56.979+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": ["string"],
+                },
+            },
+        ]
+        assert expect == out
+
     def test__get_sensors(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api._get_sensors("1234")
         auth_session.get.assert_called_once_with(
@@ -679,7 +980,7 @@ class Test_CampaignsAPI:
             "Dashboard Closed": "string",
             "Services Available": "string",
         }
-        expect == out
+        assert expect == out
 
     def test_get_swimops_campaign_camelcase(
         self,
@@ -712,7 +1013,7 @@ class Test_CampaignsAPI:
             "Dashboard Closed": "string",
             "Services Available": "string",
         }
-        expect == out
+        assert expect == out
 
     def test_get_swimops(self, campaigns_api, auth_session, response, headers_expect):
         out = campaigns_api.get_swimops()
@@ -787,7 +1088,7 @@ class Test_CampaignsAPI:
         assert campaigns_api_camelcase.get_campaign_type("1234") == "swim campaign"
 
 
-class Test__dict_rename:
+class Test_dict:
     def test_rename(self):
         dict_org = {
             "a": "this",
@@ -816,6 +1117,20 @@ class Test__dict_rename:
 
         dict_out = _dict_rename(dict_org, dict_map)
         assert dict_expected == dict_out
+
+    @pytest.mark.parametrize(
+        "key", ["lowercase", "camelCase", "PascalCase", "UPPERCASE"]
+    )
+    def test_get_case_insensitive(self, key):
+        dict_org = {key: "value"}
+        actual = _dict_get_ignoring_case(dict_org, key.upper())
+        assert actual == "value"
+
+    @pytest.mark.parametrize("value_default", [[], {}, 0, "string"])
+    def test_get_case_insensitive_default_vaule(self, value_default):
+        dict_org = {"key": "value"}
+        actual = _dict_get_ignoring_case(dict_org, "not_existing_key", value_default)
+        assert actual == value_default
 
 
 def test_loc_to_float_string():

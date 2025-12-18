@@ -34,7 +34,7 @@ class Test_GenericCampaign:
         generic_campaign = GenericCampaign(auth_session, "1234")
 
         assert generic_campaign._campaign_id == "1234"
-        for attr in ["_campaign", "_events", "_sensors", "_geotrack"]:
+        for attr in ["_campaign", "_events", "_sensors", "_geotrack", "_timeseries"]:
             assert hasattr(generic_campaign, attr)
 
     def test_general(self, generic_campaign):
@@ -136,14 +136,15 @@ class Test_GenericCampaign:
             {
                 "SensorID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                 "Name": "string",
+                "Serial Number": "string",
                 "Position": "string",
-                "Distance From Wellhead": 0.0,
+                "Distance From Wellhead": 0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
+                "Sampling Rate": 0,
                 "Sensor Vendor": "string",
-                "Attached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
-                "Detached Time": pd.to_datetime("2021-08-12T11:51:19.667Z"),
+                "Attached Time": "2021-08-12T11:51:19.667Z",
+                "Detached Time": "2021-08-12T11:51:19.667Z",
                 "Channels": [
                     {
                         "Channel": "string",
@@ -156,11 +157,12 @@ class Test_GenericCampaign:
             {
                 "SensorID": "<wh sensor id>",
                 "Name": "SN1234",
+                "Serial Number": "string",
                 "Position": "WH",
-                "Distance From Wellhead": 0.0,
+                "Distance From Wellhead": 0,
                 "Direction X Axis": "string",
                 "Direction Z Axis": "string",
-                "Sampling Rate": 0.0,
+                "Sampling Rate": 0,
                 "Sensor Vendor": "string",
                 "Attached Time": None,
                 "Detached Time": None,
@@ -174,7 +176,7 @@ class Test_GenericCampaign:
                 ],
             },
         ]
-        sensors_out == sensors_expect
+        assert sensors_out == sensors_expect
 
     def test_sensor_by_position(self, generic_campaign):
         sensors_out = generic_campaign.sensors(value="WH", by="Position")
@@ -191,6 +193,141 @@ class Test_GenericCampaign:
     def test_sensor_raises(self, generic_campaign):
         with pytest.raises(RuntimeError):
             generic_campaign.sensors(value="NOEXIST")
+
+    def test_timeseries(self, generic_campaign):
+        out = generic_campaign.timeseries()
+        expect = [
+            {
+                "TimeSeriesID": "e0e0fcd8-3904-4fa1-bc3d-f62e0b27243f",
+                "Alias": None,
+                "Created": "2018-03-12T10:42:06.789+00:00",
+                "Created By": "string",
+                "Modified": "2018-03-12T10:42:06.789+00:00",
+                "Modified By": "string",
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": ["string"],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "065fe754-3ccd-4b99-9649-7a86f420cabc",
+                "Alias": "string",
+                "Created": "2018-03-12T10:43:01.771+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": ["string"],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string", "title"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "cfbf5b22-08c0-4332-86ac-cd03f140243e",
+                "Alias": "string",
+                "Created": "2019-04-10T10:27:28.045+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {
+                            "AdditionalProp1": "string",
+                            "AdditionalProp2": "string",
+                            "AdditionalProp3": "string",
+                        },
+                    },
+                ],
+                "AttachedTo": {
+                    "Vessels": [],
+                    "Fields": ["string"],
+                    "Wells": [],
+                    "Lines": ["string"],
+                    "DataSources": [],
+                    "Instruments": ["string"],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": [],
+                },
+            },
+            {
+                "TimeSeriesID": "6d9690ba-5a5d-4c3f-a5a7-2ebcb29decd0",
+                "Alias": "string",
+                "Created": "2025-11-13T10:16:56.979+00:00",
+                "Created By": "string",
+                "Modified": None,
+                "Modified By": None,
+                "Owner": "string",
+                "UoM": "string",
+                "Metadata": [
+                    {
+                        "Namespace": "string",
+                        "Key": "string",
+                        "Values": {"AdditionalProp1": "string"},
+                    }
+                ],
+                "AttachedTo": {
+                    "Vessels": ["string"],
+                    "Fields": [],
+                    "Wells": [],
+                    "Lines": [],
+                    "DataSources": [],
+                    "Instruments": [],
+                    "Sensors": [],
+                    "Campaigns": ["string"],
+                    "Weather": ["string"],
+                },
+            },
+        ]
+        assert out == expect
 
     def test_filter_dict_value_by(self, generic_campaign):
         dict_list = [
@@ -336,6 +473,7 @@ class Test_SwimCampaign:
             "_events",
             "_sensors",
             "_geotrack",
+            "_timeseries",
             "_lowerstack",
             "_swim_operations",
         ]:
