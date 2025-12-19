@@ -55,6 +55,13 @@ def _dict_rename(dict_org, dict_map):
     return dict_new
 
 
+def _dict_get_ignoring_case(dict_org, key_lookup, value_default=None):
+    for key, value in dict_org.items():
+        if key_lookup.lower() == key.lower():
+            return value
+    return value_default
+
+
 def _loc_to_float(value):
     """
     Attempt to cast "location" string to float. Also converts "null" to ``None``.
@@ -91,6 +98,7 @@ class CampaignsAPI:
     """
 
     _API_VERSION = "v1.1"
+    _BASE_URL = "https://api.4insight.io"
 
     def __init__(self, session):
         self._session = session
@@ -102,7 +110,7 @@ class CampaignsAPI:
         if api_version is None:
             api_version = self._API_VERSION
 
-        url = f"https://api.4insight.io/{api_version}/Campaigns"
+        url = f"{self._BASE_URL}/{api_version}/Campaigns"
         if relative_url:
             url += f"/{relative_url.lstrip('/')}"
         return url
@@ -117,6 +125,11 @@ class CampaignsAPI:
             payload.extend(json_response["value"])
             next_link = json_response.get("@odata.nextLink", None)
         return payload
+
+    def _post(self, url, data):
+        response = self._session.post(url, json=data, headers=self._headers)
+        response.raise_for_status()
+        return response.json()
 
     def _get_payload_legacy(
         self, url, *args, **kwargs
@@ -371,6 +384,139 @@ class CampaignsAPI:
             sensor["Channels"] = self._get_channels(campaign_id, sensor["SensorID"])
         return sensors
 
+    def get_timeseries(self, campaign_id):
+        """
+        Get timeseries.
+
+        Parameters
+        ----------
+        campaign_id : str
+            Campaign ID
+
+        Returns
+        -------
+        list[dict]
+            Timeseries list.
+            The list is ordered by timeseries created date descending.
+            The list includes timeseries metadata and 4insight connections (campaign, sensor, weather, etc.).
+        """
+        timeseries_response = []
+
+        url = f"{self._BASE_URL}/v1.0/timeseries/search"
+        search_context = {"Campaigns": [campaign_id], "pageSize": 50}
+        while True:
+            search_context["skip"] = len(timeseries_response)
+            json_response = self._post(url, search_context)
+
+            timeseries_page = _dict_get_ignoring_case(json_response, "timeseries", [])
+            timeseries_response.extend(timeseries_page)
+            total_count = _dict_get_ignoring_case(json_response, "totalcount", 0)
+            if len(timeseries_response) >= total_count:
+                break
+
+        return self._map_timeseries_response(timeseries_response)
+
+    def _map_timeseries_response(self, timeseries_response):
+        response_map = {
+            ("timeseriesid", "TimeSeriesID"): None,
+            ("alias", "Alias"): None,
+            ("created", "Created"): None,
+            ("createdby", "Created By"): None,
+            ("modified", "Modified"): None,
+            ("modifiedby", "Modified By"): None,
+            ("organization", "Owner"): None,
+            ("uom", "UoM"): None,
+        }
+
+        # do not include the 'value' property here, as it contains a schemaless raw JSON
+        # the property is to be populated separately
+        metadata_response_map = {
+            ("namespace", "Namespace"): None,
+            ("key", "Key"): None,
+        }
+
+        timeseries_list = []
+
+        for in_timeseries in timeseries_response:
+            out_timeseries = _dict_rename(in_timeseries, response_map)
+
+            out_timeseries["Metadata"] = []
+            metadata_response = _dict_get_ignoring_case(in_timeseries, "metadata", [])
+            for in_metadata in metadata_response:
+                out_metadata = _dict_rename(in_metadata, metadata_response_map)
+                # do not map metadata values as it's schemaless JSON, but just assign the raw value
+                out_metadata["Values"] = _dict_get_ignoring_case(in_metadata, "values")
+                out_timeseries["Metadata"].append(out_metadata)
+
+            # get flat entities recursively, as each entity might contain numerous children entities
+            entities_response = _dict_get_ignoring_case(in_timeseries, "entities", [])
+            flat_entities = self._get_entities_flat(entities_response)
+            out_timeseries["AttachedTo"] = self.map_entities(flat_entities)
+
+            timeseries_list.append(out_timeseries)
+
+        return timeseries_list
+
+    @staticmethod
+    def _get_entities_flat(entities):
+
+        def get_flatten_entities_recursively(entity):
+            """
+            Recursively flattens the entity and its children.
+            """
+
+            flat_list = [entity]
+            children = _dict_get_ignoring_case(entity, "children", [])
+            for child in children:
+                flat_list.extend(get_flatten_entities_recursively(child))
+            return flat_list
+
+        result = []
+        for entity in entities:
+            result.extend(get_flatten_entities_recursively(entity))
+        return result
+
+    @staticmethod
+    def map_entities(entities):
+        entity_type_to_result_key_map = {
+            "Vessel": "Vessels",
+            "Field": "Fields",
+            "Well": "Wells",
+            "Riser": "Lines",
+            "Flowline": "Lines",
+            "Umbilical": "Lines",
+            "Steelpipe": "Lines",
+            "DataSource": "DataSources",
+            "Instrument": "Instruments",
+            "Sensor": "Sensors",
+            "GenericCampaign": "Campaigns",
+            "SwimCampaign": "Campaigns",
+            "Weather": "Weather",
+        }
+        result = {
+            "Vessels": [],
+            "Fields": [],
+            "Wells": [],
+            "Lines": [],
+            "DataSources": [],
+            "Instruments": [],
+            "Sensors": [],
+            "Campaigns": [],
+            "Weather": [],
+        }
+
+        for entity in entities:
+            entity_type = _dict_get_ignoring_case(entity, "type")
+            attached_to_key = entity_type_to_result_key_map.get(entity_type)
+            if attached_to_key is not None:
+                entity_title = _dict_get_ignoring_case(entity, "title")
+                result[attached_to_key].append(entity_title)
+
+        for k, v in result.items():
+            result[k] = sorted(set(v))
+
+        return result
+
     def get_lowerstack(self, campaign_id):
         """
         Get lower stack.
@@ -430,7 +576,7 @@ class CampaignsAPI:
             ("reportsent", "Report Sent"): None,
             ("datapackagemade", "Data Package Made"): None,
             ("datapackagesent", "Data Package Sent"): None,
-            ("experiencelogMade", "Experience Log Made"): None,
+            ("experiencelogmade", "Experience Log Made"): None,
             ("wellspotbendingmomentuploaded", "WellSpot Bending Moment Uploaded"): None,
             ("dashboardclosed", "Dashboard Closed"): None,
             ("servicesavailable", "Services Available"): None,

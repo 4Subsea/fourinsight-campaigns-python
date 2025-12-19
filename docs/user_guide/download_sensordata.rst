@@ -46,3 +46,13 @@ Each sensor has a list of channels which in turn contain Timeseries ids. To acce
             if ts_id:
                 timeseries_ids.append(ts_id)
 
+Or using the ``timeseries`` function:
+
+.. code-block:: python
+
+    timeseries_list = campaign.timeseries()
+    timeseries_ids = [
+        timeseries['TimeSeriesID']
+        for timeseries in timeseries_list
+        if timeseries['AttachedTo']['Sensors']
+    ]

@@ -58,11 +58,51 @@ Get list of sensors::
 
     campaign.sensors()
 
+Get list of timeseries::
+
+    campaign.timeseries()
+
+Each timeseries in the list includes general timeseries information, its metadata, and all 4insight connections.
+
+You can use Pandas to visualize the timeseries, connected to the campaign::
+
+    import pandas as pd
+    timeseries_list = campaign.timeseries()
+    pd.DataFrame(timeseries_list)
+
+To visualize weather timeseries, connected to the campaign::
+
+    import pandas as pd
+    timeseries_list = campaign.timeseries()
+    weather_timeseries = [
+        timeseries
+        for timeseries in timeseries_list
+        if timeseries["AttachedTo"]["Weather"]
+    ]
+    pd.DataFrame(weather_timeseries)
+
+To visualize timeseries connections in 4insight::
+
+    import pandas as pd
+    timeseries_list = campaign.timeseries()
+    connections = [
+        timeseries["AttachedTo"]
+        for timeseries in timeseries_list
+    ]
+    pd.DataFrame(connections)
+
 Some methods also support some filtering. For instance, to filter the list of sensors by ``Position``::
 
     lmrp_sensors = campaign.sensors(value="LMRP", by="Position")
 
+You can also find the timeseries by the corresponding sensor::
 
+    timeseries_list = campaign.timeseries()
+    sensor_timeseries = [
+        timeseries
+        for timeseries in timeseries_list
+        if 'sensor_name' in timeseries['AttachedTo']['Sensors']
+    ]
 
 .. _4Insight.io: https://4insight.io
 .. _DataReservoir.io: https://4subsea.com/products/4insight-data-analytics/
