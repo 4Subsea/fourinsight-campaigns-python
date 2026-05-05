@@ -517,39 +517,6 @@ class CampaignsAPI:
 
         return result
 
-    def get_lowerstack(self, campaign_id):
-        """
-        Get lower stack.
-
-        Parameters
-        ----------
-        campaign_id : str
-            Campaign ID
-
-        Returns
-        -------
-        dict
-            Lower stack dict.
-        """
-        response_map = {
-            ("alpha", "Alpha"): None,
-            ("elements", "Elements"): {
-                ("name", "Name"): None,
-                ("mass", "Mass"): None,
-                ("submergedweight", "Submerged Weight"): None,
-                ("height", "Height"): None,
-                ("addedmasscoefficient", "Added Mass Coefficient"): None,
-            },
-        }
-
-        # change to v1.1 when available
-        response = self._get_payload_legacy(
-            self._url(f"/{campaign_id}/LowerStack", api_version="v1.0")
-        )
-
-        response_out = _dict_rename(response, response_map)
-        return response_out
-
     def get_swimops_campaign(self, campaign_id):
         """
         Get SWIM operations for campaign.

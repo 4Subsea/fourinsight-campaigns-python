@@ -901,58 +901,6 @@ class Test_CampaignsAPI:
         ]
         assert expect == out
 
-    def test_get_lowerstack(
-        self, campaigns_api, auth_session, response, headers_expect
-    ):
-        out = campaigns_api.get_lowerstack("1234")
-        auth_session.get.assert_called_once_with(
-            "https://api.4insight.io/v1.0/Campaigns/1234/LowerStack",
-            headers=headers_expect,
-        )
-        response.raise_for_status.assert_called()
-        response.json.assert_called()
-        expect = {
-            "Alpha": 0.1,
-            "Elements": [
-                {
-                    "Name": "string",
-                    "Mass": 100.0,
-                    "Submerged Weight": 1000.0,
-                    "Height": 10.0,
-                    "Added Mass Coefficient": 2.0,
-                }
-            ],
-        }
-        assert expect == out
-
-    def test_get_lowerstack_camelcase(
-        self,
-        campaigns_api_camelcase,
-        auth_session_camelcase,
-        response_camelcase,
-        headers_expect,
-    ):
-        out = campaigns_api_camelcase.get_lowerstack("1234")
-        auth_session_camelcase.get.assert_called_once_with(
-            "https://api.4insight.io/v1.0/Campaigns/1234/LowerStack",
-            headers=headers_expect,
-        )
-        response_camelcase.raise_for_status.assert_called()
-        response_camelcase.json.assert_called()
-        expect = {
-            "Alpha": 0.1,
-            "Elements": [
-                {
-                    "Name": "string",
-                    "Mass": 100.0,
-                    "Submerged Weight": 1000.0,
-                    "Height": 10.0,
-                    "Added Mass Coefficient": 2.0,
-                }
-            ],
-        }
-        assert expect == out
-
     def test_get_swimops_campaign(
         self, campaigns_api, auth_session, response, headers_expect
     ):
