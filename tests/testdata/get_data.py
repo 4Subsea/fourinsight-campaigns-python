@@ -338,23 +338,6 @@ CHANNELS_DATA = {
     "@odata.nextLink": None,
 }
 
-LOWERSTACK_DATA_CAMELCASE = {
-    "campaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "anyFetchFailure": False,
-    "alpha": 0.1,
-    "elements": [
-        {
-            "campaignId": "string",
-            "name": "string",
-            "elementId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "mass": 100.0,
-            "submergedWeight": 1000.0,
-            "height": 10.0,
-            "addedMassCoefficient": 2.0,
-        }
-    ],
-}
-
 TIMESERIES_DATA = {
     "TimeSeries": [
         {
@@ -741,23 +724,6 @@ TIMESERIES_DATA_CAMELCASE = {
         },
     ],
     "TotalCount": 4,
-}
-
-LOWERSTACK_DATA = {
-    "CampaignId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "AnyFetchFailure": False,
-    "Alpha": 0.1,
-    "Elements": [
-        {
-            "CampaignId": "string",
-            "Name": "string",
-            "ElementId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "Mass": 100.0,
-            "SubmergedWeight": 1000.0,
-            "Height": 10.0,
-            "AddedMassCoefficient": 2.0,
-        }
-    ],
 }
 
 SWIMOPS_DATA_CAMELCASE = {

@@ -474,13 +474,9 @@ class Test_SwimCampaign:
             "_sensors",
             "_geotrack",
             "_timeseries",
-            "_lowerstack",
             "_swim_operations",
         ]:
             assert hasattr(swim_campaign, attr)
 
     def test_swim_operations(self, swim_campaign):
         assert swim_campaign.swim_operations() == swim_campaign._swim_operations
-
-    def test_lowerstack(self, swim_campaign):
-        assert swim_campaign.lowerstack() == swim_campaign._lowerstack

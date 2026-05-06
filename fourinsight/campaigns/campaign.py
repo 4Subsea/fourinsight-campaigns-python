@@ -227,7 +227,6 @@ class SwimCampaign(GenericCampaign):
     def __init__(self, session, campaign_id):
         super().__init__(session, campaign_id)
         self._swim_operations = None
-        self._lowerstack = None
 
     def swim_operations(self):
         """Get the SWIM operation for the campaign."""
@@ -237,12 +236,3 @@ class SwimCampaign(GenericCampaign):
             args=(self._campaign_id,),
         )
         return self._swim_operations
-
-    def lowerstack(self):
-        """Get lowerstack dict."""
-        self._lazy_load(
-            "_lowerstack",
-            self._campaigns_api.get_lowerstack,
-            args=(self._campaign_id,),
-        )
-        return self._lowerstack
