@@ -312,6 +312,7 @@ class Test_CampaignsAPI:
                 "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
+                "Product": "string",
             },
             {
                 "Start": "2021-08-12T11:49:38.286Z",
@@ -354,6 +355,7 @@ class Test_CampaignsAPI:
                 "End": "2021-08-12T11:49:38.286Z",
                 "Event Type": "string",
                 "Comment": "string",
+                "Product": "string",
             },
             {
                 "Start": "2021-08-12T11:49:38.286Z",
