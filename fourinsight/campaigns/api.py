@@ -289,6 +289,7 @@ class CampaignsAPI:
             ("stop", "End"): None,
             ("eventtype", "Event Type"): None,
             ("comment", "Comment"): None,
+            ("product", "Product"): None,
         }
 
         response = self._get_payload(self._url(f"/{campaign_id}/Events"))
