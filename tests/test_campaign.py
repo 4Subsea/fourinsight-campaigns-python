@@ -207,6 +207,7 @@ class Test_GenericCampaign:
                 "Modified By": "string",
                 "Owner": "string",
                 "UoM": "string",
+                "Description": "description1",
                 "Metadata": [
                     {
                         "Namespace": "string",
@@ -239,6 +240,7 @@ class Test_GenericCampaign:
                 "Modified By": None,
                 "Owner": "string",
                 "UoM": "string",
+                "Description": "description2",
                 "Metadata": [
                     {
                         "Namespace": "string",
@@ -276,6 +278,7 @@ class Test_GenericCampaign:
                 "Modified By": None,
                 "Owner": "string",
                 "UoM": "string",
+                "Description": "description3",
                 "Metadata": [
                     {
                         "Namespace": "string",
@@ -308,6 +311,7 @@ class Test_GenericCampaign:
                 "Modified By": None,
                 "Owner": "string",
                 "UoM": "string",
+                "Description": None,
                 "Metadata": [
                     {
                         "Namespace": "string",
