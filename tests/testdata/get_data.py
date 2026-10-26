@@ -351,6 +351,7 @@ TIMESERIES_DATA = {
             "ModifiedBy": "string",
             "Organization": "string",
             "UoM": "string",
+            "Description": "description1",
             "Metadata": [
                 {
                     "Namespace": "string",
@@ -393,6 +394,7 @@ TIMESERIES_DATA = {
             "ModifiedBy": None,
             "Organization": "string",
             "UoM": "string",
+            "Description": "description2",
             "Metadata": [
                 {
                     "Namespace": "string",
@@ -452,6 +454,7 @@ TIMESERIES_DATA = {
             "ModifiedBy": None,
             "Organization": "string",
             "UoM": "string",
+            "Description": "description3",
             "Metadata": [
                 {
                     "Namespace": "string",
@@ -501,6 +504,7 @@ TIMESERIES_DATA = {
             "ModifiedBy": None,
             "Organization": "string",
             "UoM": "string",
+            "Description": None,
             "Metadata": [
                 {
                     "Namespace": "string",
