@@ -427,6 +427,7 @@ class CampaignsAPI:
             ("modifiedby", "Modified By"): None,
             ("organization", "Owner"): None,
             ("uom", "UoM"): None,
+            ("description", "Description"): None,
         }
 
         # do not include the 'value' property here, as it contains a schemaless raw JSON
